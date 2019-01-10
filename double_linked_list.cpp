@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 using namespace std;
-#include <iostream>
 
 struct Node{
     int key;
