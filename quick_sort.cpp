@@ -9,8 +9,6 @@ struct card{
     int index;
 };
 
-card A[MAX];
-
 int partition(card A[], int p, int r){
     int x = A[r].num;
     int i = p-1;
@@ -46,6 +44,7 @@ void isStable(card A[], int n){
 
 int main(void){
     int n;
+    card A[MAX];
     scanf("%d", &n);
     for(int i=0; i<n; i++){
         scanf("%s %d", &A[i].chara, &A[i].num);
