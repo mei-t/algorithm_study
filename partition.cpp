@@ -1,8 +1,6 @@
 #include <iostream>
 using namespace std;
 
-int A[100001];
-
 int partition(int A[], int p, int r){
     int x = A[r];
     int i = p-1;
@@ -18,6 +16,7 @@ int partition(int A[], int p, int r){
 
 int main(void){
     int n;
+    int A[100001];
     cin >> n;
     for(int i=0; i<n; i++) cin >> A[i];
     
