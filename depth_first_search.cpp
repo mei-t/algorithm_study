@@ -66,7 +66,6 @@ int main(void){
   }
 
   dfs_init();
-  dfs(1);
   for(int i=0; i<n; i++){
     if(d[u[i]] == 0) dfs(u[i]);
   }
