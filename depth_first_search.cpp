@@ -6,7 +6,7 @@ using namespace std;
 #define GRAY 1
 #define BLACK 2
 
-int n, t, top, color[MAX], M[MAX][MAX], S[MAX], d[MAX], f[MAX];
+int n, t, top, u[MAX], color[MAX], M[MAX][MAX], S[MAX], d[MAX], f[MAX];
 
 int next(int u){
   for(int i=1; i<=n; i++){
@@ -40,7 +40,7 @@ void dfs(int u){
 
 void dfs_init(){
   for(int i=0; i<MAX; i++){
-    color[i] = WHITE;
+    color[u[i]] = WHITE;
   }
 
   t = 0;
@@ -48,7 +48,7 @@ void dfs_init(){
 }
 
 int main(void){
-  int u[MAX], k, m;
+  int k, m;
   cin >> n;
 
   for(int i=0; i<n; i++){
