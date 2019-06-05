@@ -33,6 +33,7 @@ void prim(int n){
 
     color[u] = BLACK;
 
+    // 次にTに含まれる可能性のあるノードに関して重みを記録する
     for(int v=0; v<n; v++){
       if(color[v] != BLACK && M[u][v] != INFTY){
         if(M[u][v] < d[v]){
