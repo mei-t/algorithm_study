@@ -13,7 +13,7 @@ using namespace std;
 bool is_unique(string s){
   if(s.size() > 128) return false; // 129文字以上の文字列を重複しないで作成することは不可能
 
-  bool isUnique[128];
+  bool isUnique[128] = { false }; // falseに初期化
   for(int i=0; i<s.size(); i++){ // O(n) (ただしn<=128よりO(1)とも言える)
     int charval = s[i];
     if(isUnique[charval]){
