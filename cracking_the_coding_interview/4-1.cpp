@@ -2,7 +2,6 @@
 #include <stack>
 #include <vector>
 using namespace std;
-#define N 
 
 stack<int> s;
 
@@ -11,7 +10,7 @@ vector<vector<int> > NodeList = {{1, 2}, {0, 2}, {}};
 bool isPath(int start, int last) {
     if (start == last) return true;
     s.push(start);
-    while(s.empty()) {
+    while(!s.empty()) {
         int node = s.top();
         s.pop();
         for (int nextNode : NodeList[node]) {
