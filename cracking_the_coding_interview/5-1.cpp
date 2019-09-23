@@ -10,6 +10,6 @@ int setBit(int N, int M, int i, int j) {
 }
 
 int main(void) {
-    cout << setBit(0x98, 0x3, 0x3, 0x1) << endl;
+    cout << "0x" << hex << setBit(0x98, 0x3, 0x3, 0x1) << endl;
     return 0;
 }
