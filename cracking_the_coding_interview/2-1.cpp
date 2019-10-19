@@ -1,6 +1,5 @@
 #include <iostream>
 using namespace std;
-#define nil -1
 
 struct Node{
   int key;
@@ -13,7 +12,6 @@ void insert(Node *head){
   Node *newNode = new Node();
   newNode -> key = 3;
   newNode -> next = head;
-  
 }
 
 // Tの次のNodeを削除する
@@ -57,6 +55,16 @@ void deleteDuplicateNoBuffer(Node *T){
 
 int main(void){
   Node *head = nullptr;
+  
+
+
+  Node *testList = new Node();
+  testList->key = 1;
+  testList->next = new Node();
+  testList->next->key = 2;
+  testList->next->next = new Node();
+  testList->next->next->key = 3;
+  testList->next->next->next = nullptr;
   insert(head);
   deleteDuplicate(head);
   return 0;
