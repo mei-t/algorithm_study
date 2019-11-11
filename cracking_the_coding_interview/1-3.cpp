@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-string urlify(string s){
+string urlify(const string& s){
     string ans;
     for(char c: s){
         if(c == ' '){
