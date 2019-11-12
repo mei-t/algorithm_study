@@ -7,9 +7,9 @@ using namespace std;
 class RobotRoute{
 public:
     RobotRoute(int r, int c, unordered_set<pair<int, int>> noEntry){
-        this -> r = r;
-        this -> c = c;
-        this -> noEntry = noEntry;
+        r_ = r;
+        c_ = c;
+        noEntry_ = noEntry;
     }
 
     vector<pair<int, int> > findRoute(){
@@ -36,10 +36,10 @@ public:
     }
 
 private:
-    unordered_set<pair<int, int>> noEntry;
+    unordered_set<pair<int, int>> noEntry_;
     vector<pair<int, int> > route;
-    int r;
-    int c;
+    int r_;
+    int c_;
 };
 
 int main(void){
