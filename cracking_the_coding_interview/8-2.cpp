@@ -1,12 +1,12 @@
 #include <iostream>
-#include <unordered_set>
+#include <set>
 #include <vector>
 #include <utility>
 using namespace std;
 
 class RobotRoute{
 public:
-    RobotRoute(int r, int c, unordered_set<pair<int, int>> noEntry){
+    RobotRoute(int r, int c, set<pair<int, int>> noEntry){
         r_ = r;
         c_ = c;
         noEntry_ = noEntry;
@@ -18,25 +18,25 @@ public:
     }
 
     void findRoute(int i, int j){
-        if(i == r-1 && j == c-1){
+        if(i == r_-1 && j == c_-1){
             return;
         }
 
-        if(i < r-1 && noEntry.find(make_pair(i + 1, j)) == noEntry.end()){
+        if(i < r_-1 && noEntry_.find(make_pair(i + 1, j)) == noEntry_.end()){
             route.push_back(make_pair(i, j));
             findRoute(i+1, j);
-        }else if(j < c-1 && noEntry.find(make_pair(i, j + 1)) == noEntry.end()){
+        }else if(j < c_-1 && noEntry_.find(make_pair(i, j + 1)) == noEntry_.end()){
             route.push_back(make_pair(i, j));
             findRoute(i, j+1);
         }else{
-            noEntry.insert(make_pair(i, j));
+            noEntry_.insert(make_pair(i, j));
             route.clear();
             findRoute(0, 0);
         }
     }
 
 private:
-    unordered_set<pair<int, int>> noEntry_;
+    set<pair<int, int>> noEntry_;
     vector<pair<int, int> > route;
     int r_;
     int c_;
