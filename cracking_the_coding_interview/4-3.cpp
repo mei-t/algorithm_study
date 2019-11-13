@@ -56,6 +56,22 @@ vector<LinkedListNode*> depthList(BinaryTreeNode* root){
     return ans;
 }
 
+void deleteNode(vector<LinkedListNode*> ans){
+    while(!ans.back()){
+        LinkedListNode* current = ans.back();
+        LinkedListNode* next;
+        while(current -> next != nullptr){
+            next = current -> next;
+            delete current -> origin;
+            delete current;
+        }
+        delete next -> origin;
+        delete next;
+    }
+    delete ans;
+    return;
+}
+
 int main(void){
     return 0;
 }
