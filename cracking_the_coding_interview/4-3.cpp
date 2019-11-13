@@ -68,7 +68,6 @@ void deleteNode(vector<LinkedListNode*> ans){
         delete next -> origin;
         delete next;
     }
-    delete ans;
     return;
 }
 
