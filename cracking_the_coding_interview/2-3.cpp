@@ -8,6 +8,7 @@ struct Node{
     Node* next;
 };
 
+// This is wrong.
 // void deleteMiddleNode(Node* node){
 //     Node* delNode = node;
 //     node = node -> next;
