@@ -5,7 +5,8 @@ using namespace std;
 
 int findMagicIndex(const int A[]){
     int left = 0;
-    int right = sizeof(A) / sizeof(*A);
+    int right = sizeof(A) / sizeof(A[0]);
+    cout << right << endl;
     int i;
     while(left > right){
         i = (left + right) / 2;
@@ -21,5 +22,7 @@ int findMagicIndex(const int A[]){
 }
 
 int main(void){
+    int A[5] = {-3, -1, 0, 3, 9};
+    cout << findMagicIndex(A) << endl;
     return 0;
 }
