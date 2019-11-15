@@ -48,10 +48,13 @@ int findNum(const vector<int>& nums, int target, int left, int right){
 }
 
 int findNum(const vector<int>& nums, int target){
+    if(nums.empty()){
+        return -1;
+    }
+
     int left = 0;
     int right = nums.size() - 1;
-    int start = findStart(nums, left, right);
-    cout << "start = " << start << endl;
+    int start = left < right ? findStart(nums, left, right) : 0;
     int ans = -1;
     if(nums[0] <= target){
         ans = findNum(nums, target, left, start - 1);
