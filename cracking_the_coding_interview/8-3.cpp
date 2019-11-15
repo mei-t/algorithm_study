@@ -1,14 +1,14 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 // 発展問題はまだ解いてない
 
-int findMagicIndex(const int A[]){
+int findMagicIndex(const vector<int>& A){
     int left = 0;
-    int right = sizeof(A) / sizeof(A[0]);
-    cout << right << endl;
+    int right = A.size();
     int i;
-    while(left > right){
+    while(left < right){
         i = (left + right) / 2;
         if(A[i] == i){
             return i;
@@ -22,7 +22,7 @@ int findMagicIndex(const int A[]){
 }
 
 int main(void){
-    int A[5] = {-3, -1, 0, 3, 9};
+    vector<int> A = {-3, -1, 0, 3, 9};
     cout << findMagicIndex(A) << endl;
     return 0;
 }
