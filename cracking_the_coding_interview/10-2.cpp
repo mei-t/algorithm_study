@@ -4,6 +4,19 @@
 #include <unordered_set>
 using namespace std;
 
+bool isAnaglam(string s1, string s2){
+    unordered_set<char> charInS1;
+    for(char c : s1){
+        charInS1.insert(c);
+    }
+    for(char c : s2){
+        if(charInS1.find(c) == charInS1.end()){
+            return false;
+        }
+    }
+    return true;
+}
+
 vector<string> anaglamGroup(const vector<string>& sList){
     vector<string> ans;
 
@@ -22,22 +35,16 @@ vector<string> anaglamGroup(const vector<string>& sList){
 
     unordered_set<string> blackList;
     for(int size: sizeList){
+        const vector<string> &stringList = sMap[size];
         for(int i = 0; i < sMap[size].size(); i++){
-            string s1 = sMap[size][i];
+            const string &s1 = stringList[i];
             if(blackList.find(s1) == blackList.end()) {
                 ans.push_back(s1);
-                for(int j = i + 1; j < sMap[size].size(); j++){
-                    string s2 = sMap[size][j];
-                    if(blackList.find(s2) == blackList.end()) {
-                        for(int k = 0; k < size; k++) {
-                            if( s1[k] != s2[k]) {
-                                break;
-                            }
-                            if(k == size - 1) {
-                                ans.push_back(s2);
-                                blackList.insert(s2);
-                            }
-                        }
+                for(int j = i + 1; j < stringList.size(); j++){
+                    const string s2 = stringList[j];
+                    if(blackList.find(s2) == blackList.end() && isAnaglam(s1, s2)) {
+                        ans.push_back(s2);
+                        blackList.insert(s2);
                     }
                 }
             }
