@@ -9,7 +9,7 @@ list<int> splitList(list<int>& linkedList, int x){
     while(i != lastUnchecked){
         cout << *i << " " << *lastUnchecked << endl;
         if(*i >= x){
-            swap(i, lastUnchecked);
+            swap(*i, *lastUnchecked);
             lastUnchecked--;
         }else{
             i++;
