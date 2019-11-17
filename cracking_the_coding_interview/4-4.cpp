@@ -21,7 +21,7 @@ bool isBalanceTree(Node* root){ // constにすると"no matching member function
 
         // 左側
         if(nodeData.first -> left != nullptr){
-            nodeQueue.push(make_pair(nodeData.first -> left, ++nodeData.second));
+            nodeQueue.push(make_pair(nodeData.first -> left, nodeData.second + 1));
         }else if(minDepth == -1){
             minDepth = nodeData.second; // BFSなので最初に見つかった要素のdepthがminDepthになる
         }else if(minDepth + 1 < nodeData.second){
@@ -30,7 +30,7 @@ bool isBalanceTree(Node* root){ // constにすると"no matching member function
 
         //右側
         if(nodeData.first -> right != nullptr){
-            nodeQueue.push(make_pair(nodeData.first -> right, ++nodeData.second));
+            nodeQueue.push(make_pair(nodeData.first -> right, nodeData.second + 1));
         }else if(minDepth == -1){
             minDepth = nodeData.second; // BFSなので最初に見つかった要素のdepthがminDepthになる
         }else if(minDepth + 1 < nodeData.second){
@@ -53,11 +53,16 @@ Node* createRightNode(Node* parent){
 }
 
 int main(void){
-    Node* root = new Node;
-    Node* left = createLeftNode(root);
-    Node* right = createRightNode(root);
-    createLeftNode(left);
-    createLeftNode(right);
-    cout << isBalanceTree(root) << endl;
+    Node* root0 = new Node;
+    Node* left0 = createLeftNode(root0);
+    Node* right0 = createRightNode(root0);
+    createLeftNode(left0);
+    createLeftNode(right0);
+    cout << isBalanceTree(root0) << endl; // ture
+
+    Node* root1 = new Node;
+    Node* left1 = createLeftNode(root1);
+    createLeftNode(left1);
+    cout << isBalanceTree(root1) << endl; // false
     return 0;
 }
