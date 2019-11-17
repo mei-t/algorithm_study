@@ -2,6 +2,7 @@
 #include <stack>
 using namespace std;
 
+// 14分10秒
 template <typename T>
 class MyQueue {
 public:
@@ -23,7 +24,7 @@ public:
         queueStack.pop();
     }
 
-    T top(){
+    T front(){
         return queueStack.top();
     }
 
@@ -44,7 +45,7 @@ int main(void){
     myQueue.pop();
     myQueue.push(3);
     while(!myQueue.empty()){
-        cout << myQueue.top() << " ";
+        cout << myQueue.front() << " ";
         myQueue.pop();
     }
     cout << endl;
