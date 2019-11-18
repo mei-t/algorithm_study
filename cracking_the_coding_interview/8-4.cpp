@@ -6,7 +6,8 @@ using namespace std;
 
 template <typename T>
 // vectorのpush_back(value)はcopy of valueをvectorに入れるからsubSetは参照で良さそうだと思ったけど、だめだった
-void createSubSet(vector<vector<T>>& ans, const vector<T>& allSet, vector<T> subSet, int index){
+// 順番の問題
+void createSubSet(vector<vector<T>>& ans, const vector<T>& allSet, vector<T> subSet, size_t index){
     if(index == allSet.size()){
         return;
     }
