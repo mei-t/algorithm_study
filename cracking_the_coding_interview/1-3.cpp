@@ -2,21 +2,33 @@
 #include <cassert>
 using namespace std;
 
-// 10分28
-string urlify(string s){
-    int i = 0;
-    while(i != s.size()){
+string urlify(char* s, const size_t& size){
+    int count = 0;
+    for(int i=0; i<=size; i++){
         if(s[i] == ' '){
-            s.replace(i, 1, "%20");
-            i += 2;
+            count++;
         }
-        i++;
+    }
+    size_t newStrIndex = size + count * 2;
+    size_t originStrIndex = size;
+    s[newStrIndex + 1] = '\n';
+    while(count > 0){
+        if(s[originStrIndex] == ' '){
+            s[newStrIndex--] = '0';
+            s[newStrIndex--] = '2';
+            s[newStrIndex--] = '%';
+            originStrIndex--;
+            count--;
+        }else{
+            s[newStrIndex--] = s[originStrIndex--];
+        }
     }
     return s;
 }
 
 int main(void){
-    cout << urlify("This is a pen.") << endl;
-    assert(urlify("This is a pen.") == "This%20is%20a%20pen.");
+    char s[] = "This is a pen.";
+    cout << urlify(s, 13) << endl;
+    assert(urlify(s, 13) == "This%20is%20a%20pen.");
     return 0;
 }
