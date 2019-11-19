@@ -11,7 +11,6 @@ string urlify(char* s, const size_t size){
     }
     size_t newStrIndex = size + count * 2;
     size_t originStrIndex = size;
-    s[newStrIndex + 1] = '\0';
     while(count > 0){
         if(s[originStrIndex] == ' '){
             s[newStrIndex--] = '0';
@@ -27,9 +26,15 @@ string urlify(char* s, const size_t size){
 }
 
 int main(void){
-    char *s = (char*)malloc(100); // new char[100]
+    char *s = (char*)malloc(100); // new char[100].
     strcpy(s, "This is a pen.");
-    urlify(s, 13);
+    // stringでやるなら
+    // string s;
+    // s.reserve(100);
+    // s = "This is a pen.";
+    // s.size();
+    // s.capacity() == 100;
+    urlify(s, strlen(s) + 1); // 文字列のサイズ+1(文字列の終わりを意味する'/0'の分)
     cout << s << endl;
     cout << strcmp(s, "This%20is%20a%20pen.") << endl;
     assert(strcmp(s, "This%20is%20a%20pen.") == 0);
