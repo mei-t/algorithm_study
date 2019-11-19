@@ -2,7 +2,7 @@
 #include <cassert>
 using namespace std;
 
-string urlify(char* s, const size_t& size){
+string urlify(char* s, const size_t size){
     int count = 0;
     for(int i=0; i<=size; i++){
         if(s[i] == ' '){
@@ -11,7 +11,7 @@ string urlify(char* s, const size_t& size){
     }
     size_t newStrIndex = size + count * 2;
     size_t originStrIndex = size;
-    s[newStrIndex + 1] = '\n';
+    s[newStrIndex + 1] = '\0';
     while(count > 0){
         if(s[originStrIndex] == ' '){
             s[newStrIndex--] = '0';
@@ -27,8 +27,11 @@ string urlify(char* s, const size_t& size){
 }
 
 int main(void){
-    char s[] = "This is a pen.";
-    cout << urlify(s, 13) << endl;
-    assert(urlify(s, 13) == "This%20is%20a%20pen.");
+    char *s = (char*)malloc(100); // new char[100]
+    strcpy(s, "This is a pen.");
+    urlify(s, 13);
+    cout << s << endl;
+    cout << strcmp(s, "This%20is%20a%20pen.") << endl;
+    assert(strcmp(s, "This%20is%20a%20pen.") == 0);
     return 0;
 }
