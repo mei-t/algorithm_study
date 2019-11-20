@@ -7,7 +7,7 @@ public:
     MyArray(vector<unsigned int> input){
         v = input;
     }
-    int elementAt(int i){
+    int elementAt(int i) const{ // この関数はobjectを変更しない
         if(i < v.size()){
             return v[i];
         }else{
@@ -18,7 +18,7 @@ private:
     vector<unsigned int> v;
 };
 
-int findIndex(MyArray& myArray, int x, int left, int right){
+int findIndex(const MyArray& myArray, int x, int left, int right){
     if(left >= right){
         return -1;
     }
