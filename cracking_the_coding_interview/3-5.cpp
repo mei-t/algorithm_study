@@ -5,19 +5,19 @@ using namespace std;
 
 // 14分39秒(ヒント見た)
 
-stack<int> sortStack(stack<int>& input){
-    stack<int> largeStack, tmpStack;
+void sortStack(stack<int>& input){
+    stack<int> largeStack;
     while(!input.empty()){
         int num = input.top();
         input.pop();
-        while(!largeStack.empty() && num >= largeStack.top()){
-            tmpStack.push(largeStack.top());
+        while(!largeStack.empty() && num <= largeStack.top()){
+            input.push(largeStack.top());
             largeStack.pop();
         }
         largeStack.push(num);
-        while(!tmpStack.empty()){
-            largeStack.push(tmpStack.top());
-            tmpStack.pop();
+        while(!input.empty() && input.top() > largeStack.top()){
+            largeStack.push(input.top());
+            input.pop();
         }
     }
 
@@ -25,7 +25,7 @@ stack<int> sortStack(stack<int>& input){
         input.push(largeStack.top());
         largeStack.pop();
     }
-    return input;
+    return;
 }
 
 int main(void){
