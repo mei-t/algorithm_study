@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// 13分27秒
+
+struct Node{
+    int val;
+    Node* left;
+    Node* right;
+};
+
+bool isBinarySearchTree(Node* node){
+    if(!node){
+        return true;
+    }
+    bool isLeftBST = true;
+    if(node->left){
+        if(node->val < node->left->val){
+            return false;
+        }
+        isLeftBST = isBinarySearchTree(node->left);
+    }
+
+    bool isRightBST = true;
+    if(node->right){
+        if(node->val > node->right->val){
+            return false;
+        }
+        isRightBST = isBinarySearchTree(node->right);
+    }
+
+    return isLeftBST && isRightBST;
+}
+
+Node* createNewNode(const vector<int>& nums, int left, int right){
+    if(left >= right){
+        return nullptr;
+    }
+    Node* current = new Node;
+    int mid = (left + right) / 2;
+    current->val = nums[mid];
+    current->left = createNewNode(nums, left, mid - 1);
+    current->right = createNewNode(nums, mid + 1, right);
+    return current;
+}
+
+// void print(Node* node){
+//     if(!node){
+//         return;
+//     }
+
+//     print(node->left);
+//     cout << node->val << " ";
+//     print(node->right);
+// }
+
+int main(void){
+    vector<int> nums1 = {0, 2, 3, 6, 8, 18, 26, 49};
+    vector<int> nums2 = {0, 2, 3, 9, 8, 18, 26, 49};
+    Node* root1 = createNewNode(nums1, 0, nums1.size());
+    // print(root1);
+    // cout << endl;
+    Node* root2 = createNewNode(nums2, 0, nums2.size());
+    // print(root2);
+    // cout << endl;
+    Node* root3 = nullptr;
+    cout << isBinarySearchTree(root1) << endl;
+    cout << isBinarySearchTree(root2) << endl;
+    cout << isBinarySearchTree(root3) << endl;
+    return 0;
+}
