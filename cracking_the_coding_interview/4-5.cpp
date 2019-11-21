@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <utility>
 using namespace std;
 
 // 13分27秒
@@ -10,33 +11,26 @@ struct Node{
     Node* right;
 };
 
-bool isBinarySearchTree(Node* node){
+bool isBinarySearchTree(Node* node, int min = INT_MIN, int max = INT_MAX){
     if(!node){
         return true;
     }
-    bool isLeftBST = true;
-    if(node->left){
-        if(node->val < node->left->val){
-            return false;
-        }
-        isLeftBST = isBinarySearchTree(node->left);
+
+    if(min > node->val || max < node->val){
+        return false;
     }
 
-    bool isRightBST = true;
-    if(node->right){
-        if(node->val > node->right->val){
-            return false;
-        }
-        isRightBST = isBinarySearchTree(node->right);
-    }
+    bool isLeftBST = isBinarySearchTree(node->left, min, node->val);
+    bool isRightBST = isBinarySearchTree(node->right, node->val, max);
 
     return isLeftBST && isRightBST;
 }
 
 Node* createNewNode(const vector<int>& nums, int left, int right){
-    if(left >= right){
+    if(left > right){
         return nullptr;
     }
+//    cout << left << " " << right << endl;
     Node* current = new Node;
     int mid = (left + right) / 2;
     current->val = nums[mid];
@@ -45,25 +39,25 @@ Node* createNewNode(const vector<int>& nums, int left, int right){
     return current;
 }
 
-// void print(Node* node){
-//     if(!node){
-//         return;
-//     }
+void print(Node* node){
+    if(!node){
+        return;
+    }
 
-//     print(node->left);
-//     cout << node->val << " ";
-//     print(node->right);
-// }
+    print(node->left);
+    cout << node->val << " ";
+    print(node->right);
+}
 
 int main(void){
     vector<int> nums1 = {0, 2, 3, 6, 8, 18, 26, 49};
     vector<int> nums2 = {0, 2, 3, 9, 8, 18, 26, 49};
-    Node* root1 = createNewNode(nums1, 0, nums1.size());
-    // print(root1);
-    // cout << endl;
-    Node* root2 = createNewNode(nums2, 0, nums2.size());
-    // print(root2);
-    // cout << endl;
+    Node* root1 = createNewNode(nums1, 0, nums1.size()-1);
+    print(root1);
+    cout << endl;
+    Node* root2 = createNewNode(nums2, 0, nums2.size()-1);
+    print(root2);
+    cout << endl;
     Node* root3 = nullptr;
     cout << isBinarySearchTree(root1) << endl;
     cout << isBinarySearchTree(root2) << endl;
