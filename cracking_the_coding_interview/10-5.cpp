@@ -2,6 +2,7 @@
 #include <vector>
 using namespace std;
 
+// 空の文字列はtargetにならないという前提で書いている
 int searchWord(const vector<string>& words, int left, int right, string target){
     if(left > right){
         return -1;
@@ -35,25 +36,6 @@ int searchWord(const vector<string>& words, int left, int right, string target){
     }else{
         ans = searchWord(words, mid + diff + 1, right, target);
     }
-    // if(isLeft){
-    //     if(words[mid - diff] == target){
-    //         return mid - diff;
-    //     }
-    //     if(words[mid - diff] > target){
-    //         ans = searchWord(words, left, mid - diff, target);
-    //     }else{
-    //         ans = searchWord(words, mid + diff, right, target);
-    //     }
-    // }else{
-    //     if(words[mid + diff] == target){
-    //         return mid + diff;
-    //     }
-    //     if(words[mid + diff] > target){
-    //         ans = searchWord(words, left, mid - diff, target);
-    //     }else{
-    //         ans = searchWord(words, mid + diff + 1, right, target);
-    //     }
-    // }
 
     return ans;
 }
@@ -61,5 +43,6 @@ int searchWord(const vector<string>& words, int left, int right, string target){
 int main(void){
     vector<string> words = {"at", "", "", "", "ball", "", "", "car", "", "", "dad", "", ""};
     cout << searchWord(words, 0, words.size(), "ball") << endl;
+    cout << searchWord(words, 0, words.size(), "cat") << endl;
     return 0;
 }
