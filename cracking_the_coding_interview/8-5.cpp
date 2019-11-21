@@ -1,30 +1,24 @@
 #include <iostream>
-#include <unordered_map>
 using namespace std;
 
-int computeMulti(int smaller, int bigger, unordered_map<int, int> numMap){
+int computeMulti(int smaller, int bigger){
     if(smaller == 1){
         return bigger;
     }
 
-    if(numMap.find(smaller) != numMap.end()){
-        return numMap[smaller];
-    }
-
-    int half = computeMulti(smaller / 2, bigger, numMap);
+    int half = computeMulti(smaller / 2, bigger);
     if(smaller % 2){
         bigger = half + bigger;
     }else{
         bigger = half;
     }
-    numMap.insert({smaller, half + bigger});
     return half + bigger;
 }
 
 int multiply(int num1, int num2){
     int smaller = num1 < num2 ? num1 : num2;
     int bigger = num1 < num2 ? num2 : num1;
-    return computeMulti(smaller, bigger, unordered_map<int, int>());
+    return computeMulti(smaller, bigger);
 }
 
 int main(void){
