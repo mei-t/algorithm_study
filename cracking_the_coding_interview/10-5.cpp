@@ -2,9 +2,11 @@
 #include <vector>
 using namespace std;
 
+// 24分
+
 // 空の文字列はtargetにならないという前提で書いている
 int searchWord(const vector<string>& words, int left, int right, string target){
-    if(left > right){
+    if(left > right || words.empty()){
         return -1;
     }
 
@@ -44,5 +46,6 @@ int main(void){
     vector<string> words = {"at", "", "", "", "ball", "", "", "car", "", "", "dad", "", ""};
     cout << searchWord(words, 0, words.size(), "ball") << endl;
     cout << searchWord(words, 0, words.size(), "cat") << endl;
+    cout << searchWord(vector<string>(), 0, 0, "ball") << endl;
     return 0;
 }
