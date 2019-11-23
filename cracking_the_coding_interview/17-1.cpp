@@ -4,16 +4,12 @@ using namespace std;
 
 constexpr size_t size_int = sizeof(int) * 8;
 
-long sum(int num1, int num2){
+// add()の方がいいやり方
+long sumWithBitset(int num1, int num2){
     bitset<size_int> b(0);
     int carry = 0;
     for (int i = 0; i<size_int; i++){
-        cout<< b << endl;
-        if((num1 & 1<<i) ^ (num2 & 1<<i) ^ carry){
-            cout << "aaa " <<((num1 & 1<<i) ^ (num2 & 1<<i)) << endl;
-            cout << "bbb " <<((num1 & 1<<i) ^ (num2 & 1<<i) ^ carry) << endl;
-            cout << (num1 & 1<<i) << " " << (num2 & 1<<i) << endl;
-            cout << i << "carry: " << carry << endl;
+        if(((num1 & 1<<i) && true) ^ ((num2 & 1<<i) && true) ^ carry){
             b.set(i);
             if((num1 & 1<<i) && (num2 & 1<<i) && carry){
                 carry = 1;
@@ -21,8 +17,6 @@ long sum(int num1, int num2){
                 carry = 0;
             }
         }else{
-            // cout << (num1x & 1<<i) << " " << (num2 & 1<<i) << endl;
-            // cout << i << "carry: " << carry << endl;
             if((num1 & 1<<i) || (num2 & 1<<i) || carry){
                 carry = 1;
             }else{
@@ -34,7 +28,18 @@ long sum(int num1, int num2){
     return b.to_ulong();
 }
 
+int add(int num1, int num2){
+    if(!num2){
+        return num1;
+    }
+
+    int sum = num1 ^ num2;
+    int carry = (num1 & num2) << 1;
+    return add(sum, carry);
+}
+
 int main(void){
-    cout << sum(3, 5) << endl;
+    cout << sumWithBitset(3, 5) << endl;
+    cout << add(3, 5) << endl;
     return 0;
 }
