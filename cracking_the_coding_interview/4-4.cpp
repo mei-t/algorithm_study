@@ -8,7 +8,36 @@ struct Node{
     Node* right;
 };
 
-bool isBalanceTree(Node* root){ // constにすると"no matching member function for call to 'push'"
+void computeDepth(Node* node, int depth, int *minDepth, int *maxDepth){
+    if(!node){
+        if(depth < *minDepth){
+            *minDepth = depth;
+        }
+        if(depth > *maxDepth){
+            *maxDepth = depth;
+        }
+    }
+    cout << "cc" << endl;
+
+    if(*maxDepth - *minDepth > 1) {
+        return;
+    }
+    cout << "dd" << endl;
+
+    computeDepth(node->left, depth + 1, minDepth, maxDepth);
+    computeDepth(node->right, depth + 1, minDepth, maxDepth);
+}
+
+bool isBalanceTree1(Node* root){
+    int minDepth = INT_MAX;
+    int maxDepth = 0;
+    cout << "aa" << endl;
+    computeDepth(root, 0, &minDepth, &maxDepth);
+    cout << "bb" << endl;
+    return maxDepth - minDepth <= 1;
+}
+
+bool isBalanceTree2(Node* root){ // constにすると"no matching member function for call to 'push'"
     if(!root){
         return true; // nodeが存在しないならtrue
     }
@@ -42,13 +71,17 @@ bool isBalanceTree(Node* root){ // constにすると"no matching member function
 
 Node* createLeftNode(Node* parent){
     Node* node = new Node;
-    parent -> left = node;
+    parent->left = node;
+    node->left = nullptr;
+    node->right = nullptr;
     return node;
 }
 
 Node* createRightNode(Node* parent){
     Node* node = new Node;
-    parent -> right = node;
+    parent->right = node;
+    node->left = nullptr;
+    node->right = nullptr;
     return node;
 }
 
@@ -58,11 +91,13 @@ int main(void){
     Node* right0 = createRightNode(root0);
     createLeftNode(left0);
     createLeftNode(right0);
-    cout << isBalanceTree(root0) << endl; // ture
+    cout << isBalanceTree1(root0) << endl; // ture
+    cout << isBalanceTree2(root0) << endl; // ture
 
     Node* root1 = new Node;
     Node* left1 = createLeftNode(root1);
     createLeftNode(left1);
-    cout << isBalanceTree(root1) << endl; // false
+    cout << isBalanceTree1(root1) << endl; // false
+    cout << isBalanceTree2(root1) << endl; // false
     return 0;
 }
