@@ -2,6 +2,8 @@
 #include <vector>
 #include <utility>
 #include <charconv>
+#include <stdlib.h>
+#include <stack>
 using namespace std;
 
 void stringCompression(char* s, const size_t size){
@@ -9,10 +11,13 @@ void stringCompression(char* s, const size_t size){
     int diff = 0;
     vector<pair<char, int>> charList;
     for(int i=1; i<size; i++){
-        cout << i << endl;
         if(s[i] != s[i-1]){
             charList.push_back(make_pair(s[i-1], count));
-            diff += count - 2;
+            diff += count - 1;
+            while(count > 0){
+                diff--;
+                count /= 10;
+            }
             count = 1;
         }else{
             count++;
@@ -25,19 +30,31 @@ void stringCompression(char* s, const size_t size){
 
     int i = 0;
     for(auto pair: charList){
-        cout << "aa" << endl;
         s[i] = pair.first;
-        cout << "bb" << endl;
-        s[i+1] = pair.second;
-        cout << "cc" << endl;
-        i += 2;
+        i++;
+
+        stack<int> numStack;
+        int count = pair.second;
+        while(count > 0){
+            numStack.push(count % 10);
+            count /= 10;
+        }
+        while(!numStack.empty()){
+            s[i] = numStack.top() + '0';
+            numStack.pop();
+            i++;
+        }
     }
-    s[size - diff] = '\0';
+    s[size - diff - 1] = '\0';
     return;
 }
 
 int main(void){
-    char *s = (char*)"aaabbcccccd";
+    const char *tmp = "aaabbccccccccccccccccccd";
+    size_t size = strlen(tmp) + 1;
+    char *s = (char *)malloc(size*sizeof(char));
+    strncpy(s, tmp, size);
+    cout << s << endl;
     stringCompression(s, strlen(s) + 1);
     cout << s << endl;
     return 0;
