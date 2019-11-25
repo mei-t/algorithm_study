@@ -16,13 +16,12 @@ void computeDepth(Node* node, int depth, int *minDepth, int *maxDepth){
         if(depth > *maxDepth){
             *maxDepth = depth;
         }
+        return;
     }
-    cout << "cc" << endl;
 
     if(*maxDepth - *minDepth > 1) {
         return;
     }
-    cout << "dd" << endl;
 
     computeDepth(node->left, depth + 1, minDepth, maxDepth);
     computeDepth(node->right, depth + 1, minDepth, maxDepth);
@@ -31,9 +30,7 @@ void computeDepth(Node* node, int depth, int *minDepth, int *maxDepth){
 bool isBalanceTree1(Node* root){
     int minDepth = INT_MAX;
     int maxDepth = 0;
-    cout << "aa" << endl;
     computeDepth(root, 0, &minDepth, &maxDepth);
-    cout << "bb" << endl;
     return maxDepth - minDepth <= 1;
 }
 
