@@ -3,16 +3,9 @@
 using namespace std;
 
 int countBitDiff(int num1, int num2){
-    int diff = num1 ^ num2;
-    int maxNum = max(num1, num2);
-    int i = 0;
     int count = 0;
-    while(maxNum){
-        if(diff & 1 << i){
-            count++;
-        }
-        i++;
-        maxNum /= 2;
+    for (int diff = num1 ^ num2; diff != 0; diff = diff & (diff - 1)){
+        count++;
     }
     return count;
 }
