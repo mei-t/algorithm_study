@@ -29,10 +29,8 @@ public:
         
         for (int i=0; i<board.size(); i++){
             for(int j=0; j<board[0].size(); j++){
-                // if(charMap.find(board[i][j]) != charMap.end() && !charMap[board[i][j]].empty()){
                 if(charMap.find(board[i][j]) != charMap.end()){
                     for(auto itr = charMap[board[i][j]].begin(); itr != charMap[board[i][j]].end(); ){
-                        cout << *itr << endl;
                         vector<vector<bool>> visitedCopy(visited);
                         if(findWord(board, *itr, i, j, 0, visitedCopy)){
                             ans.push_back(*itr);
@@ -48,14 +46,10 @@ public:
     }
     
     bool findWord(const vector<vector<char>>& board, const string& word, int i, int j, int num, vector<vector<bool>>& visited){
-        cout << i << " " << j << endl;
         if(num == word.size() - 1 && board[i][j] == word[num]){
-            cout << "cc" << endl;
             return true;
         }
         if(board[i][j] != word[num]){
-            cout << board[i][j] << " " << word[num] << endl;
-            cout << "dddddddddd" << endl;
             return false;
         }
         
@@ -67,22 +61,21 @@ public:
         if(i-1 >= 0 && !visited[i-1][j]){
             isLeft = findWord(board, word, i-1, j, num + 1, visited);
         }
-        // cout << "left finish" << endl;
-        
         if(j-1 >= 0 && !visited[i][j-1] && !isLeft){
             isUp = findWord(board, word, i, j-1, num + 1, visited);
         }
-        // cout << "up finish" << endl;
         if(i+1 < board.size() && !visited[i+1][j] && !isLeft && !isUp){
             isRight = findWord(board, word, i+1, j, num + 1, visited);
         }
-        // cout << "right finish" << endl;
         if(j+1 < board[0].size() && !visited[i][j+1] && !isLeft && !isUp && !isRight){
             isDown = findWord(board, word, i, j+1, num + 1, visited);
         }
-        // cout << "down finish" << endl;
+        bool ans = isLeft || isUp || isRight || isDown;
+        if(!ans){
+            visited[i][j] = false;
+        }
         
-        return isLeft || isUp || isRight || isDown;
+        return ans;
     }
 };
 
