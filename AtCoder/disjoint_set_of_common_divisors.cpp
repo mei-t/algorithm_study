@@ -1,30 +1,36 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 using namespace std;
+
+int computeGcd(int x, int y){
+    if(y == 0){
+        return x;
+    }
+    return computeGcd(y, x % y);
+}
 
 int main(void){
     int A, B;
     cin >> A >> B;
-    vector<int> com_divis; // common divisors
-    for(int i = 2; i < min(A, B); i++){
-        if((A % i == 0) && (B % i == 0)){
-            com_divis.push_back(i);
+    int gcd = computeGcd(A, B);
+    int count = 0;
+    int i = 2;
+    int n = gcd;
+    for(long i = 2; i*i <= n; i++){
+        if(n % i){
+            continue;
         }
-    } 
-    vector<int> disjoints;
-    for(int cm : com_divis){
-        bool isDisjoint = true;
-        for(int disjoint: disjoints){
-            if(cm % disjoint == 0){
-                isDisjoint = false;
-                break;
-            }
+        count++;
+        while(n % i == 0){
+            n /= i;
         }
-        if(isDisjoint){
-            disjoints.push_back(cm);
-        }
+        i++;
     }
-    disjoints.push_back(1);
-    cout << disjoints.size() << endl;
+    if(n != 1){
+        count++;
+    }
+    count++;
+    cout << count << endl;
     return 0;
 }
