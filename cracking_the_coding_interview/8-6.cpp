@@ -16,7 +16,7 @@ public:
         if(stack1.empty()){
             return;
         }
-        cout << "not empty" << endl;
+        cout << stack1.size() << endl;
         move(1, 3 - (stack1.size() % 2));
         cout << "start" << endl;
         while(!stack1.empty() || !stack2.empty()){
@@ -43,18 +43,7 @@ public:
         stackMap[i].pop();
         return;
     }
-
-    int getEmpty(){
-        if(stack1.empty()){
-            return 1;
-        }else if(stack2.empty()){
-            return 2;
-        }else if(stack3.empty()){
-            return 3;
-        }
-        return -1;
-    }
-
+    
     void checkState(){
         empty = -1;
         max = -1;
