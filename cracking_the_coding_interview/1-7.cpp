@@ -16,17 +16,21 @@ void rotate(vector<vector<int>>& matrix){
     size_t size = matrix.size();
     for(int i=0; i < size / 2; i++){
         for(int j=0; j < size / 2; j++){
-            swap(matrix[i][j], matrix[size-j-1][i]);
-            swap(matrix[size-j-1][i], matrix[size-i-1][size-j-1]);
-            swap(matrix[size-i-1][size-j-1], matrix[j][size-i-1]);
+            int tmp = matrix[i][j];
+            matrix[i][j] = matrix[size-j-1][i];
+            matrix[size-j-1][i] = matrix[size-i-1][size-j-1];
+            matrix[size-i-1][size-j-1] = matrix[j][size-i-1];
+            matrix[j][size-i-1] = tmp;
         }
     }
     if(size % 2){
         int mid = size / 2;
         for(int i=0; i < size/2; i++){
-            swap(matrix[i][mid], matrix[mid][i]);
-            swap(matrix[mid][i], matrix[size-i-1][mid]);
-            swap(matrix[size-i-1][mid], matrix[mid][size-i-1]);
+            int tmp = matrix[i][mid];
+            matrix[i][mid] = matrix[mid][i];
+            matrix[mid][i] = matrix[size-i-1][mid];
+            matrix[size-i-1][mid] = matrix[mid][size-i-1];
+            matrix[mid][size-i-1] = tmp;
         }
     }
     return;
