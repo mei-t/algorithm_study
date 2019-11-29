@@ -2,8 +2,43 @@
 #include <vector>
 #include <unordered_map>
 using namespace std;
+#define SIZE 26
 
 // https://leetcode.com/problems/word-search-ii/
+
+#define SIZE 26
+
+struct Trie{
+    Trie* children[SIZE];
+    string word; // wordの最後以外は空文字列
+    bool isInAns;
+};
+
+Trie* getTrie(){
+    Trie* newTrie = new Trie;
+    for(int i=0; i<SIZE; i++){
+        newTrie->children[i] = nullptr;
+    }
+    newTrie->word = "";
+    newTrie->isInAns = false;
+    return newTrie;
+}
+
+void insert(Trie* root, string key){
+    Trie* current = root;
+    for(int i=0; i<key.size(); i++){
+        int index = key[i] - 'a';
+        if(!current->children[index]){
+            current->children[index] = getTrie();
+        }
+        current = current->children[index];
+    }
+    current->word = key;
+}
+
+Trie* find(Trie* current, char key){
+    return current->children[key - 'a'];
+}
 
 class Solution {
 public:
@@ -13,12 +48,9 @@ public:
             return ans;
         }
         
-        unordered_map<char, vector<string>> charMap;
+        Trie* root = getTrie();
         for(const string& word: words){
-            if(charMap.find(word[0]) == charMap.end()){
-                charMap.insert({word[0], vector<string>()});
-            }
-            charMap[word[0]].push_back(word);
+            insert(root, word);
         }
         
         vector<bool> row(board[0].size(), false);
@@ -29,53 +61,39 @@ public:
         
         for (int i=0; i<board.size(); i++){
             for(int j=0; j<board[0].size(); j++){
-                if(charMap.find(board[i][j]) != charMap.end()){
-                    for(auto itr = charMap[board[i][j]].begin(); itr != charMap[board[i][j]].end(); ){
-                        vector<vector<bool>> visitedCopy(visited);
-                        if(findWord(board, *itr, i, j, 0, visitedCopy)){
-                            ans.push_back(*itr);
-                            charMap[board[i][j]].erase(itr);
-                        }else{
-                            itr++;
-                        }
-                    }
+                Trie* trie = find(root, board[i][j]);
+                if(trie){
+                    vector<vector<bool>> visitedCopy(visited);
+                    findWord(board, i, j, trie, visitedCopy, ans);
                 }
             }
         }
         return ans;
     }
-    
-    bool findWord(const vector<vector<char>>& board, const string& word, int i, int j, int num, vector<vector<bool>>& visited){
-        if(num == word.size() - 1 && board[i][j] == word[num]){
-            return true;
+
+    void findWord(const vector<vector<char>>&board, int i, int j, Trie* trie, vector<vector<bool>>& visited, vector<string>& ans){
+        if(!trie){
+            return;
         }
-        if(board[i][j] != word[num]){
-            return false;
+        if(trie->word != "" && !trie->isInAns){
+            ans.push_back(trie->word);
+            trie->isInAns = true;
         }
-        
+
         visited[i][j] = true;
-        bool isLeft = false;
-        bool isUp = false;
-        bool isRight = false;
-        bool isDown = false;
         if(i-1 >= 0 && !visited[i-1][j]){
-            isLeft = findWord(board, word, i-1, j, num + 1, visited);
+            findWord(board, i-1, j, find(trie, board[i-1][j]), visited, ans);
         }
-        if(j-1 >= 0 && !visited[i][j-1] && !isLeft){
-            isUp = findWord(board, word, i, j-1, num + 1, visited);
+        if(j-1 >= 0 && !visited[i][j-1]){
+            findWord(board, i, j-1, find(trie, board[i][j-1]), visited, ans);
         }
-        if(i+1 < board.size() && !visited[i+1][j] && !isLeft && !isUp){
-            isRight = findWord(board, word, i+1, j, num + 1, visited);
+        if(i+1 < board.size() && !visited[i+1][j]){
+            findWord(board, i+1, j, find(trie, board[i+1][j]), visited, ans);
         }
-        if(j+1 < board[0].size() && !visited[i][j+1] && !isLeft && !isUp && !isRight){
-            isDown = findWord(board, word, i, j+1, num + 1, visited);
+        if(j+1 < board[0].size() && !visited[i][j+1]){
+            findWord(board, i, j+1, find(trie, board[i][j+1]), visited, ans);
         }
-        bool ans = isLeft || isUp || isRight || isDown;
-        if(!ans){
-            visited[i][j] = false;
-        }
-        
-        return ans;
+        visited[i][j] = false;
     }
 };
 
