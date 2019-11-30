@@ -1,6 +1,7 @@
 #include <iostream>
 #include <unordered_set>
 #include <vector>
+#include <utility>
 using namespace std;
 
 // 24分2秒(テスト含む)
@@ -8,6 +9,11 @@ using namespace std;
 struct Node{
     int val;
     Node* next;
+};
+
+struct CommonNodeData{
+    bool isFound;
+    Node* commonNode;
 };
 
 void createNodeSet(Node* node, unordered_set<Node*>& nodeSet){
@@ -34,6 +40,45 @@ Node* findCommonNode(Node* root1, Node* root2){
     createNodeSet(root1, nodeSet1);
     unordered_set<Node*> nodeSet2;
     return findNode(root2, nodeSet1, nodeSet2);
+}
+
+pair<Node*, int> findLastNode(Node* node, int len = 1){
+    if(!node->next){
+        return make_pair(node, len);
+    }
+    return findLastNode(node->next, len+1);
+}
+
+Node* nextNode(Node* node, int i){
+    if(i == 0){
+        return node;
+    }
+    return nextNode(node->next, i-1);
+}
+
+Node* findNode2(Node* node1, Node* node2){
+    if(node1 == node2){
+        return node1;
+    }
+    return findNode2(node1->next, node2->next);
+}
+
+CommonNodeData findCommonNode2(Node* root1, Node* root2){
+    Node copyRoot1 = *root1;
+    Node copyRoot2 = *root2;
+    pair<Node*, int> lastNode1 = findLastNode(&copyRoot1);
+    pair<Node*, int> lastNode2 = findLastNode(&copyRoot2);
+    CommonNodeData cnd;
+    if(lastNode1.first != lastNode2.first){
+        cnd.isFound = false;
+        return cnd;
+    }
+    cnd.isFound = true;
+    Node* longNode = lastNode1.second > lastNode2.second ? root1 : root2;
+    Node* shortNode = lastNode1.second <= lastNode2.second ? root1 : root2;
+    longNode = nextNode(longNode, abs(lastNode1.second - lastNode2.second));
+    cnd.commonNode = findNode2(longNode, shortNode);
+    return cnd;
 }
 
 Node* createNode(vector<int> nums, int i = 0){
@@ -64,12 +109,23 @@ int main(void){
     Node* root2 = createNode(v2);
     Node* root2End = findNode(root2, 33);
     root2End->next = jSegment;
-    Node* node = findCommonNode(root1, root2);
+
+    Node copyRoot1 = *root1;
+    Node copyRoot2 = *root2;
+    Node* node = findCommonNode(&copyRoot1, &copyRoot2);
     if(!node){
         cout << "false" << endl;
     }else{
         cout << "true" << endl;
         cout << "The common node is " << node->val << endl;
+    }
+
+    CommonNodeData cnd = findCommonNode2(root1, root2);
+    if(!cnd.isFound){
+        cout << "false" << endl;
+    }else{
+        cout << "true" << endl;
+        cout << "The common node is " << cnd.commonNode->val << endl;
     }
     return 0;
 }
