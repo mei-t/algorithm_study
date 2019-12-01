@@ -8,36 +8,45 @@ using namespace std;
 
 #define SIZE 26
 
-struct Trie{
+class Trie{
+public:
+    Trie();
+    void insert(string key);
+    Trie* find(char key) const;
+    bool isInAns;
+    const string& getWord() const;
+
+private:
     Trie* children[SIZE];
     string word; // wordの最後以外は空文字列
-    bool isInAns;
 };
 
-Trie* getTrie(){
-    Trie* newTrie = new Trie;
+Trie::Trie(){
     for(int i=0; i<SIZE; i++){
-        newTrie->children[i] = nullptr;
+        children[i] = nullptr;
     }
-    newTrie->word = "";
-    newTrie->isInAns = false;
-    return newTrie;
+    word = "";
+    isInAns = false;
 }
 
-void insert(Trie* root, string key){
-    Trie* current = root;
+void Trie::insert(string key){
+    Trie* current = this;
     for(int i=0; i<key.size(); i++){
         int index = key[i] - 'a';
         if(!current->children[index]){
-            current->children[index] = getTrie();
+            current->children[index] = new Trie(); // Trie trie; でstack領域に確保も可能
         }
         current = current->children[index];
     }
     current->word = key;
 }
 
-Trie* find(Trie* current, char key){
-    return current->children[key - 'a'];
+Trie* Trie::find(char key) const {
+    return this->children[key - 'a'];
+}
+
+const string& Trie::getWord() const {
+    return this->word;
 }
 
 class Solution {
@@ -48,9 +57,9 @@ public:
             return ans;
         }
         
-        Trie* root = getTrie();
+        Trie* root = new Trie();
         for(const string& word: words){
-            insert(root, word);
+            root->insert(word);
         }
         
         vector<bool> row(board[0].size(), false);
@@ -61,7 +70,7 @@ public:
         
         for (int i=0; i<board.size(); i++){
             for(int j=0; j<board[0].size(); j++){
-                Trie* trie = find(root, board[i][j]);
+                Trie* trie = root->find(board[i][j]);
                 if(trie){
                     vector<vector<bool>> visitedCopy(visited);
                     findWord(board, i, j, trie, visitedCopy, ans);
@@ -75,23 +84,23 @@ public:
         if(!trie){
             return;
         }
-        if(trie->word != "" && !trie->isInAns){
-            ans.push_back(trie->word);
+        if(trie->getWord() != "" && !trie->isInAns){
+            ans.push_back(trie->getWord());
             trie->isInAns = true;
         }
 
         visited[i][j] = true;
         if(i-1 >= 0 && !visited[i-1][j]){
-            findWord(board, i-1, j, find(trie, board[i-1][j]), visited, ans);
+            findWord(board, i-1, j, trie->find(board[i-1][j]), visited, ans);
         }
         if(j-1 >= 0 && !visited[i][j-1]){
-            findWord(board, i, j-1, find(trie, board[i][j-1]), visited, ans);
+            findWord(board, i, j-1, trie->find(board[i][j-1]), visited, ans);
         }
         if(i+1 < board.size() && !visited[i+1][j]){
-            findWord(board, i+1, j, find(trie, board[i+1][j]), visited, ans);
+            findWord(board, i+1, j, trie->find(board[i+1][j]), visited, ans);
         }
         if(j+1 < board[0].size() && !visited[i][j+1]){
-            findWord(board, i, j+1, find(trie, board[i][j+1]), visited, ans);
+            findWord(board, i, j+1, trie->find(board[i][j+1]), visited, ans);
         }
         visited[i][j] = false;
     }
