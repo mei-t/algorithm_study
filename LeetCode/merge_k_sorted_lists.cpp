@@ -34,12 +34,11 @@ public:
     }
 };
 
+// classはinline(宣言と実装を一緒に書く)で書かない方がいい
+// 関数を呼び出すときに毎回コピーされてしまう
 class Solution2 {
 public:
-
     ListNode* mergeKLists(vector<ListNode*>& lists);
-
-    ListNode* mergeKLists(priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)>& lists);
 
 private:
     function<bool(ListNode*, ListNode*)> cmp = [](ListNode* node1, ListNode* node2){
@@ -51,6 +50,8 @@ private:
             return node1->val > node2->val;
         }
     };
+
+    ListNode* mergeKLists(priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)>& lists);
 };
 
 ListNode* Solution2::mergeKLists(vector<ListNode*>& lists) { 
