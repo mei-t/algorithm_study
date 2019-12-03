@@ -21,6 +21,8 @@ void findNext(unordered_map<char, Node*>* projectMap, vector<char>* ans){
             vector<Node*> nexts = node->nexts;
             for(Node* next: nexts){
                 auto itr = next->prevs.begin();
+
+                // ここO(1)でやる方法はないの？
                 while(itr != next->prevs.end()){
                     if(*itr == node){
                         next->prevs.erase(itr);
