@@ -6,7 +6,7 @@ using namespace std;
 
 struct Node{
     char c;
-    vector<Node*> prevs;
+    int prev;
     vector<Node*> nexts;
 };
 
@@ -15,21 +15,12 @@ void findNext(unordered_map<char, Node*>* projectMap, vector<char>* ans){
         return;
     }
     for(auto it = projectMap->begin(); it != projectMap->end(); it++){
-        if(it->second->prevs.empty()){
+        if(it->second->prev == 0){
             ans->push_back(it->first);
             Node* node = it->second;
             vector<Node*> nexts = node->nexts;
             for(Node* next: nexts){
-                auto itr = next->prevs.begin();
-
-                // ここO(1)でやる方法はないの？
-                while(itr != next->prevs.end()){
-                    if(*itr == node){
-                        next->prevs.erase(itr);
-                        break;
-                    }
-                    itr++;
-                }
+                next->prev--;
             }
             projectMap->erase(it);
             findNext(projectMap, ans);
@@ -43,8 +34,8 @@ vector<char> decideOrder(const vector<char>& projects, const vector<pair<char, c
     for(char project: projects){
         Node* node = new Node;
         node->c = project;
-        node->prevs = vector<Node*>();
         node->nexts = vector<Node*>();
+        node->prev = 0;
         projectMap.insert({project, node});
     }
 
@@ -52,7 +43,7 @@ vector<char> decideOrder(const vector<char>& projects, const vector<pair<char, c
         Node* current = projectMap[pair.second];
         Node* next = projectMap[pair.first];
         current->nexts.push_back(next);
-        next->prevs.push_back(current);
+        next->prev++;
     }
     vector<char> ans;
     findNext(&projectMap, &ans);
