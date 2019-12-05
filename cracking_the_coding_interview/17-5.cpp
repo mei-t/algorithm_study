@@ -1,5 +1,7 @@
 #include <iostream>
 #include <unordered_map>
+#include <vector>
+#include <unordered_map>
 using namespace std;
 
 // 32分34秒
@@ -57,12 +59,49 @@ string sameLenSubStr(string s){
     return s.substr(pair.first, pair.second);
 }
 
+// 最適解
+string sameLenSubStr2(string s){
+    int numStrDiff = 0;
+    vector<int> diff;
+    for(int i=0; i<s.size(); i++){
+        if(s[i] <= '9'){
+            numStrDiff++;
+        }else{
+            numStrDiff--;
+        }
+        diff.push_back(numStrDiff);
+    }
+
+    unordered_map<int, int> firstPlace;
+    pair<int, int> ansSlice = make_pair(0, 0);
+    firstPlace.insert({0, -1});
+    for(int i=0; i<diff.size(); i++){
+        if(firstPlace.find(diff[i]) != firstPlace.end()){
+            int len = i - firstPlace[diff[i]];
+            if(ansSlice.second < len){
+                ansSlice = make_pair(firstPlace[diff[i]] + 1, len);
+            }
+        }else{
+            firstPlace.insert({diff[i], i});
+        }
+    }
+    return s.substr(ansSlice.first, ansSlice.second);
+}
+
 int main(void){
     string s1 = "a39gj4l20";
+    cout << s1 << endl;
     cout << sameLenSubStr(s1) << endl;
+    cout << sameLenSubStr2(s1) << endl;
+    cout << endl;
     string s2 = "a39hjkrgj4l20";
+    cout << s2 << endl;
     cout << sameLenSubStr(s2) << endl;
+    cout << sameLenSubStr2(s2) << endl;
+    cout << endl;
     string s3 = "a39gj4l209872895e";
+    cout << s3 << endl;
     cout << sameLenSubStr(s3) << endl;
+    cout << sameLenSubStr2(s3) << endl;
     return 0;
 }
