@@ -1,14 +1,23 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 using namespace std;
 
 struct Node{
     char c;
     int prev;
+    int status;
     vector<Node*> nexts;
+    Node(char project);
 };
+
+Node::Node(char project){
+    c = project;
+    nexts = vector<Node*>();
+    prev = 0;
+}
 
 void findNext(unordered_map<char, Node*>* projectMap, vector<char>* ans){
     if(projectMap->empty()){
@@ -24,6 +33,8 @@ void findNext(unordered_map<char, Node*>* projectMap, vector<char>* ans){
             }
             projectMap->erase(it);
             findNext(projectMap, ans);
+            // ALEX: don't forget to free the heap memory you allocated!
+            delete node;
             break;
         }
     }
@@ -32,10 +43,7 @@ void findNext(unordered_map<char, Node*>* projectMap, vector<char>* ans){
 vector<char> decideOrder(const vector<char>& projects, const vector<pair<char, char>> dependencies){
     unordered_map<char, Node*> projectMap;
     for(char project: projects){
-        Node* node = new Node;
-        node->c = project;
-        node->nexts = vector<Node*>();
-        node->prev = 0;
+        Node* node = new Node(project);
         projectMap.insert({project, node});
     }
 
@@ -45,9 +53,40 @@ vector<char> decideOrder(const vector<char>& projects, const vector<pair<char, c
         current->nexts.push_back(next);
         next->prev++;
     }
+
     vector<char> ans;
     findNext(&projectMap, &ans);
+    if(ans.size() != projects.size()){
+        cout << "Error" << endl;
+        return vector<char>();
+    }
     return ans;
+}
+
+#define COMPLETED 2
+#define PARTIAL 1
+#define BLANK 0
+
+Node* findNext2(Node* node){
+    if(node){}
+    findNext2(node->nexts[0]);
+}
+
+vector<char> decideOrder2(const vector<char>& projects, const vector<pair<char, char>> dependencies){
+    unordered_map<char, Node*> projectMap;
+    Node* node;
+    for(char project: projects){
+        node = new Node(project);
+        projectMap.insert({project, node});
+    }
+
+    for(auto pair: dependencies){
+        Node* current = projectMap[pair.second];
+        Node* next = projectMap[pair.first];
+        current->nexts.push_back(next);
+    }
+
+    findNext2(node);
 }
 
 
