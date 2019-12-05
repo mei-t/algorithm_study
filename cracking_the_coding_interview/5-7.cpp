@@ -2,6 +2,7 @@
 #include <bitset>
 using namespace std;
 
+// 11分43秒
 const size_t INT_SIZE = sizeof(int) * 8;
 
 class Bit{
@@ -24,7 +25,6 @@ int Bit::changeBit(int num){
     int b_int = b.to_ulong();
     int even = num & b_int;
     int odd = num & (b_int << 1);
-    cout << "even = " << even << ", odd = " << odd << endl;
     return (even << 1) | (odd >> 1);
 }
 
