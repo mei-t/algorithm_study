@@ -6,13 +6,13 @@ using namespace std;
 
 // 32分34秒
 
-pair<int, int> shrinkString(size_t left, size_t right, const string& s, char more, int diff, unordered_map<string, pair<int, int>>& memo){
+pair<int, int> shrinkString(size_t left, size_t right, const string& s, char more, int diff, unordered_map<string, pair<int, int>>* memo){
     if(left > right){
         return make_pair(0, 0);
     }
     string numString = to_string(left) + to_string(right);
-    if(memo.count(numString)){
-        return memo[numString];
+    if(memo->count(numString)){
+        return (*memo)[numString];
     }
 
     while(diff > 0){
@@ -33,7 +33,7 @@ pair<int, int> shrinkString(size_t left, size_t right, const string& s, char mor
     auto rightMove = shrinkString(left, right - 1, s, more, diff+1, memo);
     auto ans = leftMove.second > rightMove.second ? leftMove : rightMove;
     numString = to_string(left) + to_string(right);
-    memo.insert({numString, ans});
+    memo->insert({numString, ans});
     return ans;
 }
 
@@ -55,7 +55,7 @@ string sameLenSubStr(string s){
     char more = diff > 0 ? 'A' : 'B';
     diff = abs(diff);
     unordered_map<string, pair<int, int>> memo;
-    auto pair = shrinkString(0, copy.size()-1, copy, more, diff, memo);
+    auto pair = shrinkString(0, copy.size()-1, copy, more, diff, &memo);
     return s.substr(pair.first, pair.second);
 }
 
