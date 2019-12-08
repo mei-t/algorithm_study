@@ -3,25 +3,21 @@
 #include <vector>
 using namespace std;
 
-void permuWithoutDupli(vector<string>* ans, string preS, const string& input, unordered_set<char>* charSet){
-    if(charSet->size() >= input.size()){
+void permuWithoutDupli(vector<string>* ans, string preS, string rest){
+    if(rest.empty()){
         return;
     }
-    for(int i=0; i<input.size(); i++){
-        if(charSet->find(input[i]) == charSet->end()){
-            string newString = preS + input[i];
-            ans->push_back(newString);
-            unordered_set<char> newCharSet(*charSet);
-            newCharSet.insert(input[i]);
-            permuWithoutDupli(ans, newString, input, &newCharSet);
-        }
+    for(int i=0; i<rest.size(); i++){
+        string newString = preS + rest[i];
+        ans->push_back(newString);
+        string newRest = rest.substr(0, i) + rest.substr(i + 1);
+        permuWithoutDupli(ans, newString, newRest);
     }
 }
 
 vector<string> permuWithoutDupli(const string& input){
     vector<string> ans;
-    unordered_set<char> charSet;
-    permuWithoutDupli(&ans, "", input, &charSet);
+    permuWithoutDupli(&ans, "", input);
     return ans;
 }
 
