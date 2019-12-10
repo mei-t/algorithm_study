@@ -1,33 +1,35 @@
 #include <iostream>
-#include <unordered_set>
+#include <unordered_map>
 #include <vector>
 using namespace std;
 
-void findString(const string& input, vector<string>* ans, size_t index, string preS){
+void findString(const string& input, vector<string>* ans, size_t index, string preS, unordered_map<char, int>* charMap){
     if(index == input.size()){
         ans->push_back(preS);
         return;
     }
 
-    for(int  i = 0; i <= preS.size(); i++){
-        string newS = preS.substr(0, i) + input[index] + preS.substr(i);
-        findString(input, ans, index + 1, newS);
+    for(auto it = charMap->begin(); it != charMap->end(); it++){
+        if((*it).second > 0){
+            string newS = preS + (*it).first;
+            (*it).second--;
+            findString(input, ans, index + 1, newS, charMap);
+            (*it).second++;
+        }
     }
 }
 
 vector<string> permuWithDupli(string input){
-    unordered_set<char> charSet;
-    for(int i = 0; i < input.size();){
-        if(charSet.find(input[i]) != charSet.end()){
-            input = input.substr(0, i) + input.substr(i + 1);
-            continue;
+    unordered_map<char, int> charMap;
+    for(int i = 0; i < input.size(); i++){
+        if(charMap.find(input[i]) == charMap.end()){
+            charMap.insert({input[i], 0});
         }
-        charSet.insert(input[i]);
-        i++;
+        charMap[input[i]]++;
     }
 
     vector<string> ans;
-    findString(input, &ans, 0, "");
+    findString(input, &ans, 0, "", &charMap);
     return ans;
 }
 
