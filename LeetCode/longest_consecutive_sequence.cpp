@@ -55,3 +55,56 @@ void Solution::create(unordered_map<int, int**>* numMap, int num){
     }
     return;
 }
+
+class Solution2 {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> numSet;
+        for(int num : nums){
+            numSet.insert(num);
+        }
+        
+        int maxLen = 0;
+        for(int num : nums){
+            if(numSet.find(num) != numSet.end()){
+                int currentNum = num;
+                while(numSet.find(currentNum + 1) != numSet.end()){
+                    currentNum += 1;
+                }
+                maxLen = max(maxLen, currentNum - num + 1);
+            }
+        }
+        return maxLen;
+    }
+};
+
+// sortする方法
+// O(nlogn)
+class Solution3 {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if(nums.empty()){
+            return 0;
+        }
+        sort(nums.begin(), nums.end());
+        int maxLen = 0;
+        int len = 1;
+        int prev = nums[0];
+        for(int i=1; i<nums.size(); i++){
+            cout << prev << endl;
+            if(prev + 1 == nums[i]){
+                len++;
+            }else if(prev != nums[i]){ 
+                if(maxLen < len){
+                    maxLen = len;
+                }
+                len = 1;
+            }
+            prev = nums[i];
+        }
+        if(len > maxLen){
+            maxLen = len;
+        }
+        return maxLen;
+    }
+};
