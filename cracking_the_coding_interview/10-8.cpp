@@ -9,10 +9,10 @@ unordered_set<int> findDupliNum(const vector<int>& nums){
     bitset<32000> b;
     unordered_set<int> ans;
     for(int num: nums){
-        if(b[num]){
+        if(b[num - 1]){ // bitベクトルは0から始まるが数字は1から始まる
             ans.insert(num);
         }
-        b.set(num);
+        b.set(num - 1);
     }
     return ans;
 }
@@ -22,11 +22,11 @@ unordered_set<int> findDupliNum(const vector<int>& nums){
 vector<int>& findDupliNum2(vector<int>* nums){
     bitset<32000> b;
     for(auto itr = nums->begin(); itr != nums->end();){
-        if(b[*itr]){
+        if(b[*itr - 1]){
             itr++;
-            b.reset(*itr);
+            b.reset(*itr - 1);
         }else{
-            b.set(*itr);
+            b.set(*itr - 1);
             nums->erase(itr);
         }
     }
