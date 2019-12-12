@@ -10,17 +10,17 @@ struct Node{
     Node* next;
 };
 
-Node* findRoop(Node* node, unordered_set<int>* nodeSet){
+Node* findLoop(Node* node, unordered_set<int>* nodeSet){
     if(nodeSet->find(node->val) != nodeSet->end()){
         return node;
     }
     nodeSet->insert(node->val);
-    return findRoop(node->next, nodeSet);
+    return findLoop(node->next, nodeSet);
 }
 
-Node* findRoop(Node* root){
+Node* findLoop(Node* root){
     unordered_set<int> nodeSet;
-    return findRoop(root, &nodeSet);
+    return findLoop(root, &nodeSet);
 }
 
 Node* insert(const vector<int>& nums, size_t i, size_t roopIndex, Node* roopNode = nullptr){
@@ -39,7 +39,7 @@ Node* insert(const vector<int>& nums, size_t i, size_t roopIndex, Node* roopNode
 int main(void){
     vector<int> nums = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     Node* root = insert(nums, 0, 5);
-    Node* roopNode = findRoop(root);
+    Node* roopNode = findLoop(root);
     cout << roopNode->val << endl;
     return 0;
 }
