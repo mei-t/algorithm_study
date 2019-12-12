@@ -9,6 +9,8 @@ struct Life{
     int death;
 };
 
+// TC: O(N) (where N is the number of people(Life).)
+// SC: O(N)
 int findYear(const vector<Life>& lifes){
     auto cmp = [](pair<int, bitset<1>> left, pair<int, bitset<1>> right){
         if(left.first == right.first){
@@ -44,6 +46,27 @@ int findYear(const vector<Life>& lifes){
     return ans;
 }
 
+// TC: O(N * M) (where N is the number of people(Life) and M is the range of years.)
+// SC: O(1)
+int findYear2(const vector<Life>& lifes){
+    int max = 0;
+    int tmp = 0;
+    int ans;
+    for(int i = 1900; i<= 2000; i++){
+        for(const Life& life: lifes){
+            if(life.birth <= i && i <= life.death){
+                tmp++;
+            }
+        }
+        if(max < tmp){
+            max = tmp;
+            ans = i;
+        }
+        tmp = 0;
+    }
+    return ans;
+}
+
 int main(void){
     vector<Life> lifes = {
         {1920, 1950},
@@ -51,5 +74,6 @@ int main(void){
         {1925, 2000}
     };
     cout << findYear(lifes) << endl;
+    cout << findYear2(lifes) << endl;
     return 0;
 }
