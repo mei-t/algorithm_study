@@ -108,3 +108,44 @@ public:
         return maxLen;
     }
 };
+
+// おそらくBigO的な考え方的にも実際にも最適解の１つ
+// TC: O(N) where N is the size of input.
+class Solution4 {
+public:
+    int longestConsecutive(vector<int>& nums){
+        unordered_map<int, pair<int, int>> numMap;
+        int maxLen = 0;
+        for(int num : nums){
+            if(numMap.find(num) != numMap.end()){
+                continue;
+            }
+            int tmp = 1;
+            int min = num;
+            int max = num;
+            auto it = numMap.find(num - 1);
+            if(it != numMap.end()){
+                min = it->second.first;
+                tmp += it->second.second - min + 1;
+            }
+            it = numMap.find(num + 1);
+            if(it != numMap.end()){
+                max = it->second.second;
+                tmp += max - it->second.first + 1;
+            }
+            // これなくてもいける
+            // if(min == num || max == num){
+            //     numMap.insert({num, make_pair(min, max)});
+            // }
+            if(!(min == num && max == num)){
+                numMap[num] = make_pair(min, max);
+            }
+            numMap[min] = make_pair(min, max);
+            numMap[max] = make_pair(min, max);
+            if(tmp > maxLen){
+                maxLen = tmp;
+            }
+        }
+        return maxLen;
+    };
+};
