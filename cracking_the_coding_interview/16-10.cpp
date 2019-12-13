@@ -67,6 +67,8 @@ int findYear2(const vector<Life>& lifes, int start, int end){
     return ans;
 }
 
+// TC: O(N + M) (where N is the number of people(Life) and M is the range of years.)
+// SC: O(N)
 int findYear3(const vector<Life>& lifes, int start, int end){
     vector<int> yearsPlus(end - start + 1, 0);
     vector<int> yearsMinus(end - start + 1, 0);
