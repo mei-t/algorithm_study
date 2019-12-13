@@ -9,38 +9,38 @@ struct Life{
     int death;
 };
 
-// TC: O(N) (where N is the number of people(Life).)
+// TC: O(NlogN) (where N is the number of people(Life).)
 // SC: O(N)
 int findYear(const vector<Life>& lifes){
-    auto cmp = [](pair<int, bitset<1>> left, pair<int, bitset<1>> right){
-        if(left.first == right.first){
-            return left.second == 1;
-        }else{
-            return left.first > right.first;
-        }
-    };
-    priority_queue<pair<int, bitset<1>>, vector<pair<int, bitset<1>>>, decltype(cmp)> pq(cmp);
+    auto cmp = [](int left, int right){ return left > right; };
+    priority_queue<int, vector<int>, decltype(cmp)> birthQueue(cmp);
+    priority_queue<int, vector<int>, decltype(cmp)> deathQueue(cmp);
     for(const Life& life: lifes){
-        pq.push(make_pair(life.birth, bitset<1>(0)));
-        pq.push(make_pair(life.death, bitset<1>(1)));
+        birthQueue.push(life.birth);
+        deathQueue.push(life.death);
     }
 
     int max = 0;
     int tmp = 0;
     int ans;
-    while(!pq.empty()){
-        int year = pq.top().first;
-        while(!pq.empty() && pq.top().first == year && pq.top().second == 0){
+    while(!deathQueue.empty()){
+        int year;
+        if(birthQueue.empty()){
+            year = deathQueue.top();
+        }else{
+            year = min(birthQueue.top(), deathQueue.top());
+        }
+        while(!birthQueue.empty() && birthQueue.top() == year){
             tmp++;
-            pq.pop();
+            birthQueue.pop();
         }
         if(max < tmp){
             max = tmp;
             ans = year;
         }
-        while(!pq.empty() && pq.top().first == year){
+        while(!deathQueue.empty() && deathQueue.top() == year){
             tmp--;
-            pq.pop();
+            deathQueue.pop();
         }
     }
     return ans;
@@ -48,11 +48,11 @@ int findYear(const vector<Life>& lifes){
 
 // TC: O(N * M) (where N is the number of people(Life) and M is the range of years.)
 // SC: O(1)
-int findYear2(const vector<Life>& lifes){
+int findYear2(const vector<Life>& lifes, int start, int end){
     int max = 0;
     int tmp = 0;
     int ans;
-    for(int i = 1900; i<= 2000; i++){
+    for(int i = start; i<= end; i++){
         for(const Life& life: lifes){
             if(life.birth <= i && i <= life.death){
                 tmp++;
@@ -67,6 +67,28 @@ int findYear2(const vector<Life>& lifes){
     return ans;
 }
 
+int findYear3(const vector<Life>& lifes, int start, int end){
+    vector<int> yearsPlus(end - start + 1, 0);
+    vector<int> yearsMinus(end - start + 1, 0);
+    for(const Life& life: lifes){
+        yearsPlus[life.birth]++;
+        yearsMinus[life.death]--;
+    }
+
+    int max = 0;
+    int tmp = 0;
+    int ans;
+    for(int i = start; i <= end; i++){
+        tmp += yearsPlus[i];
+        if(tmp > max){
+            max = tmp;
+            ans = i;
+        }
+        tmp += yearsMinus[i];
+    }
+    return ans;
+}
+
 int main(void){
     vector<Life> lifes = {
         {1920, 1950},
@@ -74,6 +96,7 @@ int main(void){
         {1925, 2000}
     };
     cout << findYear(lifes) << endl;
-    cout << findYear2(lifes) << endl;
+    cout << findYear2(lifes, 1900, 2000) << endl;
+    cout << findYear3(lifes, 1900, 2000) << endl;
     return 0;
 }
