@@ -80,10 +80,11 @@ public:
         if(height.size() < 3){
             return 0;
         }
-        auto cmp = [](int left, int right, const vector<int>& height) {
-            // return height[left] < height[right];
+        int start = height.size() - 1;
+        int end = 0;
+        auto cmp = [&height](int left, int right) {
             if(height[left] == height[right]){
-                return abs(static_cast<int>(height.size()) - left) < abs(static_cast<int>(height.size()) - right);
+                return abs(static_cast<int>(height.size() - left)) < abs(static_cast<int>(height.size() - right));
             }else{
                 return height[left] < height[right];
             }
@@ -91,35 +92,46 @@ public:
         priority_queue<int, vector<int>, decltype(cmp)> pq(cmp);
         if(height[0] > height[1]){
             pq.push(0);
+            start = 0;
         }
         for(int i=1; i<height.size() - 1; i++){
             if(height[i - 1] <= height[i] && height[i] >= height[i + 1]){
                 pq.push(i);
+                if(i < start){
+                    start = i;
+                }
+                if(i > end){
+                    end = i;
+                }
             }
+        }
+        if(height[height.size() - 1] > height[height.size() - 2]){
+            pq.push(height.size() - 1);
+            end = height.size() - 1;
         }
         if(pq.size() < 2){
             return 0;
         }
-        int start = pq.top();
-        int end = start;
-        int waterVolume = 0;
+        int front = pq.top();
         pq.pop();
-        while(!pq.empty() && (start > 0 || end < height.size() - 1)){
+        int back = front;
+        int waterVolume = 0;
+        while(!pq.empty() && (front > start || back < end)){
             int j = pq.top();
             pq.pop();
-            if(j < start){
+            if(j < front){
                 int h = height[j];
-                for(int k = j + 1; k < start; k++){
-                    waterVolume += h - height[k];
+                for(int k = j + 1; k < front; k++){
+                    waterVolume += max(h - height[k], 0);
                 }
-                start = j;
+                front = j;
             }
-            if(j > end){
+            if(j > back){
                 int h = height[j];
-                for(int k = end + 1; k < j; k++){
-                    waterVolume += h - height[k];
+                for(int k = back + 1; k < j; k++){
+                    waterVolume += max(h - height[k], 0);
                 }
-                end = j;
+                back = j;
             }
         }
         return waterVolume;
