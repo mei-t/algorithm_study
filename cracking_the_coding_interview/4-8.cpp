@@ -8,7 +8,7 @@ struct Node{
     Node* right;
 };
 
-// BigOの考え方的に時間計算量・空間計算量ともに最適な方法
+// parentにアクセスできる場合、BigOの考え方的に時間計算量・空間計算量ともに最適な方法
 // TC: O(logN) where N is the number of Node.
 // SC: O(1)
 
@@ -39,6 +39,26 @@ Node* findFirstCommonNode(Node* node1, Node* node2){
     node1 = proceedNode(node1, depth1 - depth2);
     node2 = proceedNode(node2, depth2 - depth1);
     return findCommonNode(node1, node2);
+}
+
+// parentにアクセスできない場合
+Node* findFirstCommonNode(Node* node1, Node* node2, Node* node){
+    if(!node){
+        return nullptr;
+    }else if(node == node1 || node == node2){
+        return node;
+    }
+    Node* left = findFirstCommonNode(node1, node2, node->left);
+    if(left && left != node1 && left != node2){
+        return left;
+    }
+    Node* right = findFirstCommonNode(node1, node2, node->right);
+    if((left == node1 && right == node2) || (left == node2 && right == node1)){
+        return node;
+    }else if(!left){
+        return right;
+    }
+    return left;
 }
 
 int main(void){
