@@ -42,5 +42,22 @@ unordered_map<string, int> trueNameCount(const vector<pair<string, string>>& syn
 }
 
 int main(void){
+    unordered_map<string, int> names = {
+        {"John", 15},
+        {"Jon", 12},
+        {"Chris", 13},
+        {"Kris", 4},
+        {"Christopher", 19}
+    };
+    vector<pair<string, string>> synonyms = {
+        make_pair("Jon", "John"),
+        make_pair("John", "Johnny"),
+        make_pair("Chris", "Kris"),
+        make_pair("Chris", "Christopher")
+    };
+    unordered_map<string, int> ans = trueNameCount(synonyms, names);
+    for(auto it : ans){
+        cout << it.first << ", " << it.second << endl;
+    }
     return 0;
 }
