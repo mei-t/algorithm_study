@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 using namespace std;
 
 class MedianFinder {
@@ -46,6 +47,42 @@ double MedianFinder::findMedian(){
     }
     return static_cast<double>(v[mid - 1] + v[mid]) / 2;
 }
+
+class MedianFinder2 {
+public:
+    // MedianFinder(){}
+    
+    void addNum(int num);
+    
+    double findMedian();
+
+private:
+    priority_queue<int> minQueue;
+    priority_queue<int, vector<int>, greater<int>> maxQueue;
+};
+
+void MedianFinder2::addNum(int num){
+    minQueue.push(num);
+    maxQueue.push(minQueue.top());
+    minQueue.pop();
+    if(minQueue.size() < maxQueue.size()){
+        minQueue.push(maxQueue.top());
+        maxQueue.pop();
+    }
+}
+
+double MedianFinder2::findMedian(){
+    if(minQueue.empty()){
+        return 0;
+    }else if(maxQueue.empty()){
+        return minQueue.top();
+    }
+    if(minQueue.size() == maxQueue.size()){
+        return static_cast<double>(minQueue.top() + maxQueue.top()) / 2;
+    }
+    return minQueue.top();
+}
+
 
 int main(void){
     return 0;
