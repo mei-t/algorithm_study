@@ -138,6 +138,32 @@ public:
     }
 };
 
+// 最適解
+class Solution3 {
+public:
+    int trap(const vector<int>& height){
+        int waterVolume = 0;
+        int left = 0;
+        int right = height.size() - 1;
+        while(left < right){
+            if(height[left] < height[right]){
+                int h = height[left];
+                while(left < right && height[left] <= h){
+                    waterVolume += h - height[left];
+                    left++;
+                }
+            }else{
+                int h = height[right];
+                while(left < right && height[right] <= h){
+                    waterVolume += h - height[right];
+                    right--;
+                }
+            }
+        }
+        return waterVolume;
+    }
+};
+
 
 int main(void){
     return 0;
