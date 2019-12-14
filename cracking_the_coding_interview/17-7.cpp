@@ -3,6 +3,7 @@
 #include <vector>
 using namespace std;
 
+// 27分45秒
 unordered_map<string, int> trueNameCount(const vector<pair<string, string>>& synonyms, const unordered_map<string, int>& names){
     unordered_map<string, string> nameGroup;
     unordered_map<string, vector<string>> dict;
