@@ -11,9 +11,7 @@ int findKthMulti(size_t k){
         int threeNext = v[threeIndex] * 3;
         int fiveNext = v[fiveIndex] * 5;
         int sevenNext = v[sevenIndex] * 7;
-        // cout << threeNext << ", " << fiveNext << ", " << sevenNext << endl;
         if(threeNext < fiveNext && threeNext < sevenNext){
-            // cout << threeNext << endl;
             if(threeNext != v[v.size() - 1]){
                 v.push_back(threeNext);
             }
