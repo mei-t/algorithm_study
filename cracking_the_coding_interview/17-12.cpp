@@ -48,6 +48,54 @@ BiNode* createLinkedList(BiNode* root){
     return leftEnd(root);
 }
 
+// Better approach
+// TC: O(N)
+// a -> b
+void concat(BiNode* a, BiNode* b){
+    a->node2 = b;
+    b->node1 = a;
+}
+
+BiNode* convertToCircular(BiNode* node){
+    if(!node){
+        return nullptr;
+    }
+
+    BiNode* left = convertToCircular(node->node1);
+    BiNode* right = convertToCircular(node->node2);
+
+    if(!left && !right){
+        concat(node, node);
+        return node;
+    }
+
+    if(left){
+        concat(left->node1, node);
+    }else{
+        concat(right->node1, node);
+    }
+
+    if(right){
+        concat(node, right);
+    }else{
+        concat(node, left);
+    }
+    if(right){
+        concat(right->node1, left);
+    }
+    return left ? left : node;
+}
+
+BiNode* convert(BiNode* root){
+    if(!root){
+        return root;
+    }
+    BiNode* node = convertToCircular(root);
+    node->node1->node2 = nullptr;
+    node->node1 = nullptr;
+    return node;
+}
+
 int main(void){
     return 0;
 }
