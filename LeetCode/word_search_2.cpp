@@ -6,11 +6,10 @@ using namespace std;
 
 // https://leetcode.com/problems/word-search-ii/
 
-#define SIZE 26
-
 class Trie{
 public:
     Trie();
+    ~Trie();
     void insert(string key);
     Trie* find(char key) const;
     bool isInAns;
@@ -27,6 +26,10 @@ Trie::Trie(){
     }
     word = "";
     isInAns = false;
+}
+
+Trie::~Trie(){
+    delete children;
 }
 
 void Trie::insert(string key){
@@ -81,7 +84,11 @@ public:
     }
 
     void findWord(const vector<vector<char>>&board, int i, int j, Trie* trie, vector<vector<bool>>& visited, vector<string>& ans){
-        if(i < 0 || j < 0 || i >= board.size() || j >= board[0].size() || visited[i][j]){
+        // どこか間違っているみたい。testが通らなくなっちゃう
+        // if(i < 0 || j < 0 || i >= board.size() || j >= board[0].size() || visited[i][j]){
+        //     return;
+        // }
+        if(!trie){
             return;
         }
         
@@ -96,10 +103,22 @@ public:
         }
 
         visited[i][j] = true;
-        findWord(board, i-1, j, trie, visited, ans);
-        findWord(board, i, j-1, trie, visited, ans);
-        findWord(board, i+1, j, trie, visited, ans);
-        findWord(board, i, j+1, trie, visited, ans);
+        if(i-1 >= 0 && !visited[i-1][j]){
+            findWord(board, i-1, j, trie->find(board[i-1][j]), visited, ans);
+        }
+        if(j-1 >= 0 && !visited[i][j-1]){
+            findWord(board, i, j-1, trie->find(board[i][j-1]), visited, ans);
+        }
+        if(i+1 < board.size() && !visited[i+1][j]){
+            findWord(board, i+1, j, trie->find(board[i+1][j]), visited, ans);
+        }
+        if(j+1 < board[0].size() && !visited[i][j+1]){
+            findWord(board, i, j+1, trie->find(board[i][j+1]), visited, ans);
+        }
+        // findWord(board, i-1, j, trie, visited, ans);
+        // findWord(board, i, j-1, trie, visited, ans);
+        // findWord(board, i+1, j, trie, visited, ans);
+        // findWord(board, i, j+1, trie, visited, ans);
         visited[i][j] = false;
     }
 };
