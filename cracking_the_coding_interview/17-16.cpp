@@ -20,8 +20,20 @@ int masseur(const vector<int>& times){
     return masseur(times, 0, &memo);
 }
 
+int masseur2(const vector<int>& times){
+    int onePrev = 0;
+    int twoPrev = 0;
+    for(int i = times.size() - 1; i >= 0; i--){
+        int current = max(onePrev, twoPrev + times[i]);
+        twoPrev = onePrev;
+        onePrev = current;
+    }
+    return onePrev;
+}
+
 int main(void){
     vector<int> times = {30, 15, 60, 75, 45, 15, 15, 45};
     cout << masseur(times) << endl;
+    cout << masseur2(times) << endl;
     return 0;
 }
