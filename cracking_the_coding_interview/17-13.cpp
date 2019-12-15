@@ -14,8 +14,12 @@ pair<string, int> split(string s, const unordered_set<string>& dict, unordered_m
     int unrecognized = s.size() + 1;
     for(int i = 1; i < s.size(); i++){
         string subs = s.substr(0, i);
+        int tmp = dict.find(subs) != dict.end() ? 0 : i;
+        if(tmp > unrecognized){
+            continue;
+        }
         auto p = split(s.substr(i), dict, strMap);
-        int tmp = p.second + (dict.find(subs) != dict.end() ? 0 : i);
+        tmp += p.second;
         if(tmp < unrecognized){
             result = subs + " " + p.first;
             unrecognized = tmp;
