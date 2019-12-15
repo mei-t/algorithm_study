@@ -125,8 +125,8 @@ vector<string> MatchWord::findMatchWord2(int num){
 }
 
 int main(void){
-    vector<string> words = {"used", "at", "tree", "use", "take"}; // "wait"を含めるとなぜかsegmentation faultになる
-    vector<string> res = findMatchWord(8733, words);
+    vector<string> words = {"used", "at", "tree", "use", "take"};
+    vector<string> res = findMatchWord(8733, words); // wordsに"wait"を含めるとなぜかsegmentation faultになる
     for(string s: res){
         cout << s << " ";
     }
