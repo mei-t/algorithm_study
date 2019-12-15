@@ -88,10 +88,53 @@ vector<string> findMatchWord(int num, const vector<string>& words){
     return res;
 }
 
+// 最適解
+class MatchWord{
+public:
+    MatchWord(const vector<string>& words);
+    vector<string> findMatchWord2(int num);
+private:
+    unordered_map<char, int> charMap;
+    unordered_map<int, vector<string>> matchMap;
+};
+
+MatchWord::MatchWord(const vector<string>& words){
+    unordered_map<char, int> charMap;
+    for(auto it : numMap){
+        for(auto it2: it.second){
+            charMap[it2] = it.first;
+        }
+    }
+
+    for(string word: words){
+        int num = 0;
+        for(int i = 0; i< word.size(); i++){
+            if(i > 0){
+                num *= 10;
+            }
+            num += charMap[word[i]];
+        }
+        if(matchMap.find(num) == matchMap.end()){
+            matchMap.insert({num, vector<string>()});
+        }
+        matchMap[num].push_back(word);
+    }
+}
+vector<string> MatchWord::findMatchWord2(int num){
+    return matchMap[num];
+}
+
 int main(void){
     vector<string> words = {"used", "at", "tree", "use", "take"}; // "wait"を含めるとなぜかsegmentation faultになる
     vector<string> res = findMatchWord(8733, words);
     for(string s: res){
+        cout << s << " ";
+    }
+    cout << endl;
+
+    MatchWord matchword(words);
+    vector<string> res2 = matchword.findMatchWord2(8733);
+    for(string s: res2){
         cout << s << " ";
     }
     cout << endl;
