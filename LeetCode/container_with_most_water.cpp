@@ -4,7 +4,8 @@
 #include <utility>
 using namespace std;
 
-class Solution {
+// time complexity: O(NlogN)
+class Solution1 {
 public:
     int maxArea(vector<int>& height) {
         auto cmp = [](pair<int, int> left, pair<int, int> right){
@@ -38,6 +39,30 @@ public:
     }
 };
 
+// time complexity: O(N)
+class Solution2 {
+public:
+    int maxArea(vector<int>& height) {
+        int left = 0;
+        int right = height.size() - 1;
+        int max = (right - left) * min(height[left], height[right]);
+        while(left < right - 1){
+            if(height[left] < height[right]){
+                left++;
+            }else{
+                right--;
+            }
+            int tmp = (right - left) * min(height[left], height[right]);
+            max = (max < tmp ? tmp : max);
+        }
+        return max;
+    }
+};
+
 int main(void){
+    vector<int> input = {1, 2, 4, 3};
+    Solution2 sol;
+    int ans = sol.maxArea(input);
+    cout << ans << endl;
     return 0;
 }
