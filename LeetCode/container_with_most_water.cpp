@@ -8,7 +8,7 @@ using namespace std;
 class Solution1 {
 public:
     int maxArea(vector<int>& height) {
-        auto cmp = [](pair<int, int> left, pair<int, int> right){
+        auto cmp = [](const pair<int, int>& left, const pair<int, int>& right){
             return left.second < right.second;
         };
         priority_queue<int, vector<pair<int, int>>, decltype(cmp)> q(cmp);
