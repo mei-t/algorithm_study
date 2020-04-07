@@ -2,6 +2,8 @@
 #include <vector>
 using namespace std;
 
+// Time complexity: O(NlogN)
+// TC: O(N), SC: O(1)のやり方があるらしい
 class Solution {
 public:
     void wiggleSort(vector<int>& nums) {
