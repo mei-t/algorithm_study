@@ -5,29 +5,22 @@ using namespace std;
 class Solution {
 public:
     bool isValidSudoku(vector<vector<char>>& board) {
-        // cout << "Check vertical" << endl;
         for(int i=0; i<9; i++){
-            vector<bool> isAppeared(9, false);
+            vector<bool> isVerticalAppeared(9, false);
             for(int j=0; j<9; j++){
-                if(!isValid(board, i, j, isAppeared)){
+                if(!isValid(board, i, j, isVerticalAppeared)){
                     return false;
                 }
             }
-        }
-        // cout << "Check holizontal" << endl;
-        for(int i=0; i<9; i++){
-            vector<bool> isAppeared(9, false);
+            vector<bool> isHolizonalAppeared(9, false);
             for(int j=0; j<9; j++){
-                if(!isValid(board, j, i, isAppeared)){
+                if(!isValid(board, j, i, isHolizonalAppeared)){
                     return false;
                 }
             }
-        }
-        // cout << "Check block" << endl;
-        for(int i=0; i<9; i++){
-            vector<bool> isAppeared(9, false);
+            vector<bool> isBlockAppeared(9, false);
             for(int j=0; j<9; j++){
-                if(!isValid(board, (i%3)*3 + j%3, (i/3)*3 + j/3, isAppeared)){
+                if(!isValid(board, (i%3)*3 + j%3, (i/3)*3 + j/3, isBlockAppeared)){
                     return false;
                 }
             }
