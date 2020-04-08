@@ -34,6 +34,13 @@ private:
     }
 };
 
+class Solution2 {
+public:
+    void sortColors(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+    }
+};
+
 int main(void){
     vector<int> nums = {2, 0, 2, 1, 1, 0};
     Solution sol;
