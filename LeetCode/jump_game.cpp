@@ -17,7 +17,7 @@ public:
     }
 };
 
-class Solution {
+class Solution2 {
 public:
     bool canJump(vector<int>& nums) {
         for(int i = nums.size() - 2; i >= 0; i--){
@@ -55,7 +55,7 @@ private:
 };
 
 int main(void){
-    Solution sol;
+    Solution2 sol;
     vector<int> input1 = {3, 2, 1, 0, 4};
     vector<int> input2 = {0, 3, 1, 0, 4, 3, 2, 0, 1};
     // sol.canJump(input1);
