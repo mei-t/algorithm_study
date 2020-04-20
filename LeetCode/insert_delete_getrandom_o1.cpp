@@ -36,16 +36,17 @@ public:
     
     /** Get a random element from the set. */
     int getRandom() {
-        mt19937 gen(rd());
-        uniform_int_distribution<> dis(0, valMap.size() - 1);
-        auto itr = nums.begin();
-        return *(itr + dis(gen));
+        // mt19937 gen(rd());
+        // uniform_int_distribution<> dis(0, valMap.size() - 1);
+        // auto itr = nums.begin();
+        // return *(itr + dis(gen));
+        return nums[rand() % nums.size()];
     }
 
 private:
     unordered_map<int, int> valMap;
     vector<int> nums;
-    random_device rd;
+    // random_device rd;
 };
 
 /**
