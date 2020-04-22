@@ -9,10 +9,11 @@ struct TreeNode{
     TreeNode* right;
 };
 
-void mergeList(list<int>& first, list<int>& second, list<int>& prefix, vector<list<int>>& merged){
+void mergeList(list<int>& first, list<int>& second, list<int>& prefix, vector<list<int>>& merged, int num){
     if(first.empty() || second.empty()){
         prefix.splice(prefix.end(), first);
         prefix.splice(prefix.end(), second);
+        prefix.push_front(num);
         merged.push_back(prefix);
         return;
     }
@@ -21,14 +22,14 @@ void mergeList(list<int>& first, list<int>& second, list<int>& prefix, vector<li
     list<int> prefix1(prefix);
     prefix1.push_back(first1.front());
     first1.pop_front();
-    mergeList(first1, second1, prefix1, merged);
+    mergeList(first1, second1, prefix1, merged, num);
 
     list<int> first2(first);
     list<int> second2(second);
     list<int> prefix2(prefix);
     prefix2.push_back(second2.front());
     second2.pop_front();
-    mergeList(first2, second2, prefix2, merged);
+    mergeList(first2, second2, prefix2, merged, num);
 }
 
 vector<list<int>> createList(TreeNode* node){
@@ -58,7 +59,7 @@ vector<list<int>> createList(TreeNode* node){
     for(list<int>& left: lefts){
         for(list<int>& right: rights){
             list<int> prefix;
-            mergeList(left, right, prefix, merged);
+            mergeList(left, right, prefix, merged, node->val);
         }
     }
     return merged;
@@ -69,6 +70,43 @@ vector<list<int>> representBst(TreeNode* root){
     return createList(root);
 } 
 
+TreeNode* createTreeNode(vector<int>& nums, int index){
+    if(index > nums.size()){
+        return nullptr;
+    }
+    TreeNode* node = new TreeNode();
+    node->val = nums[index - 1];
+    node->left = createTreeNode(nums, index * 2);
+    node->right = createTreeNode(nums, index * 2 + 1);
+    return node;
+}
+
+TreeNode* createTreeNode(vector<int>& nums){
+    TreeNode* root = createTreeNode(nums, 1);
+    return root;
+}
+
+void output(TreeNode* node){
+    if(!node){
+        return;
+    }
+    cout << node->val << " ";
+    output(node->left);
+    output(node->right);
+}
+
 int main(void){
+    vector<int> nums = {0, 1, 2, 3, 4};
+    TreeNode* root = createTreeNode(nums);
+    output(root);
+    cout << endl;
+    vector<list<int>> res = representBst(root);
+    cout << "Output result." << endl;
+    for(list<int>& numList: res){
+        for(int num: numList){
+            cout << num << " ";
+        }
+        cout << endl;
+    }
     return 0;
 }
