@@ -41,21 +41,6 @@ vector<list<int>> createList(TreeNode* node){
     vector<list<int>> lefts = createList(node->left);
     vector<list<int>> rights = createList(node->right);
     vector<list<int>> merged;
-    // for(list<int>& left: lefts){
-    //     for(list<int>& right: rights){
-    //         list<int> lfLeft(left);
-    //         list<int> lfRight(right);
-    //         lfLeft.push_front(node->val);
-    //         lfLeft.splice(lfLeft.end(), lfRight);
-    //         linked.push_back(lfLeft);
-
-    //         list<int> rfLeft(left);
-    //         list<int> rfRight(right);
-    //         rfRight.push_front(node->val);
-    //         rfRight.splice(rfRight.end(), rfLeft);
-    //         linked.push_back(rfRight);
-    //     }
-    // }
     for(list<int>& left: lefts){
         for(list<int>& right: rights){
             list<int> prefix;
@@ -66,7 +51,6 @@ vector<list<int>> createList(TreeNode* node){
 }
 
 vector<list<int>> representBst(TreeNode* root){
-    // vector<list<int>> bstList = createList(root);
     return createList(root);
 } 
 
