@@ -13,7 +13,7 @@ public:
             total += tmp;
         }
         if(total < 0){
-            return false;
+            return -1;
         }
         
         int ans = -1;
