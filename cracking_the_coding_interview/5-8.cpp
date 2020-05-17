@@ -1,25 +1,24 @@
 #include <iostream>
 #include <cstddef>
 #include <vector>
-#define INDEX(x, y, width) ((y * (width/8) + x))
-#define WIDTH_BLOCK(width) (width/8)
+#define INDEX(x, y, width) ((y * width/8 + x))
+// #define WIDTH_BLOCK(width) (width/8)
 using namespace std;
 
 void drawLine(vector<char>& screen, int width, int x1, int x2, int y){
-    if(x1/8 == x2/8){
-        screen[(y-1) * width/8 + x1/8] = (0xFF >> (x1%8)) & (0xFF << (x2%8));
+    int stride = width/8;
+    int line_y = (y-1) * stride;
+    int start_block = x1/8;
+    int end_block = x2/8;
+    if(start_block == end_block){
+        screen[line_y + start_block] = (0xFF >> ((x1-1)%8)) & (0xFF << (x2%8));
         return;
     }
-    cout << "x1%8 = " << x1%8 << endl;
-    cout << "~0 >> (x1%8) = " << (~0 >> (x1%8)) << endl;
-    cout << ~0 << endl;
-    cout << "0xFF >> (x1%8) = " << (0xFF >> (x1%8)) << endl;
-    cout << 0xFF << endl;
-    screen[(y-1) * width/8 + x1/8] = 0xFF >> (x1%8);
+    screen[line_y + start_block] = 0xFF >> ((x1-1)%8);
     for(int i = x1/8 + 1; i < x2/8; i++){
-        screen[(y-1)*width/8 + i] = 0xFF;
+        screen[line_y + i] = 0xFF;
     }
-    screen[(y-1) * width/8 + x2/8] = 0xFF << (x2%8);
+    screen[line_y + end_block] = 0xFF << (x2%8);
 }
 
 void outputByte(char c){
@@ -29,9 +28,10 @@ void outputByte(char c){
 }
 
 void output(vector<char>& screen, int width){
+    int stride = width/8;
     for (int i = 0; i < screen.size(); i++){
         outputByte(screen[i]);
-        if((i + 1) % WIDTH_BLOCK(width) == 0)
+        if((i + 1) % stride == 0)
             cout << endl;
     }
 }
