@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cstddef>
 #include <vector>
-#define INDEX(x, y, width) ((y * width/8 + x))
-// #define WIDTH_BLOCK(width) (width/8)
 using namespace std;
 
 void drawLine(vector<char>& screen, int width, int x1, int x2, int y){
