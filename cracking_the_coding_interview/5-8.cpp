@@ -7,7 +7,7 @@ using namespace std;
 
 void drawLine(vector<char>& screen, int width, int x1, int x2, int y){
     if(x1/8 == x2/8){
-        screen[(y-1) * width/8 + x1/8] = (~0 >> (x1%8)) & (~0 << (x2%8));
+        screen[(y-1) * width/8 + x1/8] = (0xFF >> (x1%8)) & (0xFF << (x2%8));
         return;
     }
     cout << "x1%8 = " << x1%8 << endl;
@@ -15,11 +15,11 @@ void drawLine(vector<char>& screen, int width, int x1, int x2, int y){
     cout << ~0 << endl;
     cout << "0xFF >> (x1%8) = " << (0xFF >> (x1%8)) << endl;
     cout << 0xFF << endl;
-    screen[(y-1) * width/8 + x1/8] = ~0 >> (x1%8);
+    screen[(y-1) * width/8 + x1/8] = 0xFF >> (x1%8);
     for(int i = x1/8 + 1; i < x2/8; i++){
         screen[(y-1)*width/8 + i] = 0xFF;
     }
-    screen[(y-1) * width/8 + x2/8] = ~0 << (x2%8);
+    screen[(y-1) * width/8 + x2/8] = 0xFF << (x2%8);
 }
 
 void outputByte(char c){
@@ -30,7 +30,6 @@ void outputByte(char c){
 
 void output(vector<char>& screen, int width){
     for (int i = 0; i < screen.size(); i++){
-        // cout << "screen[" << i << "] = " << hex << (int)screen[i] << endl;
         outputByte(screen[i]);
         if((i + 1) % WIDTH_BLOCK(width) == 0)
             cout << endl;
