@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#define NUM(c) c - '0'
+#define NUM(c) (c - '0')
 using namespace std;
 
 class Solution {
@@ -16,12 +16,8 @@ public:
                 continue;
             }
             dp[i] = dp[i + 1];
-            if(i < s.size() - 1 && NUM(s[i]) < 3 && NUM(s[i + 1]) < 7){
+            if(i < s.size() - 1 && NUM(s[i]) * 10 + NUM(s[i + 1]) < 27){
                 dp[i] += dp[i + 2];
-                cout << "NUM(s[i]) * 10 + NUM(s[i + 1]) = " << (NUM(s[i]) * 10) + NUM(s[i + 1]) << endl;
-                cout << "NUM(s[i]) = " << NUM(s[i]) << endl;
-                cout << "NUM(s[i]) * 10 = " << NUM(s[i]) * 10 << endl;
-                cout << "NUM(s[i + 1]) = " << NUM(s[i + 1]) << endl;
             }
         }
         return dp[0];
@@ -30,6 +26,6 @@ public:
 
 int main(void){
     Solution sol;
-    cout << sol.numDecodings("27") << endl;
+    cout << sol.numDecodings("17") << endl;
     return 0;
 }
