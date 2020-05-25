@@ -10,8 +10,10 @@ int searchLine(vector<vector<int>>& matrix, int target, int m, int n_min, int n_
     int n_left = n_min;
     int n_right = n_max;
     int res;
+    cout << "left = " << n_left << ", right = " << n_right << endl;
     while(1){
         int n_mid = (n_left + n_right) / 2;
+        // cout << "left = " << n_left << ", mid = " << n_mid << ", right = " << n_right << endl;
         if(matrix[m][n_mid] == target){
             res = n_mid;
             break;
@@ -20,13 +22,13 @@ int searchLine(vector<vector<int>>& matrix, int target, int m, int n_min, int n_
                 res = n_mid;
                 break;
             }
-            n_right = n_mid;
+            n_left = n_mid - 1;
         }else if(matrix[m][n_mid] > target){
             if(n_min == n_mid || matrix[m][n_mid - 1] < target){
                 res = n_mid;
                 break;
             }
-            n_left = n_mid - 1;
+            n_right = n_mid;
         }
     }
     return res;
@@ -46,13 +48,13 @@ int searchRow(vector<vector<int>>& matrix, int target, int m_min, int m_max, int
                 res = m_mid;
                 break;
             }
-            m_right = m_mid;
+            m_left = m_mid - 1;
         }else if(matrix[m_mid][n] > target){
             if(m_min == m_mid || matrix[m_mid - 1][n] < target){
                 res = m_mid;
                 break;
             }
-            m_left = m_mid - 1;
+            m_right = m_mid;
         }
     }
     return res;
@@ -88,5 +90,7 @@ int main(void){
     };
     pair<int, int> res = searchElement(matrix, 9);
     cout << res.first << " " << res.second << endl;
+    // int ans = searchLine(matrix, 9, 0, 0, matrix[0].size());
+    // cout << ans << endl;
     return 0;
 }
