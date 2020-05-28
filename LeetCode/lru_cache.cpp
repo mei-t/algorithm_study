@@ -1,39 +1,41 @@
 #include <iostream>
 #include <unordered_map>
-#include <queue>
+#include <list>
 using namespace std;
 
 class LRUCache {
 public:
-    LRUCache(int capacity) {
-        _capacity = capacity;
-    }
+    LRUCache(int capacity): capacity(capacity) {}
     
     int get(int key) {
         if(hashMap.find(key) == hashMap.end()){
             return -1;
         }
-        cout << hashMap[key] << endl;
+        numList.remove(key);
+        numList.push_back(key);
         return hashMap[key];
     }
     
     void put(int key, int value) {
         if(hashMap.find(key) != hashMap.end()){
+            hashMap[key] = value;
+            numList.remove(key);
+            numList.push_back(key);
             return;
         }
-        if(hashMap.size() == _capacity){
-            int deleteKey = q.front();
-            q.pop();
+        if(hashMap.size() == capacity){
+            int deleteKey = numList.front();
+            numList.pop_front();
             hashMap.erase(deleteKey);
         }
-        q.push(key);
+        numList.push_back(key);
         hashMap.insert({key, value});
     }
 
 private:
-    int _capacity;
+    int capacity;
     unordered_map<int, int> hashMap;
-    queue<int> q;
+    list<int> numList;
 };
 
 /**
@@ -48,9 +50,13 @@ int main(void){
     cout << cache.get(1) << endl; // -1
     cache.put(1, 1);
     cache.put(2, 2);
-    cout << cache.get(1) << endl; // 1
+    cout << cache.get(2) << endl; // 2
     cache.put(3, 3);
     cout << cache.get(1) << endl; // -1
     cout << cache.get(2) << endl; // 2
+    cache.put(4, 4);
+    cout << cache.get(1) << endl; // -1
+    cout << cache.get(3) << endl; // -1
+    cout << cache.get(4) << endl; // 4
     return 0;
 }
