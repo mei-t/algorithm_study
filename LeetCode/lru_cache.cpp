@@ -3,6 +3,44 @@
 #include <list>
 using namespace std;
 
+class LRUCache_faster {
+public:
+    LRUCache_faster(int capacity): capacity(capacity) {}
+    
+    int get(int key) {
+        if(kvMap.find(key) == kvMap.end())
+            return -1;
+        updateLRU(key);
+        return kvMap[key];
+    }
+    
+    void put(int key, int value) {
+        if(kvMap.size() == capacity && kvMap.find(key) == kvMap.end())
+            evict();
+        updateLRU(key);
+        kvMap[key] = value;
+    }
+
+    void updateLRU(int key){
+        if(kvMap.find(key) != kvMap.end())
+            numList.erase(itrMap[key]);
+        numList.push_front(key);
+        itrMap[key] = numList.begin();
+    }
+
+    void evict(){
+        kvMap.erase(numList.back());
+        itrMap.erase(numList.back());
+        numList.pop_back();
+    }
+
+private:
+    int capacity;
+    unordered_map<int, int> kvMap;
+    unordered_map<int, list<int>::iterator> itrMap;
+    list<int> numList;
+};
+
 class LRUCache {
 public:
     LRUCache(int capacity): capacity(capacity) {}
