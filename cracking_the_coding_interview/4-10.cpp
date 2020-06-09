@@ -19,9 +19,9 @@ bool isSubTree(TreeNode* t1, TreeNode* t2) {
 }
 
 bool searchSubTree(TreeNode* t1, TreeNode* t2) {
-    if(!t1)
-        return !t2;
     if(!t2)
+        return true;
+    if(!t1)
         return false;
     if(t1->val == t2->val) {
         bool subTree = isSubTree(t1, t2);
