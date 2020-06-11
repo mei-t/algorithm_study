@@ -14,20 +14,24 @@ struct Node{
 };
 
 void fill(vector<vector<int>>& matrix, Node* node, int xStart, int xEnd, int yStart, int yEnd){
+    // cout << xStart << ", " << xEnd << ", " << yStart << ", " << yEnd << endl;
     if(!node)
         return;
     if(node->isEnd){
+        cout << xStart << ", " << xEnd << ", " << yStart << ", " << yEnd << endl;
+        cout << "color = " << node->color << endl;
         for(int i = xStart; i < xEnd; i++){
             for(int j = yStart; j < yEnd; j++){
                 matrix[i][j] = node->color;
+                cout << i << ", " << j << endl;
             }
         }
         return;
     }
     fill(matrix, node->upperLeft, xStart, xEnd/2, yStart, yEnd/2);
-    fill(matrix, node->upperRight, xEnd/2, xEnd, yStart, yEnd/2);
     fill(matrix, node->lowerLeft, xStart, xEnd/2, yEnd/2, yEnd);
-    fill(matrix, node->upperLeft, xEnd/2, xEnd, yEnd/2, yEnd);
+    fill(matrix, node->lowerRight, xEnd/2, xEnd, yEnd/2, yEnd);
+    fill(matrix, node->upperRight, xEnd/2, xEnd, yStart, yEnd/2);
 
     // fill(matrix, node->upperLeft, xStart, (xEnd + 1) / 2, yStart, (yEnd + 1) / 2);
     // fill(matrix, node->upperRight, (xEnd + 1) / 2, xEnd, yStart, (yEnd + 1) / 2);
