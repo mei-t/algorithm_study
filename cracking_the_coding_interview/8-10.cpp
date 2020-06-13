@@ -14,29 +14,20 @@ struct Node{
 };
 
 void fill(vector<vector<int>>& matrix, Node* node, int xStart, int xEnd, int yStart, int yEnd){
-    // cout << xStart << ", " << xEnd << ", " << yStart << ", " << yEnd << endl;
     if(!node)
         return;
     if(node->isEnd){
-        cout << xStart << ", " << xEnd << ", " << yStart << ", " << yEnd << endl;
-        cout << "color = " << node->color << endl;
         for(int i = xStart; i < xEnd; i++){
             for(int j = yStart; j < yEnd; j++){
                 matrix[i][j] = node->color;
-                cout << i << ", " << j << endl;
             }
         }
         return;
     }
-    fill(matrix, node->upperLeft, xStart, xEnd/2, yStart, yEnd/2);
-    fill(matrix, node->lowerLeft, xStart, xEnd/2, yEnd/2, yEnd);
-    fill(matrix, node->lowerRight, xEnd/2, xEnd, yEnd/2, yEnd);
-    fill(matrix, node->upperRight, xEnd/2, xEnd, yStart, yEnd/2);
-
-    // fill(matrix, node->upperLeft, xStart, (xEnd + 1) / 2, yStart, (yEnd + 1) / 2);
-    // fill(matrix, node->upperRight, (xEnd + 1) / 2, xEnd, yStart, (yEnd + 1) / 2);
-    // fill(matrix, node->lowerLeft, xStart, (xEnd + 1) / 2, (yEnd + 1) / 2, yEnd);
-    // fill(matrix, node->upperLeft, (xEnd + 1) / 2, xEnd, (yEnd + 1) / 2, yEnd);
+    fill(matrix, node->upperLeft, xStart, (xStart + xEnd) / 2, yStart, (yStart + yEnd) / 2);
+    fill(matrix, node->lowerLeft, xStart, (xStart + xEnd) / 2, (yStart + yEnd) / 2, yEnd);
+    fill(matrix, node->lowerRight, (xStart + xEnd) / 2, xEnd, (yStart + yEnd) / 2, yEnd);
+    fill(matrix, node->upperRight, (xStart + xEnd) / 2, xEnd, yStart, (yStart + yEnd) / 2);
 }
 
 void fill(vector<vector<int>>& matrix, Node* root){
@@ -64,7 +55,6 @@ Node* makeNode(vector<int>& colors, int index){
 }
 
 int main(void){
-    // vector<int> colors = {CON, 0, CON, CON, CON, END, END, END, END, CON, 3, CON, 1, CON, CON, CON, 2, 0, CON, CON, CON, };
     vector<int> colors = {CON, 0, CON, 1, CON, END, END, END, END, 0, 1, 1, 1, END, END, END, END, 0, 1, 1, 1};
     Node* root = makeNode(colors, 0);
     vector<int> line(4, -1);
