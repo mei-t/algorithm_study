@@ -4,6 +4,29 @@ using namespace std;
 #define END -2
 #define CON -1
 
+enum Color {BLACK, WHITE, RED, BLUE, YELLOW, GREEN};
+
+bool paintFill(vector<vector<Color>>& screen, unsigned int r, unsigned int c, Color origCol, Color newCol){
+    if(r < 0 || r >= screen.size() || c < 0 || c >= screen[0].size())
+        return false;
+    if(screen[r][c] == origCol){
+        screen[r][c] = newCol;
+        paintFill(screen, r - 1, c, origCol, newCol);
+        paintFill(screen, r, c - 1, origCol, newCol);
+        paintFill(screen, r + 1, c, origCol, newCol);
+        paintFill(screen, r, c + 1, origCol, newCol);
+    }
+    return true;
+}
+
+bool paintFill(vector<vector<Color>>& screen, unsigned int r, unsigned int c, Color color){
+    if(screen[r][c] == color)
+        return false;
+    return paintFill(screen, r, c, screen[r][c], color);
+}
+
+// This solution does not satisfy the intent of the question 
+// because I misunderstood the problem.
 struct Node{
     int color;
     bool isEnd;
@@ -63,6 +86,34 @@ int main(void){
     for(vector<int>& line: matrix){
         for(int num: line){
             cout << num << " ";
+        }
+        cout << endl;
+    }
+    vector<vector<Color>> screen = {
+        {BLUE, BLUE, BLUE, WHITE, WHITE, WHITE, BLUE, BLUE},
+        {BLUE, BLUE, BLUE, WHITE, WHITE, WHITE, BLUE, BLUE},
+        {BLACK, RED, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
+        {BLACK, RED, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
+        {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK},
+    };
+    paintFill(screen, 0, 3, YELLOW);
+    for(vector<Color>& line: screen) {
+        for(Color col: line) {
+            // cout << col << " ";
+            switch (col) {
+                case BLACK:
+                    cout << "BLACK ";
+                case WHITE:
+                    cout << "WHITE ";
+                case RED:
+                    cout << "RED ";
+                case BLUE:
+                    cout << "BLUE ";
+                case GREEN:
+                    cout << "GREEN ";
+                case YELLOW:
+                    cout << "YELLOW ";
+            }
         }
         cout << endl;
     }
