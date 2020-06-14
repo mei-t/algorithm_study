@@ -102,15 +102,20 @@ int main(void){
             // cout << col << " ";
             switch (col) {
                 case BLACK:
-                    cout << "BLACK ";
+                    cout << "BLACK  ";
+                    break;
                 case WHITE:
-                    cout << "WHITE ";
+                    cout << "WHITE  ";
+                    break;
                 case RED:
-                    cout << "RED ";
+                    cout << "RED    ";
+                    break;
                 case BLUE:
-                    cout << "BLUE ";
+                    cout << "BLUE   ";
+                    break;
                 case GREEN:
-                    cout << "GREEN ";
+                    cout << "GREEN  ";
+                    break;
                 case YELLOW:
                     cout << "YELLOW ";
             }
