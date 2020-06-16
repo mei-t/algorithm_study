@@ -45,10 +45,14 @@ private:
         }
         if(x < node->val){
             node->count++;
-            node->left = track(x, node->left);
+            TreeNode* next = track(x, node->left);
+            if(!(node->left))
+                node->left = next;
             return node;
         }
-        node->right = track(x, node->right);
+        TreeNode* next = track(x, node->right);
+        if(!(node->right))
+            node->right = next;
         return node;
     }
 
