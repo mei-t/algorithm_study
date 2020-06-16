@@ -38,13 +38,13 @@ private:
             node->right = nullptr;
             return node;
         }
-        cout << node->val << endl;
+        // cout << node->val << endl;
         if(x == node->val){
             node->count++;
             return node;
         }
         if(x < node->val){
-            node->val++;
+            node->count++;
             node->left = track(x, node->left);
             return node;
         }
@@ -53,7 +53,7 @@ private:
     }
 
     int getRankOfNumber(int x, int count, TreeNode* node){
-        cout << node->val << endl;
+        // cout << node->val << endl;
         if(x == node->val)
             return count + node->count;
         if(x < node->val)
@@ -73,8 +73,8 @@ int main(void){
     ron.track(7);
     ron.track(13);
     ron.track(3);
-    // cout << ron.getRankOfNumber(1) << endl; // 0
-    // cout << ron.getRankOfNumber(3) << endl; // 1
+    cout << ron.getRankOfNumber(1) << endl; // 0
+    cout << ron.getRankOfNumber(3) << endl; // 1
     cout << ron.getRankOfNumber(4) << endl; // 3
     return 0;
 }
