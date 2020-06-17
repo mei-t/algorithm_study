@@ -7,13 +7,6 @@ public:
     RankOfNumber() : root(nullptr){}
     void track(int x){
         root = track(x, root);
-        // if(root){
-        //     track(x, root);
-        //     return;
-        // }
-        // root = new TreeNode();
-        // root->val = x;
-        // root->count = 0;
     }
 
     int getRankOfNumber(int x){
