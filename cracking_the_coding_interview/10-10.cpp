@@ -55,7 +55,7 @@ private:
             return count + node->count;
         if(x < node->val)
             return getRankOfNumber(x, count, node->left);
-        return getRankOfNumber(x, count + node->val + 1, node->right);
+        return getRankOfNumber(x, count + node->count + 1, node->right);
     };
 };
 
