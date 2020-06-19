@@ -31,7 +31,6 @@ private:
             node->right = nullptr;
             return node;
         }
-        // cout << node->val << endl;
         if(x == node->val){
             node->count++;
             return node;
@@ -50,7 +49,6 @@ private:
     }
 
     int getRankOfNumber(int x, int count, TreeNode* node){
-        // cout << node->val << endl;
         if(x == node->val)
             return count + node->count;
         if(x < node->val)
