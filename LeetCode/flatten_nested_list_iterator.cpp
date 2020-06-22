@@ -18,47 +18,36 @@ class NestedInteger {
     const vector<NestedInteger> &getList() const;
 };
 
-struct NIInfo {
-    int pos;
-    vector<NestedInteger> nestedList;
-};
-
 class NestedIterator {
 public:
-    NestedIterator(vector<NestedInteger> &nestedList) : nestedList(nestedList) {
-        s.push({0, nestedList});
+    NestedIterator(vector<NestedInteger> &nestedList) {
+        begins.push(nestedList.begin());
+        ends.push(nestedList.end());
     }
     
     int next() {
-        return nestedInteger.getInteger();
+        return (begins.top()++)->getInteger();
+    }
+
+    bool hasNext() {
+        while(!begins.empty()) {
+            if(begins.top() == ends.top()) {
+                begins.pop();
+                ends.pop();
+            } else {
+                auto it = begins.top();
+                if (it->isInteger())
+                    return true;
+                begins.top()++;
+                begins.push(it->getList().begin());
+                ends.push(it->getList().end());
+            }
+        }
+        return false;
     }
     
-    bool hasNext() {
-        while(s.top().pos >= s.top().nestedList.size() && s.size() > 1)
-            s.pop();
-        if(s.size() == 1 && s.top().pos >= s.top().nestedList.size())
-            return false;
-        nestedInteger = s.top().nestedList[s.top().pos];
-        s.top().pos++;
-        while(!nestedInteger.isInteger()){
-            vector<NestedInteger> newList = nestedInteger.getList();
-            if(!newList.empty()){
-                nestedInteger = newList[0];
-                s.push({1, newList});
-                continue;
-            }
-            s.top().pos++;
-            if(s.top().pos >= s.top().nestedList.size())
-                return false;
-            nestedInteger = s.top().nestedList[s.top().pos];
-        }
-        cout << "aa" << endl;
-        return true;
-    }
 private:
-    vector<NestedInteger> nestedList;
-    stack<NIInfo> s;
-    NestedInteger nestedInteger;
+    stack<vector<NestedInteger>::iterator> begins, ends;
 };
 
 /**
