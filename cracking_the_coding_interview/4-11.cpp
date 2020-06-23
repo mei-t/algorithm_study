@@ -16,9 +16,7 @@ public:
         insertNode(val, root);
     }
 
-    void deleteNode(int val) {
-        searchDeleteNode(val, root);
-    }
+    void deleteNode(int val) {}
 
     TreeNode* getRandomNode(TreeNode* node) {
         if(!node)
@@ -54,16 +52,6 @@ private:
             node->right = rightNext;
         return node;
     }
-
-    void searchDeleteNode(int val, TreeNode* node) {
-        if(node->val == val) {
-            return;
-        }
-        searchDeleteNode(val, node->left);
-        searchDeleteNode(val, node->right);
-    }
-
-    void deleteNode(int val, TreeNode* node) {}
 };
 
 int main(void){
