@@ -48,14 +48,14 @@ int numberOfCoin(int n, Coin coin, unordered_map<int, int>& numMap) {
         return 1;
     if(coin == Zero)
         return 0;
-    if(numMap.find(n) != numMap.end())
-        return numMap[n];
+    if(numMap.find(n * 10 + coin) != numMap.end())
+        return numMap[n * 10 + coin];
     int x = coinToNum(coin);
     int ans = 0;
     if(n >= x)
         ans += numberOfCoin(n - x, coin, numMap);
     ans += numberOfCoin(n, nextBiggest(coin), numMap);
-    numMap.insert({n, ans});
+    numMap.insert({n * 10 + coin, ans});
     return ans;
 }
 
@@ -65,6 +65,6 @@ int numberOfCoin(int n) {
 }
 
 int main(void){
-    cout << numberOfCoin(23) << endl;
+    cout << numberOfCoin(100) << endl;
     return 0;
 }
