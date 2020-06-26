@@ -13,7 +13,7 @@ struct TreeNode {
 class BinaryTree {
 public:
     void insertNode(int val) {
-        insertNode(val, root);
+        root = insertNode(val, root);
     }
 
     void deleteNode(int val) {}
