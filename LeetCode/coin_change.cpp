@@ -7,7 +7,6 @@ using namespace std;
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
-        isFirst = true;
         if(amount == 0)
             return 0;
         sort(coins.begin(), coins.end());
@@ -15,11 +14,7 @@ public:
     }
 private:
     unordered_map<string, int> numMap;
-    bool isFirst;
     int coinChange(const vector<int>& coins, int amount, int index) {
-        if(isFirst) {
-            isFirst = false;
-        }
         if(coins[index] == amount)
             return 1;
         if(index == 0 && coins[index] > amount)
