@@ -14,7 +14,21 @@ class BinaryTree {
 public:
     BinaryTree() : root(nullptr) {}
     void insertNode(int val) {
-        root = insertNode(val, root);
+        TreeNode** curNodePtr = &root;
+
+        while(*curNodePtr != nullptr) {
+            TreeNode* curNode = *curNodePtr;
+            if(val < curNode->val) {
+                curNode->leftCount++;
+                curNodePtr = &curNode->left;
+            }else if(val > curNode->val) {
+                curNode->rightCount++;
+                curNodePtr = &curNode->right;
+            }else{
+                return; // The value is already in the tree.
+            }
+        }
+        *curNodePtr = new TreeNode{val, 0, 0, nullptr, nullptr};
     }
 
     void deleteNode(int val) {}
@@ -35,24 +49,6 @@ public:
     }
 private:
     TreeNode* root;
-    TreeNode* insertNode(int val, TreeNode* node) {
-        if(!node) {
-            node = new TreeNode{val, 0, 0, nullptr, nullptr};
-            return node;
-        }
-        if(val < node->val) {
-            node->leftCount++;
-            TreeNode* leftNext = insertNode(val, node->left);
-            if(!node->left)
-                node->left = leftNext;
-            return node;
-        }
-        node->rightCount++;
-        TreeNode* rightNext = insertNode(val, node->right);
-        if(!node->right)
-            node->right = rightNext;
-        return node;
-    }
 };
 
 int main(void){
