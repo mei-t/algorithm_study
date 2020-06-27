@@ -12,6 +12,7 @@ struct TreeNode {
 
 class BinaryTree {
 public:
+    BinaryTree() : root(nullptr) {}
     void insertNode(int val) {
         root = insertNode(val, root);
     }
