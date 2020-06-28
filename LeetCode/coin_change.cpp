@@ -15,30 +15,22 @@ public:
 private:
     unordered_map<string, int> numMap;
     int coinChange(const vector<int>& coins, int amount, int index) {
-        if(coins[index] == amount)
-            return 1;
-        if(index == 0 && coins[index] > amount)
+        if(amount == 0)
+            return 0;
+        if(amount < 0 || index < 0)
             return -1;
         string key = to_string(index) + " " + to_string(amount);
         if(numMap.find(key) != numMap.end())
             return numMap[key];
-        int x = -1, y = -1;
-        if(coins[index] < amount ) {
-            x = coinChange(coins, amount - coins[index], index);
-            x = (x == -1 ? -1 : x + 1);
+        int max = amount / coins[index];
+        int ans = INT_MAX;
+        for(int i = max; i >= 0; i--) {
+            int cur = coinChange(coins, amount - coins[index] * i, index - 1);
+            if(cur != -1)
+                ans = min(ans, cur + i);
         }
-        if(index > 0)
-            y = coinChange(coins, amount, index - 1);
-        int ans;
-        if(x == -1 && y == -1) {
+        if(ans == INT_MAX)
             ans = -1;
-        } else if(x == -1) {
-            ans = y;
-        } else if(y == -1) {
-            ans = x;
-        } else {
-            ans = min(x, y);
-        }
         numMap.insert({key, ans});
         return ans;
     }
