@@ -33,6 +33,11 @@ public:
 
     void deleteNode(int val) {}
 
+    TreeNode* getRandomNode() {
+        return getRandomNode(root);
+    }
+private:
+    TreeNode* root;
     TreeNode* getRandomNode(TreeNode* node) {
         if(!node)
             return nullptr;
@@ -47,10 +52,14 @@ public:
             return getRandomNode(node->left);
         return getRandomNode(node->right);
     }
-private:
-    TreeNode* root;
 };
 
 int main(void){
+    BinaryTree bt;
+    bt.insertNode(10);
+    bt.insertNode(5);
+    bt.insertNode(15);
+    cout << bt.getRandomNode()->val << endl;
+    cout << bt.getRandomNode()->val << endl;
     return 0;
 }
