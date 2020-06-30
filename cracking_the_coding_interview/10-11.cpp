@@ -3,7 +3,7 @@
 #include <algorithm>
 using namespace std;
 
-vector<int> mountainCave(vector<int>& nums) {
+vector<int> topAndBottom(vector<int>& nums) {
     sort(nums.begin(), nums.end());
     int mid = nums.size() / 2;
     vector<int> small(nums.begin(), nums.begin() + mid);
@@ -14,12 +14,28 @@ vector<int> mountainCave(vector<int>& nums) {
     return nums;
 }
 
-int main(void) {
-    vector<int> nums = {5, 3, 1, 2, 3};
-    mountainCave(nums);
+vector<int> topAndBottom2(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    for(int i = 1; i < nums.size(); i++) {
+        if(i % 2)
+            swap(nums[i], nums[i - 1]);
+    }
+    return nums;
+}
+
+void output(vector<int> nums) {
     for(int num: nums) {
         cout << num << " ";
     }
     cout << endl;
+}
+
+int main(void) {
+    vector<int> nums1 = {5, 3, 1, 2, 3};
+    topAndBottom(nums1);
+    output(nums1);
+    vector<int> nums2 = {5, 3, 1, 2, 3};
+    topAndBottom2(nums2);
+    output(nums2);
     return 0;
 }
