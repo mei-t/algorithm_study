@@ -46,6 +46,27 @@ private:
     }
 };
 
+// Better
+class Solution2 {
+public:
+    Node* connect(Node* node) {
+        if(!node) {
+            return nullptr;
+        }
+        Node* cur = node;
+        Node* pre = nullptr;
+        while(cur && cur->left) {
+            cur->left->next = cur->right;
+            if(pre)
+                pre->next = cur->left;
+            pre = cur->right;
+            cur = cur->next;
+        }
+        connect(node->left);
+        return node;
+    }
+};
+
 Node* createTree(const vector<int>& nums, int index) {
     if(index > nums.size())
         return nullptr;
@@ -62,7 +83,9 @@ Node* createTree(const vector<int>& nums) {
 int main(void){
     vector<int> nums = {1, 2, 3, 4, 5, 6, 7};
     Node* root = createTree(nums);
-    Solution sol;
-    sol.connect(root);
+    // Solution sol;
+    // sol.connect(root);
+    Solution2 sol2;
+    sol2.connect(root);
     return 0;
 }
