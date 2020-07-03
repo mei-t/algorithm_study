@@ -1,33 +1,25 @@
 import unittest
 
-def find_first_elem(nums):
+
+def partly_sort(nums):
     m = 0
+    n = len(nums) - 1
+
     while m < len(nums) and nums[m] <= nums[m + 1]:
         m += 1
 
-    for i in range(m + 1, len(nums)):
-        while(nums[m] > nums[i]):
-            m -= 1
-
-    return m + 1
-
-
-def find_last_elem(nums):
-    n = len(nums) - 1
     while n >= 0 and nums[n] > nums[n - 1]:
         n -= 1
 
-    for i in range(n - 1, 0, -1):
+    for i in range(m + 1, n + 1):
+        while(nums[m] > nums[i]):
+            m -= 1
+            
+    for i in range(n - 1, min(0, m - 1), -1):
         while(nums[n] < nums[i]):
             n += 1
 
-    return n - 1
-
-
-def partly_sort(nums):
-    m = find_first_elem(nums)
-    n = find_last_elem(nums)
-    ans = [m, n]
+    ans = [m + 1, n - 1]
     return ans
 
 
