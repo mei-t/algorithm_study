@@ -1,6 +1,5 @@
 import unittest
 
-
 def partly_sort(nums):
     m = 0
     n = len(nums) - 1
@@ -10,14 +9,20 @@ def partly_sort(nums):
 
     while n >= 0 and nums[n] > nums[n - 1]:
         n -= 1
+    
+    max_i = m
+    min_i = n
+    for i in range(m + 1, n):
+        if nums[max_i] < nums[i]:
+            max_i = i
+        if nums[min_i] > nums[i]:
+            min_i = i
 
-    for i in range(m + 1, n + 1):
-        while(nums[m] > nums[i]):
-            m -= 1
-            
-    for i in range(n - 1, min(0, m - 1), -1):
-        while(nums[n] < nums[i]):
-            n += 1
+    while nums[m] > nums[min_i]:
+        m -= 1
+
+    while nums[n] < nums[max_i]:
+        n += 1
 
     ans = [m + 1, n - 1]
     return ans
