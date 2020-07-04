@@ -11,7 +11,7 @@ class Solution:
 
     # Returns a random shuffling of the array.
     def shuffle(self):
-        res = self.nums
+        res = list(self.nums)
         for i in range(len(res)):
             index = random.randint(0, i)
             res[index], res[i] = res[i], res[index]
