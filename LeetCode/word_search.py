@@ -6,7 +6,6 @@ class Solution:
             return word == 0
 
         print("start")
-        # import pdb; pdb.set_trace()
         for i in range(len(board)):
             for j in range(len(board[0])):
                 # import pdb; pdb.set_trace()
@@ -20,7 +19,6 @@ class Solution:
     
 
     def findStr(self, board, word, i, j, index, posSet):
-        # import pdb; pdb.set_trace()
         if index == len(word):
             return True
         if i >= len(board) or j >= len(board[0]) or i < 0 or j < 0:
@@ -28,18 +26,17 @@ class Solution:
         if  (j * len(board[0]) + i) in posSet or word[index] != board[i][j]:
             return False
         
-        posSet.add(j * len(board) + i)
-        up = self.findStr(board, word, i, j - 1, index + 1, posSet)
+        posSet.add(j * len(board[0]) + i)
+        up = self.findStr(board, word, i - 1, j, index + 1, posSet)
         if up:
             return True
-        left = self.findStr(board, word, i - 1, j, index + 1, posSet)
+        left = self.findStr(board, word, i, j - 1, index + 1, posSet)
         if left:
             return True
-        down = self.findStr(board, word, i, j + 1, index + 1, posSet)
+        down = self.findStr(board, word, i + 1, j, index + 1, posSet)
         if down:
             return True
-        # import pdb; pdb.set_trace()
-        right = self.findStr(board, word, i + 1, j, index + 1, posSet)
+        right = self.findStr(board, word, i, j + 1, index + 1, posSet)
         return right
 
 
