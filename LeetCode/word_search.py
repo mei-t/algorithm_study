@@ -19,6 +19,7 @@ class Solution:
     
 
     def findStr(self, board, word, i, j, index, posSet):
+        # import pdb; pdb.set_trace()
         if index == len(word):
             return True
         if i >= len(board) or j >= len(board[0]) or i < 0 or j < 0:
@@ -27,30 +28,55 @@ class Solution:
             return False
         
         posSet.add(j * len(board[0]) + i)
-        up = self.findStr(board, word, i - 1, j, index + 1, posSet)
+        # import pdb; pdb.set_trace()
+        up = self.findStr(board, word, i - 1, j, index + 1, posSet.copy())
         if up:
             return True
-        left = self.findStr(board, word, i, j - 1, index + 1, posSet)
+        left = self.findStr(board, word, i, j - 1, index + 1, posSet.copy())
         if left:
             return True
-        down = self.findStr(board, word, i + 1, j, index + 1, posSet)
+        down = self.findStr(board, word, i + 1, j, index + 1, posSet.copy())
         if down:
             return True
-        right = self.findStr(board, word, i, j + 1, index + 1, posSet)
+        right = self.findStr(board, word, i, j + 1, index + 1, posSet.copy())
         return right
 
 
 class Test(unittest.TestCase):
-    board = [
+    board1 = [
         ["A","B","C","E"],
         ["S","F","C","S"],
         ["A","D","E","E"]
     ]
-    word = "ABCCED"
+    board2 = [
+        ["A","B","C","E"],
+        ["S","F","E","S"],
+        ["A","D","E","E"]
+    ]
+    board3 = [
+        ["b","a","a","b","a","b"],
+        ["a","b","a","a","a","a"],
+        ["a","b","a","a","a","b"],
+        ["a","b","a","b","b","a"],
+        ["a","a","b","b","a","b"],
+        ["a","a","b","b","b","a"],
+        ["a","a","b","a","a","b"]
+    ]
+    word1 = "ABCCED"
+    word2 = "ABCESEEEFS"
+    word3 = "abaabbbaaaaababbbaaaaabbbaab"
 
-    def test(self):
+    # def test1(self):
+    #     sol = Solution()
+    #     self.assertTrue(sol.exist(self.board1, self.word1))
+
+    def test2(self):
         sol = Solution()
-        self.assertTrue(sol.exist(self.board, self.word))
+        self.assertTrue(sol.exist(self.board2, self.word2))
+
+    def test3(self):
+        sol = Solution()
+        self.assertTrue(sol.exist(self.board3, self.word3))
 
 
 if __name__ == '__main__':
