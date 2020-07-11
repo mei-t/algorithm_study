@@ -1,6 +1,20 @@
 import unittest
+import sys
 
 class Solution(object):
+    def increasingTriplet(self, nums):
+        first = second = sys.maxsize
+        for num in nums:
+            if first >= num:
+                first = num
+            elif second >= num:
+                second = num
+            else:
+                return True
+        return False
+
+
+class SolutionBF(object):
     def increasingTriplet(self, nums):
         prevs = []
         for num in nums:
@@ -14,10 +28,24 @@ class Solution(object):
 
 
 class Test(unittest.TestCase):
-    input = [1, 2, 3, 4, 5]
-    def test(self):
+    dataT = [1, 2, 3, 4, 5]
+    dataF = [1, 1, 1, 1, 1]
+
+    def test_true(self):
         sol = Solution()
-        self.assertTrue(sol.increasingTriplet(self.input))
+        self.assertTrue(sol.increasingTriplet(self.dataT))
+
+    def test_false(self):
+        sol = Solution()
+        self.assertFalse(sol.increasingTriplet(self.dataF))
+    
+    def test_true_bf(self):
+        sol = SolutionBF()
+        self.assertTrue(sol.increasingTriplet(self.dataT))
+
+    def test_false_bf(self):
+        sol = SolutionBF()
+        self.assertFalse(sol.increasingTriplet(self.dataF))
 
 
 if __name__ == '__main__':
