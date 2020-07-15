@@ -13,11 +13,9 @@ class WordFreq:
         i = self.s.find(word)
         while i > -1:
             i = self.s.find(word, i + 1)
-            # import pdb; pdb.set_trace()
             count += 1
         s_list = self.s.split(" ")
         ans = count / len(s_list)
-        # self.wordMap.update({word, count})
         self.wordMap[word] = count
         return ans
 
