@@ -10,7 +10,7 @@ class NodeData(object):
         self.odd = odd
         self.even_last = even_last
 
-class Solution(object):
+class SolutionWithRec(object):
     def oddEvenList(self, head):
         if head == None or head.next == None or head.next.next == None:
             return head
@@ -32,6 +32,22 @@ class Solution(object):
         odd.next = next_nodes.odd
         return NodeData(even, odd, next_nodes.even_last)
 
+class SolutionWithForRoop(object):
+    def oddEvenList(self, head):
+        if head == None:
+            return head
+        even = head
+        odd = head.next
+        odd_head = odd
+        while(odd != None and odd.next != None):
+            even.next = odd.next
+            odd.next = odd.next.next
+            even = even.next
+            odd = odd.next
+        even.next = odd_head
+        return head
+        
+
 def createLinkedNode(nums, node, index):
     if len(nums) == index:
         return None
@@ -49,16 +65,33 @@ def createLikedList(nums):
 if __name__ == '__main__':
     nums1 = [1,2,3,4,5]
     nums2 = [1, 1]
-    head1 = createLikedList(nums1)
-    head2 = createLikedList(nums2)
-    sol = Solution()
-    node1 = sol.oddEvenList(head1)
-    
-    while node1 != None:
-        print(node1.val)
-        node1 = node1.next
+    head_rec1 = createLikedList(nums1)
+    head_for1 = createLikedList(nums1)
+    head_rec2 = createLikedList(nums2)
+    head_for2 = createLikedList(nums2)
 
-    node2 = sol.oddEvenList(head2)
-    while node2 != None:
-        print(node2.val)
-        node2 = node2.next
+    print("Solution with recursion")
+    sol_rec = SolutionWithRec()
+
+    node_rec1 = sol_rec.oddEvenList(head_rec1)
+    while node_rec1 != None:
+        print(node_rec1.val)
+        node_rec1 = node_rec1.next
+
+    node_rec2 = sol_rec.oddEvenList(head_rec2)
+    while node_rec2 != None:
+        print(node_rec2.val)
+        node_rec2 = node_rec2.next
+
+    print("Solution with for roop")
+    sol_for = SolutionWithForRoop()
+
+    node_for1 = sol_for.oddEvenList(head_for1)
+    while node_for1 != None:
+        print(node_for1.val)
+        node_for1 = node_for1.next
+
+    node_for2 = sol_for.oddEvenList(head_for2)
+    while node_for2 != None:
+        print(node_for2.val)
+        node_for2 = node_for2.next
