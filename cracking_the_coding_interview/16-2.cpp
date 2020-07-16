@@ -15,7 +15,6 @@ public:
     double compute(string target){
         if(wordMap.find(target) != wordMap.end())
             return wordMap[target];
-        vector<string> sList;
         stringstream ss(s);
         string word;
         double count = 0;
