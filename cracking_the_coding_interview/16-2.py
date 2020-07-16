@@ -26,6 +26,7 @@ class Test(unittest.TestCase):
     def test(self):
         self.assertEqual(self.wf.compute("to"), 0.12)
         self.assertEqual(self.wf.compute("door"), 0.04)
+        self.assertEqual(self.wf.compute("it"), 0.04)
 
 if __name__ == '__main__':
     unittest.main()
