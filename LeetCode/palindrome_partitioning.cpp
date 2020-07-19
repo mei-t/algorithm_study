@@ -6,56 +6,32 @@ using namespace std;
 class Solution {
 public:
     vector<vector<string>> partition(string s) {
-        unordered_map<char, vector<pair<int,int>>> posMap;
-        for(int i = 0; i < s.size(); i++){
-            for(int j = i + 1; j < s.size(); j++){
-                if(!isPalind(i, j, s))
-                    continue;
-                if(posMap.find(s[i]) == posMap.end())
-                    posMap.insert({s[i], vector<pair<int, int>>()});
-                posMap[s[i]].push_back(pair<int, int>(i, j));
-            }
-        }
-
-        vector<pair<int, vector<string>>> partitions = {pair<int, vector<string>>(0,vector<string>())};
-        for(int i = 0; i < s.size(); i++){
-            for(pair<int, vector<string>>& partition: partitions){
-                if(partition.first != i)
-                    continue;
-                for(pair<int, int>& palindPair: posMap[s[i]]){
-                    if(palindPair.first != i)
-                        continue;
-                    auto newPartition = pair<int, vector<string>>(partition);
-                    int start = palindPair.first;
-                    int end = palindPair.second;
-                    newPartition.first = end + 1;
-                    newPartition.second.push_back(s.substr(start, end - start + 1));
-                    partitions.push_back(newPartition);
-                }
-                partition.first++;
-                partition.second.push_back(s.substr(i, 1));
-            }
-        }
-        vector<vector<string>> ans;
-        for(auto& partition: partitions){
-            ans.push_back(partition.second);
-        }
-        return ans;
+        vector<vector<string>> res;
+        vector<string> partition;
+        dfs(s, partition, res);
+        return res;
     }
 
 private:
-    bool isPalind(int start, int end, string s){
-        int left = start;
-        int right = end;
-        while(left < right){
-            if(s[left] != s[right])
-                return false;
-            left++;
-            right--;
+    void dfs(string s, vector<string>& partition, vector<vector<string>>& res){
+        if(s.empty()){
+            res.push_back(partition);
+            return;
         }
-        return true;
+        for(int i = 1; i <= s.size(); i++){
+            if(isPalind(s.substr(0, i))){
+                partition.push_back(s.substr(0, i));
+                dfs(s.substr(i), partition, res);
+                partition.pop_back();
+            }
+        }
     }
 
+    bool isPalind(string s){
+        string s_rev = s;
+        reverse(s_rev.begin(), s_rev.end());
+        return s == s_rev;
+    }
 };
 
 int main(void){
