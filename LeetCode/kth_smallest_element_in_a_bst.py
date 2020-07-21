@@ -1,3 +1,5 @@
+import unittest
+
 class TreeNode(object):
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -33,14 +35,19 @@ def createTree(nums, index):
     node.right = createTree(nums, (index + 1) * 2)
     return node
 
-
-if __name__ == '__main__':
+class Test(unittest.TestCase):
     nums1 = [0, 1, 2, 3, 4, 5, 6]
     nums2 = [4, 2, 5, 1, 3]
-    root1 = createTree(nums1, 0)
-    root2 = createTree(nums2, 0)
-    sol = Solution()
-    ans1 = sol.kthSmallest(root1, 5)
-    ans2 = sol.kthSmallest(root2, 4)
-    print(ans1)
-    print(ans2)
+
+    def test1(self):
+        root = createTree(self.nums1, 0)
+        sol = Solution()
+        self.assertEqual(sol.kthSmallest(root, 5), 5)
+
+    def test2(self):
+        root = createTree(self.nums2, 0)
+        sol = Solution()
+        self.assertEqual(sol.kthSmallest(root, 4), 4)
+
+if __name__ == '__main__':
+    unittest.main()
