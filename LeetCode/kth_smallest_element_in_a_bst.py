@@ -6,24 +6,28 @@ class TreeNode(object):
         self.left = left
         self.right = right
 
-class Solution(object):
+class SolutionRec(object):
     def kthSmallest(self, root, k):
-        return self.find(root, k, 0)[0]
+        def inorder(node):
+            if node:
+                return inorder(node.left) + [node.val] + inorder(node.right)
+            return []
 
-    def find(self, node, k, i):
-        if node == None:
-            return [i]
+        return inorder(root)[k - 1]
 
-        left = self.find(node.left, k, i)
-        
-        if left[0] >= k:
-            return left
-        
-        if left[0] + 1 == k:
-            return[k, node.val]
-        
-        right = self.find(node.right, k, left[0] + 1)
-        return right
+class SolutionIter(object):  
+    def kthSmallest(self, root, k):
+        node = root
+        stack = []
+        while(True):
+            while node:
+                stack.append(node)
+                node = node.left
+            node = stack.pop()
+            k -= 1
+            if k == 0:
+                return node.val
+            node = node.right
 
 
 def createTree(nums, index):
@@ -36,17 +40,27 @@ def createTree(nums, index):
     return node
 
 class Test(unittest.TestCase):
-    nums1 = [0, 1, 2, 3, 4, 5, 6]
+    nums1 = [3, 1, 5, 0, 2, 4, 6]
     nums2 = [4, 2, 5, 1, 3]
 
-    def test1(self):
+    def test1_rec(self):
         root = createTree(self.nums1, 0)
-        sol = Solution()
-        self.assertEqual(sol.kthSmallest(root, 5), 5)
+        sol = SolutionRec()
+        self.assertEqual(sol.kthSmallest(root, 5), 4)
 
-    def test2(self):
+    def test2_rec(self):
         root = createTree(self.nums2, 0)
-        sol = Solution()
+        sol = SolutionRec()
+        self.assertEqual(sol.kthSmallest(root, 4), 4)
+    
+    def test1_iter(self):
+        root = createTree(self.nums1, 0)
+        sol = SolutionIter()
+        self.assertEqual(sol.kthSmallest(root, 5), 4)
+
+    def test2_iter(self):
+        root = createTree(self.nums2, 0)
+        sol = SolutionIter()
         self.assertEqual(sol.kthSmallest(root, 4), 4)
 
 if __name__ == '__main__':
