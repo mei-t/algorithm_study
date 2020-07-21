@@ -11,7 +11,7 @@ class Solution(object):
     def find(self, node, k, i):
         if node == None:
             return [i]
-        
+
         left = self.find(node.left, k, i)
         
         if left[0] >= k:
@@ -20,12 +20,12 @@ class Solution(object):
         if left[0] + 1 == k:
             return[k, node.val]
         
-        right = self.find(node.right, k, i + left[0] + 1)
+        right = self.find(node.right, k, left[0] + 1)
         return right
 
 
 def createTree(nums, index):
-    if len(nums) <= index:
+    if len(nums) <= index or nums[index] == -1:
         return None
 
     node = TreeNode(nums[index])
