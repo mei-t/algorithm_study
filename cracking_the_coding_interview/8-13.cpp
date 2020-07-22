@@ -4,16 +4,16 @@
 using namespace std;
 
 struct Box {
-    int wi, hi, di;
+    int w, h, d;
 };
 
 int findHighest(const vector<Box>& boxes){
     auto cmp = [](Box left, Box right) {
-        if (left.hi != right.hi)
-            return left.hi < right.hi;
-        if (left.wi != right.wi)
-            return left.wi < right.wi;
-        return left.di < right.di;
+        if (left.h != right.h)
+            return left.h < right.h;
+        if (left.w != right.w)
+            return left.w < right.w;
+        return left.d < right.d;
     };
     priority_queue<Box, vector<Box>, decltype(cmp)> q(cmp);
     for(Box box: boxes)
@@ -25,8 +25,8 @@ int findHighest(const vector<Box>& boxes){
         Box box = q.top();
         q.pop();
         for(auto h: heights){
-            if(h.second.wi > box.wi && h.second.di > box.di)
-                heights.push_back(pair<int, Box>(h.first + box.hi, box));
+            if(h.second.w > box.w && h.second.d > box.d)
+                heights.push_back(pair<int, Box>(h.first + box.h, box));
         }
     }
 
