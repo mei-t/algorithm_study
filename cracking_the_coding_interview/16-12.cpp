@@ -55,7 +55,6 @@ private:
         int start = *index;
         while(s[*index] != del)
             (*index)++;
-        // (*index)--;
         return s.substr(start, *index - start);
     }
 };
