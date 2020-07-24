@@ -9,8 +9,6 @@ public:
         string res = "";
         while(index < s.size()){
             res += (index == 0 ? "" : " ");
-            if(index > 70)
-                cout << res << endl;
             switch(s[index]){
                 case '<':
                     index++;
@@ -35,6 +33,7 @@ public:
                 case '/':
                     res += "0";
                     detectWord(s, &index, '>');
+                    break;
                 default:
                     res += (s[index-1] == ' ' ? xmlMap[detectWord(s, &index, '=')] : detectWord(s, &index, '<'));
             }
