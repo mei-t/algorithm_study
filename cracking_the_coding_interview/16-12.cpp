@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unordered_map>
+#include "tinyxml2.h"
 using namespace std;
 
 class XmlParse{
@@ -48,7 +49,7 @@ private:
         {"person", "2"},
         {"firstName", "3"},
         {"lastName", "4"},
-        {"state", "5"},
+        {"state", "5"}
     };
 
     string detectWord(string& s, int* index, char del){
@@ -59,9 +60,21 @@ private:
     }
 };
 
+class XmlParse2{
+public:
+    void encodeXml(const char* filename){
+        tinyxml2::XMLDocument doc;
+        doc.LoadFile(filename);
+        doc.Print();
+        cout << endl;
+    }
+};
+
 int main(void){
-    string s = "<family lastName=\"McDowell\" state=\"CA\"><person firstName=\"Gayle\">Some Message</person></family>";
-    XmlParse xp;
-    cout << xp.encodeXml(s) << endl;
+    // string s = "<family lastName=\"McDowell\" state=\"CA\"><person firstName=\"Gayle\">Some Message</person></family>";
+    // XmlParse xp;
+    // cout << xp.encodeXml(s) << endl;
+    XmlParse2 xp2;
+    xp2.encodeXml("sample.xml");
     return 0;
 }
