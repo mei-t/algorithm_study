@@ -13,21 +13,26 @@ class xmlParse:
 
     def encodeXml(self, file_name):
         def parseChild(node, s):
-            if not node:
-                return s
+            # import pdb; pdb.set_trace()
+            if node == None:
+                return ""
                 
+            # import pdb; pdb.set_trace()
             s += self.tag_map[node.tag] + " "
-            # print(node.tag)
+            print(node.tag)
             for item in node.attrib.items():
                 s += self.attrib_map[item[0]] + " "
                 s += item[1] + " "
-            if node.text:
+            s += "0 "
+            if node.text != None:
                 s += node.text + " "
 
-            s += "0 "
 
             for child in node:
-                parseChild(child, s)
+                # import pdb; pdb.set_trace()
+                encoded = parseChild(child, s)
+                print(encoded)
+                s += encoded
                 
             s += "0 "
             return s
@@ -45,3 +50,4 @@ if __name__ == '__main__':
     xp = xmlParse()
     ans = xp.encodeXml('sample.xml')
     print(ans)
+    # 1 4 McDowell 5 CA 0 2 3 Gayle 0 Some message 0 0.
