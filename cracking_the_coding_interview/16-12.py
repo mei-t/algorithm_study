@@ -19,7 +19,6 @@ class xmlParse:
                 
             # import pdb; pdb.set_trace()
             s += self.tag_map[node.tag] + " "
-            print(node.tag)
             for item in node.attrib.items():
                 s += self.attrib_map[item[0]] + " "
                 s += item[1] + " "
@@ -40,9 +39,6 @@ class xmlParse:
 
         tree = ET.parse(file_name)
         root = tree.getroot()
-        # print(root.tag)
-        # print(root.attrib)
-        # print(root.text)
         return parseChild(root, "")
 
 
