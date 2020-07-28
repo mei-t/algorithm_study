@@ -5,6 +5,7 @@ class xmlParse:
         "family": "1",
         "person": "2"
     }
+
     attrib_map = {
         "firstName": "3",
         "lastName": "4",
@@ -22,7 +23,7 @@ class xmlParse:
                 s += item[1] + " "
             s += "0 "
             if node.text:
-                s += node.text + " "
+                s += node.text.strip() + " "
 
             for child in node:
                 encoded = parseChild(child)
