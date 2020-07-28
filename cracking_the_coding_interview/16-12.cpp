@@ -65,8 +65,41 @@ public:
     void encodeXml(const char* filename){
         tinyxml2::XMLDocument doc;
         doc.LoadFile(filename);
-        doc.Print();
-        cout << endl;
+        tinyxml2::XMLElement* elem = doc.RootElement();
+        cout << "aaa"<< endl;
+        cout << elem->Name() << endl;
+        cout << elem->Value() << endl;
+        // cout << elem->FirstAttribute()->Name() << endl;
+        const tinyxml2::XMLAttribute* attrib = elem->FirstAttribute();
+        while(attrib){
+            cout << attrib->Name() << endl;
+            cout << attrib->Value() << endl;
+            attrib = attrib->Next();
+        }
+        cout << elem->NextSiblingElement()->Name() << endl;
+    }
+private:
+    unordered_map<string, string> tagMap = {
+        {"family", "1"},
+        {"person", "2"}
+    };
+
+    unordered_map<string, string> attribMap = {
+        {"firstName", "3"},
+        {"lastName", "4"},
+        {"state", "5"}
+    };
+
+    void encodeXml(tinyxml2::XMLElement* elem, string& s){
+        s += tagMap[elem->Name()] + " ";
+        const tinyxml2::XMLAttribute* attrib = elem->FirstAttribute();
+        while(attrib){
+            s += attribMap[attrib->Name()] + " ";
+            s += attribMap[attrib->Value()] + " ";
+            attrib = attrib->Next();
+        }
+        
+        encodeXml(elem->NextSiblingElement(), s);
     }
 };
 
