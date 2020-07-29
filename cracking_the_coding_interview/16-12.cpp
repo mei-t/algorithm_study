@@ -62,35 +62,13 @@ private:
 
 class XmlParse2{
 public:
-    void encodeXml(const char* filename){
+    string encodeXml(const char* filename){
         tinyxml2::XMLDocument doc;
         doc.LoadFile(filename);
         tinyxml2::XMLElement* elem = doc.RootElement();
         string s = "";
         encodeXml(elem, s);
-        // cout << "aaa"<< endl;
-        // cout << elem->Name() << endl;
-        // cout << elem->Value() << endl;
-        // // cout << elem->FirstAttribute()->Name() << endl;
-        // const tinyxml2::XMLAttribute* attrib = elem->FirstAttribute();
-        // while(attrib){
-        //     cout << attrib->Name() << endl;
-        //     cout << attrib->Value() << endl;
-        //     attrib = attrib->Next();
-        // }
-        // // cout << elem->NextSiblingElement()->Name() << endl;
-        // if(elem->QueryBoolText(elem->NoChildren()) == tinyxml2::XML_SUCCESS)
-        //     cout << "aaa" << endl;
-        //     // cout << elem->GetText() << endl;
-        // elem = elem->FirstChild()->ToElement();
-        // if(!elem->BoolText())
-        //     cout << elem->GetText() << endl;
-
-        // tinyxml2::XMLNode* node = elem->FirstChild();
-        // while(node){
-        //     cout << node->ToElement()->Name() << endl;
-        //     node = node->NextSibling();
-        // }
+        return s;
     }
 private:
     unordered_map<string, string> tagMap = {
@@ -105,9 +83,6 @@ private:
     };
 
     void encodeXml(tinyxml2::XMLElement* elem, string& s){
-        // if(elem->BoolText())
-        //     return;
-        
         s += tagMap[elem->Name()] + " ";
         const tinyxml2::XMLAttribute* attrib = elem->FirstAttribute();
         while(attrib){
@@ -117,14 +92,12 @@ private:
         }
 
         s += "0 ";
-        // if(true)
-        //     s += elem->GetText();
-        if(!elem->NoChildren()){
-            tinyxml2::XMLNode* node = elem->FirstChild();
-            while(node){
-                encodeXml(node->ToElement(), s);
-                node = node->NextSibling();
-            }
+        if(elem->ToText())
+            s += elem->GetText();
+        elem = elem->FirstChildElement();
+        while(elem){
+            encodeXml(elem, s);
+            elem = elem->NextSiblingElement();
         }
         s += "0 ";
     }
@@ -135,6 +108,7 @@ int main(void){
     // XmlParse xp;
     // cout << xp.encodeXml(s) << endl;
     XmlParse2 xp2;
-    xp2.encodeXml("sample.xml");
+    string s = xp2.encodeXml("sample.xml");
+    cout << s << endl;
     return 0;
 }
