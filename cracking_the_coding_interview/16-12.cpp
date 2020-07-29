@@ -66,17 +66,31 @@ public:
         tinyxml2::XMLDocument doc;
         doc.LoadFile(filename);
         tinyxml2::XMLElement* elem = doc.RootElement();
-        cout << "aaa"<< endl;
-        cout << elem->Name() << endl;
-        cout << elem->Value() << endl;
-        // cout << elem->FirstAttribute()->Name() << endl;
-        const tinyxml2::XMLAttribute* attrib = elem->FirstAttribute();
-        while(attrib){
-            cout << attrib->Name() << endl;
-            cout << attrib->Value() << endl;
-            attrib = attrib->Next();
-        }
-        cout << elem->NextSiblingElement()->Name() << endl;
+        string s = "";
+        encodeXml(elem, s);
+        // cout << "aaa"<< endl;
+        // cout << elem->Name() << endl;
+        // cout << elem->Value() << endl;
+        // // cout << elem->FirstAttribute()->Name() << endl;
+        // const tinyxml2::XMLAttribute* attrib = elem->FirstAttribute();
+        // while(attrib){
+        //     cout << attrib->Name() << endl;
+        //     cout << attrib->Value() << endl;
+        //     attrib = attrib->Next();
+        // }
+        // // cout << elem->NextSiblingElement()->Name() << endl;
+        // if(elem->QueryBoolText(elem->NoChildren()) == tinyxml2::XML_SUCCESS)
+        //     cout << "aaa" << endl;
+        //     // cout << elem->GetText() << endl;
+        // elem = elem->FirstChild()->ToElement();
+        // if(!elem->BoolText())
+        //     cout << elem->GetText() << endl;
+
+        // tinyxml2::XMLNode* node = elem->FirstChild();
+        // while(node){
+        //     cout << node->ToElement()->Name() << endl;
+        //     node = node->NextSibling();
+        // }
     }
 private:
     unordered_map<string, string> tagMap = {
@@ -91,15 +105,28 @@ private:
     };
 
     void encodeXml(tinyxml2::XMLElement* elem, string& s){
+        // if(elem->BoolText())
+        //     return;
+        
         s += tagMap[elem->Name()] + " ";
         const tinyxml2::XMLAttribute* attrib = elem->FirstAttribute();
         while(attrib){
             s += attribMap[attrib->Name()] + " ";
-            s += attribMap[attrib->Value()] + " ";
+            s += (string)(attrib->Value()) + " ";
             attrib = attrib->Next();
         }
-        
-        encodeXml(elem->NextSiblingElement(), s);
+
+        s += "0 ";
+        // if(true)
+        //     s += elem->GetText();
+        if(!elem->NoChildren()){
+            tinyxml2::XMLNode* node = elem->FirstChild();
+            while(node){
+                encodeXml(node->ToElement(), s);
+                node = node->NextSibling();
+            }
+        }
+        s += "0 ";
     }
 };
 
