@@ -7,16 +7,18 @@ int maxSum(const vector<int>& nums){
     int max = INT_MIN;
     for(int num: nums){
         sum += num;
-        if(sum < 0)
-            sum = 0;
         if(max < sum)
             max = sum;
+        if(sum < 0)
+            sum = 0;
     }
     return max;
 }
 
 int main(void){
-    vector<int> nums = {2, -8, 3, -2, 4, -10};
-    cout << maxSum(nums) << endl;
+    vector<int> nums1 = {2, -8, 3, -2, 4, -10};
+    vector<int> nums2 = {-2, -8, -3, -2, -4, -10};
+    cout << maxSum(nums1) << endl;
+    cout << maxSum(nums2) << endl;
     return 0;
 }
