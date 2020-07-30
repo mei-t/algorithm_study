@@ -83,6 +83,9 @@ private:
     };
 
     void encodeXml(tinyxml2::XMLElement* elem, string& s){
+        if(!elem)
+            return;
+            
         s += tagMap[elem->Name()] + " ";
         const tinyxml2::XMLAttribute* attrib = elem->FirstAttribute();
         while(attrib){
@@ -92,12 +95,15 @@ private:
         }
 
         s += "0 ";
-        if(elem->ToText())
-            s += elem->GetText();
-        elem = elem->FirstChildElement();
-        while(elem){
-            encodeXml(elem, s);
-            elem = elem->NextSiblingElement();
+
+        tinyxml2::XMLNode* node = elem->FirstChild();
+        while(node){
+            if(node->ToText()){
+                s += elem->GetText();
+                s += " ";
+            }
+            encodeXml(node->ToElement(), s);
+            node = node->NextSibling();
         }
         s += "0 ";
     }
