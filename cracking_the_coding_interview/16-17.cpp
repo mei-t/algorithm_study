@@ -18,7 +18,9 @@ int maxSum(const vector<int>& nums){
 int main(void){
     vector<int> nums1 = {2, -8, 3, -2, 4, -10};
     vector<int> nums2 = {-2, -8, -3, -2, -4, -10};
+    vector<int> nums3 = {2, 8, 3, 2, 4, 10};
     cout << maxSum(nums1) << endl;
     cout << maxSum(nums2) << endl;
+    cout << maxSum(nums3) << endl;
     return 0;
 }
