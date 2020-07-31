@@ -66,30 +66,30 @@ public:
         tinyxml2::XMLDocument doc;
         doc.LoadFile(filename);
         tinyxml2::XMLElement* elem = doc.RootElement();
-        string s = "";
-        encodeXml(elem, s);
-        return s;
+        return encodeXml(elem) + "0";
     }
+
 private:
     unordered_map<string, string> tagMap = {
         {"family", "1"},
         {"person", "2"}
     };
 
-    unordered_map<string, string> attribMap = {
+    unordered_map<string, string> encodeElement = {
         {"firstName", "3"},
         {"lastName", "4"},
         {"state", "5"}
     };
 
-    void encodeXml(tinyxml2::XMLElement* elem, string& s){
+    string encodeXml(tinyxml2::XMLElement* elem){
         if(!elem)
-            return;
+            return "";
             
-        s += tagMap[elem->Name()] + " ";
+        string s = tagMap[elem->Name()] + " ";
         const tinyxml2::XMLAttribute* attrib = elem->FirstAttribute();
         while(attrib){
-            s += attribMap[attrib->Name()] + " ";
+            if(encodeElement.count(attrib->Name()) > 0)
+                s += encodeElement[attrib->Name()] + " ";
             s += (string)(attrib->Value()) + " ";
             attrib = attrib->Next();
         }
@@ -102,10 +102,10 @@ private:
                 s += elem->GetText();
                 s += " ";
             }
-            encodeXml(node->ToElement(), s);
+            s += encodeXml(node->ToElement());
             node = node->NextSibling();
         }
-        s += "0 ";
+        return s;
     }
 };
 
