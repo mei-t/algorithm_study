@@ -1,9 +1,13 @@
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 using namespace std;
 
 // Assume all the numbers are positive.
-pair<int, int> swapSum(vector<int>& nums1, vector<int>& nums2){
+// Return -1 if the number doesn't find.
+// TC: O(NlogN) where N is the size of input array.
+// SC: O(1)
+pair<int, int> swapSum1(vector<int>& nums1, vector<int>& nums2){
     sort(nums1.begin(), nums1.end());
     sort(nums2.begin(), nums2.end());
     int sum1 = 0, sum2 = 0;
@@ -33,10 +37,32 @@ pair<int, int> swapSum(vector<int>& nums1, vector<int>& nums2){
     return pair<int, int>(-1, -1);
 }
 
+// TC: O(N) where N is the size of input array.
+// SC: O(N) where N is the size of input array.
+pair<int, int> swapSum2(vector<int>& nums1, vector<int>& nums2){
+    int sum1 = 0, sum2 = 0;
+    for(int num: nums1)
+        sum1 += num;
+    for(int num: nums2)
+        sum2 += num;
+
+    int diff = sum1 - sum2;
+    if(diff % 2)
+        return pair<int, int>(-1, -1);
+    unordered_map<int, int> numMap;
+    for(int num : nums1){
+        numMap.insert({num - diff/2, num});
+    }
+    for(int num : nums2){
+        if(numMap.count(num) > 0)
+            return pair<int, int>(numMap[num], num);
+    }
+    return pair<int, int>(-1, -1);
+}
 int main(void){
     vector<int> nums1 = {4, 1, 2, 1, 1, 2};
     vector<int> nums2 = {3, 6, 3, 3};
-    pair<int, int> res = swapSum(nums1, nums2);
+    pair<int, int> res = swapSum2(nums1, nums2);
     cout << res.first << " " << res.second << endl;
     return 0;
 }
