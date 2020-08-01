@@ -62,7 +62,13 @@ pair<int, int> swapSum2(vector<int>& nums1, vector<int>& nums2){
 int main(void){
     vector<int> nums1 = {4, 1, 2, 1, 1, 2};
     vector<int> nums2 = {3, 6, 3, 3};
-    pair<int, int> res = swapSum2(nums1, nums2);
-    cout << res.first << " " << res.second << endl;
+    pair<int, int> res1 = swapSum1(nums1, nums2);
+    pair<int, int> res2 = swapSum1(nums2, nums1);
+    pair<int, int> res3 = swapSum2(nums1, nums2);
+    pair<int, int> res4 = swapSum2(nums2, nums1);
+    cout << res1.first << " " << res1.second << endl;
+    cout << res2.first << " " << res2.second << endl;
+    cout << res3.first << " " << res3.second << endl;
+    cout << res4.first << " " << res4.second << endl;
     return 0;
 }
