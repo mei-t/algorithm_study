@@ -66,7 +66,14 @@ public:
         tinyxml2::XMLDocument doc;
         doc.LoadFile(filename);
         tinyxml2::XMLElement* elem = doc.RootElement();
-        return encodeXml(elem) + "0";
+        string s;
+        try{
+            s = encodeXml(elem) + "0";
+        }
+        catch(char* e){
+            cout << e << endl;
+        }
+        return s;
     }
 
 private:
@@ -85,11 +92,14 @@ private:
         if(!elem)
             return "";
             
+        
         string s = tagMap[elem->Name()] + " ";
         const tinyxml2::XMLAttribute* attrib = elem->FirstAttribute();
         while(attrib){
             if(encodeElement.count(attrib->Name()) > 0)
                 s += encodeElement[attrib->Name()] + " ";
+            else
+                throw "";
             s += (string)(attrib->Value()) + " ";
             attrib = attrib->Next();
         }
@@ -100,7 +110,7 @@ private:
         while(node){
             if(node->ToText()){
                 s += elem->GetText();
-                s += " ";
+                s += " 0 ";
             }
             s += encodeXml(node->ToElement());
             node = node->NextSibling();
