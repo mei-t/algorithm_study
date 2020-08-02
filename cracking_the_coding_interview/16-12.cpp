@@ -77,12 +77,12 @@ public:
     }
 
 private:
-    unordered_map<string, string> tagMap = {
+    unordered_map<string, string> encodeTag = {
         {"family", "1"},
         {"person", "2"}
     };
 
-    unordered_map<string, string> encodeElement = {
+    unordered_map<string, string> encodeAttrib = {
         {"firstName", "3"},
         {"lastName", "4"},
         {"state", "5"}
@@ -92,14 +92,18 @@ private:
         if(!elem)
             return "";
             
-        
-        string s = tagMap[elem->Name()] + " ";
+        string s;
+        if(encodeTag.count(elem->Name())){
+            s = encodeTag[elem->Name()] + " ";
+        } else {
+            throw "Tag doesn't find.";
+        }
         const tinyxml2::XMLAttribute* attrib = elem->FirstAttribute();
         while(attrib){
-            if(encodeElement.count(attrib->Name()) > 0)
-                s += encodeElement[attrib->Name()] + " ";
+            if(encodeAttrib.count(attrib->Name()))
+                s += encodeAttrib[attrib->Name()] + " ";
             else
-                throw "";
+                throw "Attrib doesn't find.";
             s += (string)(attrib->Value()) + " ";
             attrib = attrib->Next();
         }
@@ -120,11 +124,11 @@ private:
 };
 
 int main(void){
-    // string s = "<family lastName=\"McDowell\" state=\"CA\"><person firstName=\"Gayle\">Some Message</person></family>";
-    // XmlParse xp;
-    // cout << xp.encodeXml(s) << endl;
+    string s1 = "<family lastName=\"McDowell\" state=\"CA\"><person firstName=\"Gayle\">Some Message</person></family>";
+    XmlParse xp;
+    cout << xp.encodeXml(s1) << endl;
     XmlParse2 xp2;
-    string s = xp2.encodeXml("sample.xml");
-    cout << s << endl;
+    string s2 = xp2.encodeXml("sample.xml");
+    cout << s2 << endl;
     return 0;
 }
