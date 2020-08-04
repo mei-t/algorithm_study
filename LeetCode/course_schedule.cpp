@@ -10,16 +10,14 @@ class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         for(vector<int>& prerequisite: prerequisites) {
-            for(int i = 0; i < prerequisite.size() - 1; i++) {
-                int cur = prerequisite[i];
-                int next = prerequisite[i + 1];
-                if(numMap.find(cur) == numMap.end())
-                    numMap.insert({cur, vector<int>()});
-                if(indeg.find(next) == indeg.end())
-                    indeg.insert({next, 0});
-                numMap[cur].push_back(next);
-                indeg[next]++;
-            }
+            int cur = prerequisite[0];
+            int next = prerequisite[1];
+            if(numMap.find(cur) == numMap.end())
+                numMap.insert({cur, vector<int>()});
+            if(indeg.find(next) == indeg.end())
+                indeg.insert({next, 0});
+            numMap[cur].push_back(next);
+            indeg[next]++;
         }
         for(auto it: numMap) {
             int num = it.first;
