@@ -1,9 +1,10 @@
 #include <iostream>
 #include <queue>
 #include <unordered_map>
+#include <sstream>
 using namespace std;
 
-class Solution {
+class Solution1 {
 public:
     int calculate(string s) {
         int i = 0;
@@ -96,8 +97,32 @@ private:
     }
 };
 
+class Solution2 {
+public:
+    // O(N) time O(1) space
+    int calculate(string s) {
+        stringstream ss("+" + s);
+        char op;
+        int n, last, ans = 0;
+        while (ss >> op >> n) {
+            if (op == '+' || op == '-') {
+                n = op == '+' ? n : -n;
+                ans += n;
+            } else {
+                n = op == '*' ? last * n : last / n;
+                ans = ans - last + n; // simulate a stack by recovering last values
+            }
+            last = n;
+        }
+        return ans;
+    }
+};
+
 int main(void){
     string s = "3+2*2";
-    Solution sol;
-    cout << sol.calculate(s) << endl;
+    Solution1 sol1;
+    cout << sol1.calculate(s) << endl;
+
+    Solution2 sol2;
+    cout << sol2.calculate(s) << endl;
 }
