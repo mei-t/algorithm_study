@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
-#include <unordered_set>
 #include <queue>
 using namespace std;
 
@@ -9,10 +8,7 @@ class Solution {
 public:
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
         unordered_map<int, pair<int, vector<int>>> courseMap;
-        unordered_set<int> appeared;
         for(vector<int>& prerequisite: prerequisites){
-            appeared.insert(prerequisite[0]);
-            appeared.insert(prerequisite[1]);
             if(courseMap.count(prerequisite[0]) == 0)
                 courseMap.insert({prerequisite[0], pair<int, vector<int>>(0, vector<int>())});
             if(courseMap.count(prerequisite[1]) == 0)
@@ -37,7 +33,7 @@ public:
             }
         }
         for(int i = 0; i < numCourses; i++){
-            if(appeared.count(i) == 0)
+            if(courseMap.count(i) == 0)
                 res.push_back(i);
         }
         if(res.size() < numCourses)
