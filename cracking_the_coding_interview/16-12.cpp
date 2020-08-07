@@ -66,7 +66,7 @@ public:
         tinyxml2::XMLDocument doc;
         doc.LoadFile(filename);
         tinyxml2::XMLElement* elem = doc.RootElement();
-        string s = encodeXml(elem);
+        string s = encodeElement(elem);
         // If you had an error, propagate it.
         if (s.empty())
             return s;
@@ -85,7 +85,7 @@ private:
         {"state", "5"}
     };
 
-    string encodeXml(tinyxml2::XMLElement* elem){
+    string encodeElement(tinyxml2::XMLElement* elem){
         string s;
         if(encodeTag.count(elem->Name())){
             s = encodeTag[elem->Name()] + " ";
@@ -113,7 +113,7 @@ private:
                 s += elem->GetText();
                 s += " 0 ";
             } else if (node->ToElement()) {
-                string elem = encodeXml(node->ToElement());
+                string elem = encodeElement(node->ToElement());
                 if(elem.empty())
                     return "";
                 s += elem;
