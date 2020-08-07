@@ -66,14 +66,11 @@ public:
         tinyxml2::XMLDocument doc;
         doc.LoadFile(filename);
         tinyxml2::XMLElement* elem = doc.RootElement();
-        string s;
-        try{
-            s = encodeXml(elem) + "0";
-        }
-        catch(char* e){
-            cout << e << endl;
-        }
-        return s;
+        string s = encodeXml(elem);
+        // If you had an error, propagate it.
+        if (s.empty())
+            return s;
+        return s + "0";
     }
 
 private:
@@ -89,21 +86,21 @@ private:
     };
 
     string encodeXml(tinyxml2::XMLElement* elem){
-        if(!elem)
-            return "";
-            
         string s;
         if(encodeTag.count(elem->Name())){
             s = encodeTag[elem->Name()] + " ";
         } else {
-            throw "Tag doesn't find.";
+            cerr << "Unrecognized tag " << elem->Name();
+            return "";
         }
         const tinyxml2::XMLAttribute* attrib = elem->FirstAttribute();
         while(attrib){
-            if(encodeAttrib.count(attrib->Name()))
+            if(encodeAttrib.count(attrib->Name())){
                 s += encodeAttrib[attrib->Name()] + " ";
-            else
-                throw "Attrib doesn't find.";
+            } else {
+                cerr << "Unrecognized attribute " << attrib->Name();
+                return "";
+            }
             s += (string)(attrib->Value()) + " ";
             attrib = attrib->Next();
         }
@@ -115,8 +112,12 @@ private:
             if(node->ToText()){
                 s += elem->GetText();
                 s += " 0 ";
+            } else if (node->ToElement()) {
+                string elem = encodeXml(node->ToElement());
+                if(elem.empty())
+                    return "";
+                s += elem;
             }
-            s += encodeXml(node->ToElement());
             node = node->NextSibling();
         }
         return s;
@@ -129,6 +130,9 @@ int main(void){
     cout << xp.encodeXml(s1) << endl;
     XmlParse2 xp2;
     string s2 = xp2.encodeXml("sample.xml");
-    cout << s2 << endl;
+    if(s2.empty())
+        cerr << "An error occured while parsing the file.";
+    else
+        cout << s2 << endl;
     return 0;
 }
