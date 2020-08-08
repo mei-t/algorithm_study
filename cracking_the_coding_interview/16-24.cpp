@@ -13,11 +13,8 @@ vector<pair<int, int>> findSum(const vector<int>& nums, int target){
             numSet.insert({target - num});
             continue;
         }
-        if(done.count(num) == 0){
-            res.push_back(pair<int, int>(num, target - num));
-            done.insert(num);
-            done.insert(target - num);
-        }
+        res.push_back(pair<int, int>(num, target - num));
+        numSet.erase(num);
     }
     return res;
 }
