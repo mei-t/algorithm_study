@@ -6,7 +6,7 @@ using namespace std;
 class XmlParse{
 public:
     string encodeXml(string& s){
-        int index = 0;
+        size_t index = 0;
         string res = "";
         while(index < s.size()){
             res += (index == 0 ? "" : " ");
@@ -52,7 +52,7 @@ private:
         {"state", "5"}
     };
 
-    string detectWord(string& s, int* index, char del){
+    string detectWord(string& s, size_t* index, char del){
         int start = *index;
         while(s[*index] != del)
             (*index)++;
