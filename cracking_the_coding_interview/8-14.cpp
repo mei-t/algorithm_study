@@ -56,7 +56,7 @@ int countEval(string formula, bool res, unordered_map<string, int>& memo){
         int totalTrue = 0;
         switch(c){
             case '&':
-                totalTrue = leftTrue + rightTrue;
+                totalTrue = leftTrue * rightTrue;
                 break;
             case '^':
                 totalTrue = leftTrue * rightFalse + leftFalse * rightTrue;
