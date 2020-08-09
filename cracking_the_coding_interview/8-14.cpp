@@ -32,7 +32,7 @@ using namespace std;
 //     return countEval(formula, res, 1);
 // }
 
-int countEval(string formula, bool res, unordered_map<string, int>& memo){
+int countEval(const string& formula, bool res, unordered_map<string, int>& memo){
     if(formula.size() == 0)
         return 0;
     if(formula.size() == 1)
@@ -70,7 +70,7 @@ int countEval(string formula, bool res, unordered_map<string, int>& memo){
     return ways;
 }
 
-int countEval(string formula, bool res){
+int countEval(const string& formula, bool res){
     unordered_map<string, int> memo;
     return countEval(formula, res, memo);
 }
