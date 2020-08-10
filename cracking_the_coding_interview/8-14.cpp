@@ -2,36 +2,6 @@
 #include <unordered_map>
 using namespace std;
 
-// int countEval(string formula, bool res, int index){
-//     if(formula.size() == 1)
-//         return ~((formula[0] - '0') ^ res);
-//     if(index >= formula.size())
-//         return 0;
-    
-//     int ans = countEval(formula, res, index + 2);
-
-//     int val;
-//     int x = formula[index - 1] - '0';
-//     int y = formula[index + 1] - '0';
-//     switch(formula[index]){
-//         case '&':
-//             val = x & y;
-//             break;
-//         case '|':
-//             val = x | y;
-//             break;
-//         case '^':
-//             val = x ^ y;
-//     }
-//     formula = formula.substr(0, index - 1) + to_string(val) + formula.substr(index + 2);
-//     ans += countEval(formula, res, index);
-//     return ans;
-// }
-
-// int countEval(string formula, bool res){
-//     return countEval(formula, res, 1);
-// }
-
 int countEval(const string& formula, bool res, unordered_map<string, int>& memo){
     if(formula.size() == 0)
         return 0;
