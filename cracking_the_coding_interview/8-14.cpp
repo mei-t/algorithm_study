@@ -12,7 +12,7 @@ int countEval(const string& formula, bool res, unordered_map<string, int>& memo)
     }
     
     int ways = 0;
-    for(int i = 1; i < formula.size(); i += 2){
+    for(size_t i = 1; i < formula.size(); i += 2){
         char c = formula[i];
         string left = formula.substr(0, i);
         string right = formula.substr(i + 1);
