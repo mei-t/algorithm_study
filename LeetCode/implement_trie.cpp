@@ -17,7 +17,7 @@ public:
     /** Inserts a word into the trie. */
     void insert(const string& word) {
         TrieNode* node = root;
-        for(int i = 0; i < word.size(); i++){
+        for(size_t i = 0; i < word.size(); i++){
             if(!(node->next[index(word, i)]))
                 node->next[index(word, i)] = new TrieNode();
             node = node->next[index(word, i)];
@@ -47,7 +47,7 @@ private:
 
     pair<bool, TrieNode*> searchPrefix(const string& prefix){
         TrieNode* node = root;
-        for(int i = 0; i < prefix.size(); i++){
+        for(size_t i = 0; i < prefix.size(); i++){
             TrieNode* nextNode = node->next[index(prefix, i)];
             if(!nextNode)
                 return pair<bool, TrieNode*>(false, nullptr);
