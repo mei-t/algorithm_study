@@ -37,7 +37,7 @@ class LinkedList:
             self.cur = prev
         del node
 
-class LruCashe:
+class LruCache:
     def __init__(self):
         self.ll = LinkedList()
         self.max = 3
@@ -64,7 +64,7 @@ class LruCashe:
 
 class Test(unittest.TestCase):
     def test(self):
-        lc = LruCashe()
+        lc = LruCache()
         lc.insert(0, 6)
         self.assertEqual(lc.get(0), 6)
         lc.insert(1, 7)
