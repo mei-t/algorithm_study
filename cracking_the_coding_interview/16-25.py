@@ -17,7 +17,7 @@ class LinkedList:
 
     def delete_first(self):
         node = self.root.next
-        val = -1
+        val = None
         if node:
             next = node.next
             self.root.next = next
@@ -57,7 +57,7 @@ class LruCashe:
 
     def get(self, key):
         if key not in self.dic:
-            return -1
+            return None
         self.ll.remove(key)
         self.ll.push_back(key)
         return self.dic[key]
@@ -70,7 +70,7 @@ class Test(unittest.TestCase):
         lc.insert(1, 7)
         lc.insert(2, 8)
         lc.insert(3, 9)
-        self.assertEqual(lc.get(0), -1)
+        self.assertEqual(lc.get(0), None)
         self.assertEqual(lc.get(2), 8)
 
 if __name__ == '__main__':
