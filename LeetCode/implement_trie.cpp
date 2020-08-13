@@ -15,7 +15,7 @@ public:
     Trie() : root(new TrieNode()) {}
     
     /** Inserts a word into the trie. */
-    void insert(string word) {
+    void insert(const string& word) {
         TrieNode* node = root;
         for(int i = 0; i < word.size(); i++){
             if(!(node->next[index(word, i)]))
@@ -26,7 +26,7 @@ public:
     }
     
     /** Returns if the word is in the trie. */
-    bool search(string word) {
+    bool search(const string& word) {
         pair<bool, TrieNode*> triePair = searchPrefix(word);
         if(!triePair.first)
             return false;
@@ -34,7 +34,7 @@ public:
     }
     
     /** Returns if there is any word in the trie that starts with the given prefix. */
-    bool startsWith(string prefix) {
+    bool startsWith(const string& prefix) {
         return searchPrefix(prefix).first;
     }
 
@@ -45,7 +45,7 @@ private:
         return s[i] - 'a';
     }
 
-    pair<bool, TrieNode*> searchPrefix(string prefix){
+    pair<bool, TrieNode*> searchPrefix(const string& prefix){
         TrieNode* node = root;
         for(int i = 0; i < prefix.size(); i++){
             TrieNode* nextNode = node->next[index(prefix, i)];
