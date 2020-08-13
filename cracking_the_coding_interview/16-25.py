@@ -1,3 +1,5 @@
+import unittest
+
 class ListNode:
     def __init__(self, val = -1):
         self.val = val
@@ -60,12 +62,16 @@ class LruCashe:
         self.ll.push_back(key)
         return self.dic[key]
 
+class Test(unittest.TestCase):
+    def test(self):
+        lc = LruCashe()
+        lc.insert(0, 6)
+        self.assertEqual(lc.get(0), 6)
+        lc.insert(1, 7)
+        lc.insert(2, 8)
+        lc.insert(3, 9)
+        self.assertEqual(lc.get(0), -1)
+        self.assertEqual(lc.get(2), 8)
+
 if __name__ == '__main__':
-    lc = LruCashe()
-    lc.insert(0, 6)
-    print(lc.get(0)) # 6
-    lc.insert(1, 7)
-    lc.insert(2, 8)
-    lc.insert(3, 9)
-    print(lc.get(0)) # -1
-    print(lc.get(2)) # 8
+    unittest.main()
