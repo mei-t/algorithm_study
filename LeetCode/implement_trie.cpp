@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <memory>
 using namespace std;
 
 class TrieNode {
@@ -13,6 +14,10 @@ class Trie {
 public:
     /** Initialize your data structure here. */
     Trie() : root(new TrieNode()) {}
+
+    ~Trie(){
+        deleteNode(root);
+    }
     
     /** Inserts a word into the trie. */
     void insert(const string& word) {
@@ -54,6 +59,15 @@ private:
             node = nextNode;
         }
         return pair<bool, TrieNode*>(true, node);
+    }
+
+    void deleteNode(TrieNode* node){
+        if(!node)
+            return;
+        
+        for(TrieNode* nextNode: node->next)
+            deleteNode(nextNode);
+        delete node;
     }
 };
 
