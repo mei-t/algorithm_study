@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <memory>
 using namespace std;
 
 class TrieNode {
@@ -14,13 +13,16 @@ class Trie {
 public:
     /** Initialize your data structure here. */
     Trie() : root(new TrieNode()) {}
-
+    
     ~Trie(){
         deleteNode(root);
     }
     
     /** Inserts a word into the trie. */
-    void insert(const string& word) {
+    bool insert(const string& word) {
+        if(!validInput(word))
+            return false;
+
         TrieNode* node = root;
         for(size_t i = 0; i < word.size(); i++){
             if(!(node->next[index(word, i)]))
@@ -28,6 +30,7 @@ public:
             node = node->next[index(word, i)];
         }
         node->isEnd = true;
+        return true;
     }
     
     /** Returns if the word is in the trie. */
@@ -59,6 +62,14 @@ private:
             node = nextNode;
         }
         return pair<bool, TrieNode*>(true, node);
+    }
+
+    bool validInput(const string& word){
+        for(char c: word){
+            if(c <'a' && c > 'z')
+                return false;
+        }
+        return true;
     }
 
     void deleteNode(TrieNode* node){
