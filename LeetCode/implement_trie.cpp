@@ -5,6 +5,12 @@ using namespace std;
 class TrieNode {
 public:
     TrieNode() : next(vector<TrieNode*>(26, nullptr)), isEnd(false) {}
+    ~TrieNode(){
+        for(TrieNode* nextNode: next){
+            if(nextNode)
+                delete nextNode;
+        }
+    }
     vector<TrieNode*> next;
     bool isEnd;
 };
@@ -15,7 +21,7 @@ public:
     Trie() : root(new TrieNode()) {}
     
     ~Trie(){
-        deleteNode(root);
+        delete root;
     }
     
     /** Inserts a word into the trie. */
@@ -70,15 +76,6 @@ private:
                 return false;
         }
         return true;
-    }
-
-    void deleteNode(TrieNode* node){
-        if(!node)
-            return;
-        
-        for(TrieNode* nextNode: node->next)
-            deleteNode(nextNode);
-        delete node;
     }
 };
 
