@@ -1,8 +1,10 @@
 import unittest
 
 class ListNode:
-    def __init__(self, val = -1):
+    def __init__(self, key = None, val = None):
+        self.key = key
         self.val = val
+        self.prev = None
         self.next = None
 
 class LinkedList:
@@ -10,32 +12,31 @@ class LinkedList:
         self.root = ListNode()
         self.cur = self.root
 
-    def push_back(self, val):
-        next = ListNode(val)
-        self.cur.next = next
-        self.cur = next
+    def push_back(self, node):
+        self.cur.next = node
+        node.prev = self.cur
+        self.cur = node
 
     def delete_first(self):
         node = self.root.next
-        val = None
+        key = None
         if node:
             next = node.next
             self.root.next = next
-            val = node.val
-        del node
-        return val
+            next.prev = self.root
+            key = node.key
+        return key
 
-    def remove(self, val):
-        prev = self.root
-        node = prev.next
-        while node and node.val != val:
-            prev = node
-            node = node.next
-        if node:
-            prev.next = node.next
-        if node == self.cur:
+    def remove_node(self, node):
+        prev = node.prev
+        next = node.next
+        if next:
+            prev.next = next
+            next.prev = prev
+        else:
+            prev.next = None
             self.cur = prev
-        del node
+        return node
 
 class LruCache:
     def __init__(self):
@@ -44,26 +45,30 @@ class LruCache:
         self.dic = {}
     
     def insert(self, key, val):
+        node = None
         if key not in self.dic:
+            node = ListNode(key, val)
             if len(self.dic) >= self.max:
-                item = self.ll.delete_first()
-                del self.dic[item]
-            self.dic[key] = val
+                delete_key = self.ll.delete_first()
+                del_node = self.dic[delete_key]
+                del self.dic[delete_key]
+                del del_node
+            self.dic[key] = node
         else:
-            self.ll.remove(key)
+            node = self.ll.remove_node(self.dic[key])
 
-        self.ll.push_back(key)
-
+        self.ll.push_back(node)
 
     def get(self, key):
         if key not in self.dic:
             return None
-        self.ll.remove(key)
-        self.ll.push_back(key)
-        return self.dic[key]
+        self.ll.remove_node(self.dic[key])
+        self.ll.push_back(self.dic[key])
+        return self.dic[key].val
+
 
 class Test(unittest.TestCase):
-    def test(self):
+    def test1(self):
         lc = LruCache()
         lc.insert(0, 6)
         self.assertEqual(lc.get(0), 6)
@@ -71,6 +76,17 @@ class Test(unittest.TestCase):
         lc.insert(2, 8)
         lc.insert(3, 9)
         self.assertEqual(lc.get(0), None)
+        self.assertEqual(lc.get(2), 8)
+    
+    def test2(self):
+        lc = LruCache()
+        lc.insert(0, 6)
+        lc.insert(1, 7)
+        lc.insert(2, 8)
+        self.assertEqual(lc.get(0), 6)
+        lc.insert(3, 9)
+        self.assertEqual(lc.get(0), 6)
+        self.assertEqual(lc.get(1), None)
         self.assertEqual(lc.get(2), 8)
 
 if __name__ == '__main__':
