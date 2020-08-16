@@ -1,39 +1,30 @@
 #include <iostream>
 #include <vector>
+#include <memory>
 using namespace std;
 
 class TrieNode {
 public:
-    TrieNode() : next(vector<TrieNode*>(26, nullptr)), isEnd(false) {}
-    ~TrieNode(){
-        for(TrieNode* nextNode: next){
-            if(nextNode)
-                delete nextNode;
-        }
-    }
-    vector<TrieNode*> next;
+    TrieNode() : next(vector<unique_ptr<TrieNode>>(26, nullptr)), isEnd(false) {}
+    vector<unique_ptr<TrieNode>> next;
     bool isEnd;
 };
 
 class Trie {
 public:
     /** Initialize your data structure here. */
-    Trie() : root(new TrieNode()) {}
-    
-    ~Trie(){
-        delete root;
-    }
+    Trie() : root(make_unique<TrieNode>()) {}
     
     /** Inserts a word into the trie. */
     bool insert(const string& word) {
         if(!validInput(word))
             return false;
 
-        TrieNode* node = root;
+        TrieNode* node = root.get();
         for(size_t i = 0; i < word.size(); i++){
             if(!(node->next[index(word, i)]))
-                node->next[index(word, i)] = new TrieNode();
-            node = node->next[index(word, i)];
+                node->next[index(word, i)] = make_unique<TrieNode>();
+            node = node->next[index(word, i)].get();
         }
         node->isEnd = true;
         return true;
@@ -53,16 +44,16 @@ public:
     }
 
 private:
-    TrieNode* root;
+    unique_ptr<TrieNode> root;
 
     int index(string s, int i){
         return s[i] - 'a';
     }
 
     pair<bool, TrieNode*> searchPrefix(const string& prefix){
-        TrieNode* node = root;
+        TrieNode* node = root.get();
         for(size_t i = 0; i < prefix.size(); i++){
-            TrieNode* nextNode = node->next[index(prefix, i)];
+            TrieNode* nextNode = node->next[index(prefix, i)].get();
             if(!nextNode)
                 return pair<bool, TrieNode*>(false, nullptr);
             node = nextNode;
