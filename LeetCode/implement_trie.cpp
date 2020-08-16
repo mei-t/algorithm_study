@@ -83,13 +83,12 @@ private:
 };
 
 int main(void){
-    Trie* trie = new Trie();
-    trie->insert("apple");
-    cout << trie->search("apple") << endl; // true
-    cout << trie->search("app") << endl; // false
-    cout << trie->startsWith("app") << endl; // true
-    trie->insert("app");
-    cout << trie->search("app") << endl; // true
-    delete trie;
+    Trie trie;
+    trie.insert("apple");
+    cout << trie.search("apple") << endl; // true
+    cout << trie.search("app") << endl; // false
+    cout << trie.startsWith("app") << endl; // true
+    trie.insert("app");
+    cout << trie.search("app") << endl; // true
     return 0;
 }
