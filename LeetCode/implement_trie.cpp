@@ -90,5 +90,6 @@ int main(void){
     cout << trie->startsWith("app") << endl; // true
     trie->insert("app");
     cout << trie->search("app") << endl; // true
+    delete trie;
     return 0;
 }
