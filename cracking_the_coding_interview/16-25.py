@@ -56,6 +56,7 @@ class LruCache:
             self.dic[key] = node
         else:
             node = self.ll.remove_node(self.dic[key])
+            node.val = val
 
         self.ll.push_back(node)
 
@@ -68,7 +69,7 @@ class LruCache:
 
 
 class Test(unittest.TestCase):
-    def test1(self):
+    def testSimple1(self):
         lc = LruCache()
         lc.insert(0, 6)
         self.assertEqual(lc.get(0), 6)
@@ -78,7 +79,7 @@ class Test(unittest.TestCase):
         self.assertEqual(lc.get(0), None)
         self.assertEqual(lc.get(2), 8)
     
-    def test2(self):
+    def testSimple2(self):
         lc = LruCache()
         lc.insert(0, 6)
         lc.insert(1, 7)
@@ -88,6 +89,13 @@ class Test(unittest.TestCase):
         self.assertEqual(lc.get(0), 6)
         self.assertEqual(lc.get(1), None)
         self.assertEqual(lc.get(2), 8)
+
+    def testOverrideValue(self):
+        lc = LruCache()
+        lc.insert(0, 6)
+        self.assertEqual(lc.get(0), 6)
+        lc.insert(0, 7)
+        self.assertEqual(lc.get(0), 7)
 
 if __name__ == '__main__':
     unittest.main()
