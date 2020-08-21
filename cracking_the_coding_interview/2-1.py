@@ -1,3 +1,5 @@
+import unittest
+
 class ListNode:
     def __init__(self, val, next=None):
         self.val = val
@@ -29,6 +31,7 @@ class LinkedList:
     
     def delete(self, val):
         node = self.head
+        # import pdb; pdb.set_trace()
         if val == node.val:
             del_node = node
             self.head = node.next
@@ -48,9 +51,29 @@ class LinkedList:
 
 def delete_dupli_with_buffer(ll):
     node = ll.head
-    num_set = {}
+    num_set = set()
     while node:
         if node.val in num_set:
             ll.delete(node.val)
-        num_set.append(node.val)
+        num_set.add(node.val)
+        node = node.next
+
+class Test(unittest.TestCase):
+    def test(self):
+        nums = [0, 1, 2, 1, 3]
+        expected = [0, 2, 1, 3]
+        ll = LinkedList()
+        for num in nums:
+            ll.append(num)
+        
+        delete_dupli_with_buffer(ll)
+        node = ll.head
+        for e in expected:
+            self.assertEqual(e, node.val)
+            node = node.next
+
+
+if __name__ == '__main__':
+    unittest.main()
+    
 
