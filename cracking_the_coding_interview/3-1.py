@@ -1,3 +1,5 @@
+import unittest
+
 class ThreeStacks:
     def __init__(self, size):
         self.list = [None for _ in range(size)]
@@ -30,7 +32,7 @@ class ThreeStacks:
         self.thi_i -= 1
         return True
     
-    def firstPop(self):
+    def popFirst(self):
         if self.fir_i == 0:
             return None
         
@@ -38,7 +40,7 @@ class ThreeStacks:
         self.list[self.fir_i - 1] = None
         return res
     
-    def secondPop(self):
+    def popSecond(self):
         if self.sec_i == self.size * 2 / 3:
             return None
         
@@ -46,7 +48,7 @@ class ThreeStacks:
         self.list[self.sec_i + 1] = None
         return res
     
-    def thirdPop(self):
+    def popThird(self):
         if self.thi_i == self.size:
             return None
         
