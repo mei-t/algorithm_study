@@ -1,20 +1,44 @@
-class Node:
-    def __init__(self, val, nexts):
-        self.val = val
-        self.nexts = nexts
+import unittest
 
-def find_root(start, end, cur_node, node_set):
-    if cur_node == end:
+def is_root(start, end, graph):
+    if start == end:
         return True
-    if not cur_node or cur_node in node_set:
-        return False
 
-    node_set.add(node_set)
-    for node in cur_node:
-        if find_root(start, end, node, node_set):
+    q = graph[start]
+    node_set = {start}
+    while q:
+        node = q.pop()
+        if node == end:
             return True
-
+        if node in node_set:
+            continue
+        q += graph[node]
+        node_set.add(node)
     return False
 
-def is_root(node1, node2):
-    return find_root(node1, node2, node1, set()) or find_root(node2, node1, node2, set())
+class Test(unittest.TestCase):
+    graph = { 0: [1, 2],
+              1: [2, 3],
+              2: [5],
+              3: [4],
+              4: [],
+              5: [6],
+              6: [2]}
+    
+    def test_true_simple(self):
+        self.assertTrue(is_root(1, 3, self.graph))
+        
+    def test_false_simple(self):
+        self.assertFalse(is_root(4, 2, self.graph))
+
+    def test_true_long(self):
+        self.assertTrue(is_root(0, 4, self.graph))
+
+    def test_false_loop(self):
+        self.assertFalse(is_root(2, 3, self.graph))
+
+    def test_true_same(self):
+        self.assertTrue(is_root(3, 3, self.graph))
+
+if __name__ == '__main__':
+    unittest.main()
