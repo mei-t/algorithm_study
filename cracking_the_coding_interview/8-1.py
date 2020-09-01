@@ -1,3 +1,5 @@
+import unittest
+
 def count_ways(k, map):
     if k in map:
         return map[k]
@@ -11,5 +13,10 @@ def count_ways(k, map):
 def triple_step(k):
     return count_ways(k, dict())
 
+class Test(unittest.TestCase):
+    def test_simple(self):
+        self.assertEqual(triple_step(3), 4)
+        self.assertEqual(triple_step(6), 24)
+
 if __name__ == '__main__':
-    print(triple_step(3))
+    unittest.main()
