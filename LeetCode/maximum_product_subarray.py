@@ -1,59 +1,37 @@
-import sys
+import unittest
 
 class Solution(object):
     def maxProduct(self, nums):
-        if len(nums) == 0:
-            return None
-        max_prod = nums[0]
-        prod = None
-        prod_only_posi = None
-        for num in nums:
-            if prod == None:
-                prod = num
-            elif prod > 0:
-                if num > 0:
-                    prod *= num
-                    if prod_only_posi != None:
-                        prod_only_posi *= num
-                    
-                elif num == 0:
-                    max_prod, prod_only_posi = self.updateMax(max_prod, prod, prod_only_posi)
-                    prod = num
-                
-                elif num < 0:
-                    max_prod, prod_only_posi = self.updateMax(max_prod, prod, prod_only_posi)
-                    prod *= num
+        r = nums[0]
+        cur_max = r
+        cur_min = r
+        for i in range(1, len(nums)):
+            if nums[i] < 0:
+                cur_max, cur_min = cur_min, cur_max
             
-            elif prod == 0:
-                max_prod, prod_only_posi = self.updateMax(max_prod, prod, prod_only_posi)
-                prod = num
-            
-            elif prod < 0:
-                if num > 0:
-                    if prod_only_posi != None:
-                        prod_only_posi *= num
-                    else:
-                        prod_only_posi = num
-                    prod *= num
-                elif num == 0:
-                    if prod_only_posi != None:
-                        max_prod = max(max_prod, prod_only_posi)
-                        prod_only_posi = None
-                    prod = 0
-                elif num < 0:
-                    prod *= num
-                    prod_only_posi = None
-        max_prod, prod_only_posi = self.updateMax(max_prod, prod, prod_only_posi)
-        return max_prod
+            cur_max = max(nums[i], nums[i] * cur_max)
+            cur_min = min(nums[i], nums[i] * cur_min)
 
-    def updateMax(self, max_prod, prod, prod_only_posi):
-        max_prod = max(max_prod, prod)
-        if prod_only_posi == None:
-            return max_prod
-        return max(max_prod, prod_only_posi), None
+            r = max(r, cur_max)
+        
+        return r
+
+
+class Test(unittest.TestCase):
+    def test_simple1(self):
+        nums = [2,3,-2,4]
+        sol = Solution()
+        self.assertEqual(sol.maxProduct(nums), 6)
+
+    def test_simple2(self):
+        nums = [-2,0,-1]
+        sol = Solution()
+        self.assertEqual(sol.maxProduct(nums), 0)
+
+    def test_simple3(self):
+        nums = [2,-5,-2,-4,3]
+        sol = Solution()
+        self.assertEqual(sol.maxProduct(nums), 24)
 
 if __name__ == '__main__':
-    nums = [2,3,-2,4]
-    sol = Solution()
-    print("aaa")
-    print(sol.maxProduct(nums))
+    unittest.main()
