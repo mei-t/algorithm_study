@@ -1,5 +1,9 @@
 class Solution(object):
     def longestSubstring(self, s, k):
+        if len(s) < k:
+            return 0
+        if k < 2:
+            return len(s)
         if s == "":
             return 0
         countMap = [0 for _ in range(26)]
