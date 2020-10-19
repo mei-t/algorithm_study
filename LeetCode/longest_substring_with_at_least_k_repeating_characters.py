@@ -1,3 +1,4 @@
+# Divide And Conquer
 class Solution(object):
     def longestSubstring(self, s, k):
         if len(s) < k:
@@ -24,6 +25,7 @@ class Solution(object):
         
         return max(self.longestSubstring(s[:m], k), self.longestSubstring(s[m+1:], k))
 
+# Sliding Window
 class Solution2(object):
     def longestSubstring(self, s, k):
         max_uni = self.countMaxUnique(s)
