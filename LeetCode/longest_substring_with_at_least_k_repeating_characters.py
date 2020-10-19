@@ -4,17 +4,17 @@ class Solution(object):
             return 0
         countMap = [0 for _ in range(26)]
         for c in s:
-            countMap[c - 'a'] += 1
+            countMap[ord(c) - ord('a')] += 1
         m_cha = None
         for i in range(26):
             if countMap[i] > 0 and countMap[i] < k:
-                m_cha = i + 'a'
+                m_cha = chr(i + ord('a'))
                 break
         if m_cha == None:
             return len(s)
 
         m = len(s)
-        for i in len(s):
+        for i in range(len(s)):
             if s[i] == m_cha:
                 m = i
         
@@ -25,5 +25,10 @@ if __name__ == '__main__':
     sol = Solution()
     s = "aaabb"
     k = 3
+    res = sol.longestSubstring(s, k)
+    print(res)
+
+    s = "ababbc"
+    k = 2
     res = sol.longestSubstring(s, k)
     print(res)
