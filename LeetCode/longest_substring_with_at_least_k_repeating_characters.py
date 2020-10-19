@@ -28,6 +28,10 @@ class Solution(object):
 # Sliding Window
 class Solution2(object):
     def longestSubstring(self, s, k):
+        if len(s) < k:
+            return 0
+        if k < 2:
+            return len(s)
         max_uni = self.countMaxUnique(s)
         result = 0
         for cur_uni in range(1, max_uni + 1):
