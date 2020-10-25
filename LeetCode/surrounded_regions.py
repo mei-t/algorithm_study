@@ -1,51 +1,66 @@
 class Solution:
     def solve(self, board):
-        if board == None:
+        if len(board) == 0:
             return
         
-        col = len(board)
-        row = len(board[0])
-        is_visited = [[False] * row] * col
+        col = len(board[0])
+        row = len(board)
+        is_visited = [[False for _ in range(col)] for _ in range(row)]
         print(is_visited)
-        for i in range(col):
-            for j in range(row):
+        for i in range(row):
+            for j in range(col):
                 if is_visited[i][j]:
                     continue
-                # print(i, j)
-                # print(is_visited[i][j])
-                # # is_visited[i][j] = True
-                # print(is_visited)
-                if board[i][j] == "O":
-                    # is_visited[i][j] = True
-                    print(self.flipSurroundedO(board, i, j, is_visited))
+                print(is_visited[i][j])
+                if board[i][j] == "O" and self.isSurrounded(board, i, j, is_visited):
+                    print(i, j, is_visited[i][j])
+                    self.flipSurroundedO(board, i, j)
     
-    def flipSurroundedO(self, board, i, j, is_visited):
-        print(i, j)
-        col = len(board)
-        row = len(board[0])
-        if i < 0 or j < 0 or i >= col or j >= row:
+    def isSurrounded(self, board, i, j, is_visited):
+        # print("start", i, j)
+        col = len(board[0])
+        row = len(board)
+        if i < 0 or j < 0 or i >= row or j >= col:
             return False
         if board[i][j] == "X" or is_visited[i][j]:
             return True
         is_visited[i][j] = True
-        print("AAA")
+        # print("AAA")
 
-        if self.flipSurroundedO(board, i-1, j, is_visited) and self.flipSurroundedO(board, i, j-1, is_visited) and self.flipSurroundedO(board, i+1, j, is_visited) and self.flipSurroundedO(board, i, j+1, is_visited):
-            print("aaa")
-            print(i, j)
-            print(board[i][j])
+        if self.isSurrounded(board, i-1, j, is_visited) and self.isSurrounded(board, i, j-1, is_visited) and self.isSurrounded(board, i+1, j, is_visited) and self.isSurrounded(board, i, j+1, is_visited):
+            # print("aaa")
+            # print(i, j)
+            # print(board[i][j])
             board[i][j] = "X"
-            print(board[i][j])
-            for row in board:
-                print(row)
+            # print(board[i][j])
+            # for row in board:
+            #     print(row)
             return True
         
         return False
+    
+    def flipSurroundedO(self, board, i, j):
+        col = len(board[0])
+        row = len(board)
+        if i < 0 or j < 0 or i >= row or j >= col:
+            return
+        if board[i][j] == "X":
+            return
+        
+        board[i][j] = "X"
+        self.flipSurroundedO(board, i-1, j)
+        self.flipSurroundedO(board, i, j-1)
+        self.flipSurroundedO(board, i+1, j)
+        self.flipSurroundedO(board, i, j+1)
 
 
 if __name__ == '__main__':
     sol = Solution()
     board = [["X", "X", "X", "X"], ["X", "O", "O", "X"], ["X", "X", "O", "X"], ["X", "O", "X", "X"]]
-    sol.solve(board)
-    for row in board:
+    board2 = [["X","O","X","O","X","O"],["O","X","O","X","O","X"],["X","O","X","O","X","O"],["O","X","O","X","O","X"]]
+    board3 = [["O","O","O","O","X","X"],["O","O","O","O","O","O"],["O","X","O","X","O","O"],["O","X","O","O","X","O"],["O","X","O","X","O","O"],["O","X","O","O","O","O"]]
+    for row in board3:
+        print(row)
+    sol.solve(board3)
+    for row in board3:
         print(row)
