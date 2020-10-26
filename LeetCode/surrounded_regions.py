@@ -6,18 +6,14 @@ class Solution:
         col = len(board[0])
         row = len(board)
         is_visited = [[False for _ in range(col)] for _ in range(row)]
-        print(is_visited)
         for i in range(row):
             for j in range(col):
                 if is_visited[i][j]:
                     continue
-                print(is_visited[i][j])
                 if board[i][j] == "O" and self.isSurrounded(board, i, j, is_visited):
-                    print(i, j, is_visited[i][j])
                     self.flipSurroundedO(board, i, j)
     
     def isSurrounded(self, board, i, j, is_visited):
-        # print("start", i, j)
         col = len(board[0])
         row = len(board)
         if i < 0 or j < 0 or i >= row or j >= col:
@@ -25,19 +21,12 @@ class Solution:
         if board[i][j] == "X" or is_visited[i][j]:
             return True
         is_visited[i][j] = True
-        # print("AAA")
 
-        if self.isSurrounded(board, i-1, j, is_visited) and self.isSurrounded(board, i, j-1, is_visited) and self.isSurrounded(board, i+1, j, is_visited) and self.isSurrounded(board, i, j+1, is_visited):
-            # print("aaa")
-            # print(i, j)
-            # print(board[i][j])
-            board[i][j] = "X"
-            # print(board[i][j])
-            # for row in board:
-            #     print(row)
-            return True
-        
-        return False
+        left = self.isSurrounded(board, i-1, j, is_visited)
+        up = self.isSurrounded(board, i, j-1, is_visited)
+        right = self.isSurrounded(board, i+1, j, is_visited)
+        down = self.isSurrounded(board, i, j+1, is_visited)
+        return left and up and right and down
     
     def flipSurroundedO(self, board, i, j):
         col = len(board[0])
@@ -61,6 +50,7 @@ if __name__ == '__main__':
     board3 = [["O","O","O","O","X","X"],["O","O","O","O","O","O"],["O","X","O","X","O","O"],["O","X","O","O","X","O"],["O","X","O","X","O","O"],["O","X","O","O","O","O"]]
     for row in board3:
         print(row)
+    print()
     sol.solve(board3)
     for row in board3:
         print(row)
