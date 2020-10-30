@@ -8,7 +8,7 @@ class MinStack:
         self.stack = []
     
     def push(self, val):
-        if len(self.stack) > 0:
+        if self.stack:
             min_val = self.stack[-1].min_val
         else:
             min_val = val
@@ -19,14 +19,20 @@ class MinStack:
         self.stack.append(StackNode(val, min_val))
 
     def pop(self):
+        if not self.stack:
+            return None
         return self.stack.pop().val
     
     def min(self):
+        if not self.stack:
+            return None
         return self.stack[-1].min_val
 
 
 if __name__ == '__main__':
     ms = MinStack()
+    print(ms.min())
+    print(ms.pop())
     ms.push(3)
     ms.push(1)
     ms.push(5)
