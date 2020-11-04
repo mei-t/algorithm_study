@@ -3,7 +3,7 @@ class Solution(object):
         # if not (a & (1 << 31)) ^ (b & (1 << 31)):
         res = 0
         carry = 0
-        for i in range(31):
+        for i in range(32):
             mask = 1 << i
             carry <<= 1
             a_masked = mask & a
@@ -16,5 +16,5 @@ class Solution(object):
 
 if __name__ == '__main__':
     sol = Solution()
-    res = sol.getSum(127, 3)
+    res = sol.getSum(2, 3)
     print(res)
