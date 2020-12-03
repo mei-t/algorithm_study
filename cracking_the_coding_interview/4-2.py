@@ -4,23 +4,24 @@ class TreeNode:
         self.left = left
         self.right = right
 
-def createNode(nums, i):
-    if i >= len(nums):
+def createNode(nums, left, right):
+    if left >= right:
         return None
 
-    node = TreeNode(nums[i])
-    node.left = createNode(nums, i*2+1)
-    node.right = createNode(nums, i*2+2)
+    mid = (left + right) // 2
+    node = TreeNode(nums[mid])
+    node.left = createNode(nums, left, mid)
+    node.right = createNode(nums, mid + 1, right)
     return node
 
 def createTree(nums):
-    return createNode(nums, 0)
+    return createNode(nums, 0, len(nums))
 
 def output(node):
     if not node:
         return
-    print(node.val)
     output(node.left)
+    print(node.val)
     output(node.right)
 
 if __name__ == '__main__':
