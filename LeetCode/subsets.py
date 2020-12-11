@@ -1,5 +1,3 @@
-import copy
-
 class Solution(object):
     def subsets(self, nums):
         res = [[]]
