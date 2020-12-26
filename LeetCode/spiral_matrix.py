@@ -11,7 +11,7 @@ class Solution1(object):
         while True:
             if left == right:
                 break
-
+            
             for cur_j in range(left, right):
                 res.append(matrix[cur_i][cur_j])
             right -= 1
@@ -66,9 +66,34 @@ class Solution2(object):
         
         return res
 
+# まだ完全に理解できてない
+class Solution3(object):
+    def spiralOrder(self, matrix):
+        def spiral_coords(bottom, left, top, right):
+            for c in range(left, right + 1):
+                yield bottom, c
+            for r in range(bottom + 1, top + 1):
+                yield r, right
+            if bottom < top and left < right:
+                for c in range(right - 1, left, -1):
+                    yield top, c
+                for r in range(top, bottom, -1):
+                    yield r, left
+
+        if not matrix: return []
+        ans = []
+        bottom, top = 0, len(matrix) - 1
+        left, right = 0, len(matrix[0]) - 1
+        while bottom <= top and left <= right:
+            for r, c in spiral_coords(bottom, left, top, right):
+                ans.append(matrix[r][c])
+            bottom += 1; top -= 1
+            left += 1; right -= 1
+        return ans
+
 
 if __name__ == '__main__':
-    sol = Solution2()
+    sol = Solution1()
     matrix1 = [[1,2,3],[4,5,6],[7,8,9]]
     matrix2 = [[1, 2, 3, 4],[5, 6, 7, 8],[9, 10, 11, 12]]
     res1 = sol.spiralOrder(matrix1)
