@@ -29,6 +29,31 @@ def checkNext(matrix, i, j, root, res):
     checkNext(matrix, i, j+1, right_root, res)
     checkNext(matrix, i+1, j, down_root, res)
 
+def findRoot2(matrix):
+    if not matrix:
+        return None
+    isVisited = [[False for _ in range(len(matrix[0]))] for _ in range(len(matrix))]
+    root = []
+    if getRoot(matrix, len(matrix) - 1, len(matrix[0]) - 1, root, isVisited):
+        return root
+    return None
+
+def getRoot(matrix, r, c, root, isVisited):
+    if r < 0 or c < 0 or not matrix[r][c]:
+        return False
+
+    if isVisited[r][c]:
+        return False
+    
+    if (r == 0 and c == 0) or getRoot(matrix, r - 1, c, root, isVisited) or getRoot(matrix, r, c - 1, root, isVisited):
+        root.append((r, c))
+        return True
+    
+    isVisited[r][c] = True
+    return False
+    
+
+
 if __name__ == '__main__':
     matrix = [
         [1, 1, 1, 1],
