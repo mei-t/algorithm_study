@@ -66,7 +66,6 @@ class Solution2(object):
         
         return res
 
-# まだ完全に理解できてない
 class Solution3(object):
     def spiralOrder(self, matrix):
         def spiral_coords(bottom, left, top, right):
@@ -80,7 +79,8 @@ class Solution3(object):
                 for r in range(top, bottom, -1):
                     yield r, left
 
-        if not matrix: return []
+        if not matrix:
+            return []
         ans = []
         bottom, top = 0, len(matrix) - 1
         left, right = 0, len(matrix[0]) - 1
