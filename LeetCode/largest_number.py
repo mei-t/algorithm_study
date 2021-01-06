@@ -1,6 +1,6 @@
 import heapq
 
-class Solution(object):
+class Solution1(object):
     def largestNumber(self, nums):
         num_map = dict()
         digit_set = set()
@@ -40,8 +40,17 @@ class Solution(object):
         
         return res
 
+class LargetNum(str):
+    def __lt__(self, x):
+        return self+x > x+ self
+
+class Solution2(object):
+    def largestNumber(self, nums):
+        res = "".join(sorted(map(str, nums), key = LargetNum))
+        return "0" if res[0] == "0" else res
+        
 if __name__ == '__main__':
-    sol = Solution()
+    sol = Solution1()
     nums = [2, 10]
     # nums = [3, 30, 34, 5, 9]
     print(sol.largestNumber(nums))
