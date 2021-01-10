@@ -1,4 +1,4 @@
-class Solution(object):
+class Solution1(object):
     def myPow(self, x, n):
         if n == 0:
             return 1
@@ -19,6 +19,20 @@ class Solution(object):
                 quotient /= 2
             res *= num_map[quotient]
             n -= quotient
+        return res
+
+class Solution(object):
+    def myPow(self, x, n):
+        if n < 0:
+            x = 1 / x
+            n = -n
+
+        res = 1
+        while n > 0:
+            if n & 1:
+                res *= x
+            x *= x
+            n >>= 1
         return res
 
 if __name__ == '__main__':
