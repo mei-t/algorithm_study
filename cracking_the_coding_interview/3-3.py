@@ -1,61 +1,46 @@
+import unittest
+
 class SetOfStacks:
     def __init__(self, capacity):
-        self.s1, self.s2, self.s3 = [], [], []
         self.capacity = capacity
-
+        self.cur_s = []
+        self.stack_s = [0]
+        self.stack_d = {0: self.cur_s}
+    
     def push(self, val):
-        if len(self.s1) < self.capacity:
-            self.s1.append(val)
+        if len(self.cur_s) < self.capacity:
+            self.cur_s.append(val)
             return
 
-        if len(self.s2) < self.capacity:
-            self.s2.append(val)
-            return
-
-        if len(self.s3) < self.capacity:
-            self.s3.append(val)
-            return
-        
-        print("Error: The stack is full.")
+        self.cur_s = [val]
+        i = self.stack_s[-1]
+        self.stack_s.append(i + 1)
+        self.stack_d[i + 1] = self.cur_s
 
     def pop(self):
-        if len(self.s3) > 0:
-            return self.s3.pop()
-
-        if len(self.s2) > 0:
-            return self.s2.pop()
-
-        if len(self.s1) > 0:
-            return self.s1.pop()
-        
-        return None
+        res = self.cur_s.pop()
+        if len(self.cur_s) == 0:
+            del self.stack_d[self.stack_s.pop()]
+        return res
     
     def popAt(self, i):
-        if i < 0:
-            return None
+        stack_num = i // self.capacity
+        index = i % self.capacity
+        res = self.stack_d[stack_num].pop(index)
+        for j in range(stack_num + 1, self.stack_s[-1] + 1):
+            tmp = self.stack_d[j].pop(0)
+            self.stack_d[j - 1].append(tmp)
+        return res
 
-        if i < self.capacity:
-            return self.s1.pop(i)
+class Test(unittest.TestCase):
+    def test_simple(self):
+        sos = SetOfStacks(3)
+        for i in range(10):
+            sos.push(i)
         
-        if i < 2 * self.capacity:
-            return self.s2.pop(i % self.capacity)
-
-        if i < 3 * self.capacity:
-            return self.s3.pop(i % self.capacity)
-
-        return None
+        self.assertEqual(sos.pop(), 9)
+        self.assertEqual(sos.popAt(2), 2)
+        self.assertEqual(sos.popAt(5), 6)
 
 if __name__ == '__main__':
-    sos = SetOfStacks(3)
-    sos.push(0)
-    sos.push(1)
-    sos.push(2)
-    sos.push(3)
-    sos.push(4)
-    sos.push(5)
-    sos.push(6)
-    sos.push(7)
-    sos.push(8)
-    sos.push(9) # Error
-    print(sos.popAt(2)) # 2
-    print(sos.pop()) #8
+    unittest.main()
