@@ -1,3 +1,5 @@
+import unittest
+
 class TreeNode:
     def __init__(self, val, left=None, right=None):
         self.val = val
@@ -29,21 +31,29 @@ def depthList(root):
     res, cur = [], []
     return createDepthList(root, res, cur, 0)
 
+class Test(unittest.TestCase):
+    def __init__(self, *args, **kwargs):
+        super(Test, self).__init__(*args, **kwargs)
+        tn1 = TreeNode(8)
+        tn2 = TreeNode(4)
+        tn3 = TreeNode(12)
+        tn4 = TreeNode(2)
+        tn5 = TreeNode(10)
+        tn6 = TreeNode(16)
+        tn1.left = tn2
+        tn1.right = tn3
+        tn2.left = tn4
+        tn3.left = tn5
+        tn3.right = tn6
+        self.root = tn1
+    
+    def test_simple(self):
+        res = depthList(self.root)
+        expected = [[8], [4, 12], [2, 10, 16]]
+        for i in range(len(res)):
+            for num in expected[i]:
+                self.assertEqual(num, res[i].val)
+                res[i] = res[i].next
+
 if __name__ == '__main__':
-    tn1 = TreeNode(8)
-    tn2 = TreeNode(4)
-    tn3 = TreeNode(12)
-    tn4 = TreeNode(2)
-    tn5 = TreeNode(10)
-    tn6 = TreeNode(16)
-    tn1.left = tn2
-    tn1.right = tn3
-    tn2.left = tn4
-    tn3.left = tn5
-    tn3.right = tn6
-    res = depthList(tn1)
-    for ln in res:
-        while ln:
-            print(ln.val)
-            ln = ln.next
-        print()
+    unittest.main()
