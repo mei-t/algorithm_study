@@ -5,7 +5,7 @@ class ListNode(object):
         self.val = val
         self.next = next
 
-class Solution(object):
+class Solution1(object):
     def removeNthFromEnd(self, head, n):
         if not head or not head.next:
             return None
@@ -27,6 +27,24 @@ class Solution(object):
             head = head.next
         del del_node
         return head
+
+class Solution(object):
+    def removeNthFromEnd(self, head, n):
+        dummy = ListNode()
+        dummy.next = head
+        first = second = dummy
+        while n > 0:
+            first = first.next
+            n -= 1
+        
+        while first.next:
+            first = first.next
+            second = second.next
+        
+        del_node = second.next
+        second.next = second.next.next
+        del del_node
+        return dummy.next
 
 def createLinkedList(nums, i):
     if i >= len(nums):
