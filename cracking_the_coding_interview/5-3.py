@@ -21,10 +21,9 @@ def inversionPos(num):
     for i in range(len(bit_list) - 2):
         next_one = bit_list[i + 2] if bit_list[i + 1] == 1 else 0
         l = bit_list[i] + next_one + 1
-        if l > max_l:
-            max_l = l
-    if max_l < bit_list[-1] + 1:
-        max_l = bit_list[-1] + 1
+        max_l = max(max_l, l)
+        
+    max_l = max(max_l, bit_list[-1] + 1)
     
     return max_l
 
