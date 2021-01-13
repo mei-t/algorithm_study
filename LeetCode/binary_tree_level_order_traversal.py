@@ -13,7 +13,6 @@ class Solution(object):
             return res
         
         if depth >= len(res):
-            print(depth, node.val, len(res))
             res.append([])
         res[depth].append(node.val)
 
