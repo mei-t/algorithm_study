@@ -6,20 +6,12 @@ def inversionPos(num):
     i = 0
     is_one = True
     while num:
-        if num & 1:
-            if is_one:
-                bit_list[i] += 1
-            else:
-                bit_list.append(1)
-                i += 1
-                is_one = True
+        if (num & 1) ^ is_one:
+            bit_list.append(1)
+            i += 1
+            is_one = not is_one
         else:
-            if is_one:
-                bit_list.append(1)
-                i += 1
-                is_one = False
-            else:
-                bit_list[i] += 1
+            bit_list[i] += 1
         num >>= 1
 
     if len(bit_list) == 1:
