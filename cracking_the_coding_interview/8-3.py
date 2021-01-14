@@ -17,8 +17,10 @@ def bts_magic_index(nums, l, r):
 
 class Test(unittest.TestCase):
     def test_simple(self):
-        nums = [-1, 0, 1, 3, 5, 7]
-        self.assertEqual(magic_index(nums), 3)
+        nums1 = [-1, 0, 1, 3, 5, 7]
+        self.assertEqual(magic_index(nums1), 3)
+        nums2 = [-40, -20, -1, 1, 2, 3, 5, 7, 9, 12, 13]
+        self.assertEqual(magic_index(nums2), 7)
 
 if __name__ == '__main__':
     unittest.main()
