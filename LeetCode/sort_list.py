@@ -17,13 +17,13 @@ class Solution(object):
         if l < 2:
             return node
 
-        if l == 2:
-            if node.val > node.next.val:
-                tmp = node.next
-                tmp.next = node
-                node.next = None
-                node = tmp
-            return node
+        # if l == 2:
+        #     if node.val > node.next.val:
+        #         tmp = node.next
+        #         tmp.next = node
+        #         node.next = None
+        #         node = tmp
+        #     return node
         
         tmp = node
         mid = l // 2 - 1
