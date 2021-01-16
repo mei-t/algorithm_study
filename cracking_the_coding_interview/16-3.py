@@ -1,0 +1,34 @@
+class Point(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+def find_intersection(p11, p12, p21, p22):
+    a1 = (p11.y - p12.y) / (p11.x - p12.x)
+    b1 = (p11.x * p12.y - p12.x * p11.y) / (p11.x - p12.x)
+    a2 = (p21.y - p22.y) / (p21.x - p22.x)
+    b2 = (p21.x * p22.y - p22.x * p21.y) / (p21.x - p22.x)
+    x = (-b1 + b2) / (a1 - a2)
+    y = a1 * x + b1
+
+    min_x1 = min(p11.x, p12.x)
+    min_x2 = min(p21.x, p22.x)
+    max_x1 = max(p11.x, p12.x)
+    max_x2 = max(p21.x, p22.x)
+    min_y1 = min(p11.y, p12.y)
+    min_y2 = min(p21.y, p22.y)
+    max_y1 = max(p11.y, p12.y)
+    max_y2 = max(p21.y, p22.y)
+    if max(min_x1, min_x2) <= x and x <= min(max_x1, max_x2) and\
+        max(min_y1, min_y2) <= y and y <= min(max_y1, max_y2):
+        return [x, y]
+    
+    return None
+
+if __name__ == '__main__':
+    p11 = Point(-3, -3)
+    p12 = Point(0, 3)
+    p21 = Point(-4, 0)
+    p22 = Point(2, -6)
+    res = find_intersection(p11, p12, p21, p22)
+    print(res)
