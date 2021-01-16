@@ -1,3 +1,5 @@
+import unittest
+
 class Point(object):
     def __init__(self, x, y):
         self.x = x
@@ -35,14 +37,28 @@ def find_intersection(p11, p12, p21, p22):
     max_y2 = max(p21.y, p22.y)
     if max(min_x1, min_x2) <= x and x <= min(max_x1, max_x2) and\
         max(min_y1, min_y2) <= y and y <= min(max_y1, max_y2):
-        return [x, y]
+        return Point(x, y)
     
     return None
 
+class Test(unittest.TestCase):
+    def test_simple(self):
+        p11 = Point(-3, -3)
+        p12 = Point(0, 3)
+        p21 = Point(-4, 0)
+        p22 = Point(2, -6)
+        res = find_intersection(p11, p12, p21, p22)
+        self.assertAlmostEqual(res.x, -7/3)
+        self.assertAlmostEqual(res.y, -5/3)
+    
+    def test_vertival_case(self):
+        p11 = Point(2, -3)
+        p12 = Point(2, 3)
+        p21 = Point(0, 1)
+        p22 = Point(4, 3)
+        res = find_intersection(p11, p12, p21, p22)
+        self.assertEqual(res.x, 2)
+        self.assertEqual(res.y, 2)
+
 if __name__ == '__main__':
-    p11 = Point(-3, -3)
-    p12 = Point(0, 3)
-    p21 = Point(-4, 0)
-    p22 = Point(2, -6)
-    res = find_intersection(p11, p12, p21, p22)
-    print(res)
+    unittest.main()
