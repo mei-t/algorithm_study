@@ -3,13 +3,27 @@ class Point(object):
         self.x = x
         self.y = y
 
+# 平行な場合を考えない
 def find_intersection(p11, p12, p21, p22):
-    a1 = (p11.y - p12.y) / (p11.x - p12.x)
-    b1 = (p11.x * p12.y - p12.x * p11.y) / (p11.x - p12.x)
-    a2 = (p21.y - p22.y) / (p21.x - p22.x)
-    b2 = (p21.x * p22.y - p22.x * p21.y) / (p21.x - p22.x)
-    x = (-b1 + b2) / (a1 - a2)
-    y = a1 * x + b1
+    is_vertical1 = False
+    is_vertical2 = False
+    if p11.x == p12.x:
+        x = p11.x
+        is_vertical1 = True
+    else:
+        a1 = (p11.y - p12.y) / (p11.x - p12.x)
+        b1 = (p11.x * p12.y - p12.x * p11.y) / (p11.x - p12.x)
+
+    if p21.x == p22.x:
+        x = p21.x
+        is_vertical2 = True
+    else:
+        a2 = (p21.y - p22.y) / (p21.x - p22.x)
+        b2 = (p21.x * p22.y - p22.x * p21.y) / (p21.x - p22.x)
+
+    if not is_vertical1 and not is_vertical2:
+        x = (-b1 + b2) / (a1 - a2)
+    y = a1 * x + b1 if not is_vertical1 else a2 * x + b2
 
     min_x1 = min(p11.x, p12.x)
     min_x2 = min(p21.x, p22.x)
