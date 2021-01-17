@@ -27,8 +27,8 @@ class Deck(object):
 		return
 	
 	def shuffle(self):
-		for i in range(self.size):
-			j = random.randrange(self.size)
+		for i in range(1, self.size):
+			j = random.randrange(i)
 			self.deck[i], self.deck[j] = self.deck[j], self.deck[i]
 		return
 
