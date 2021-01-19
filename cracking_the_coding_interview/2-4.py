@@ -22,6 +22,23 @@ def split_list(node, target):
     high_cur.next = None
     return low_dummy.next
 
+def split_list2(node, target):
+    head = node
+    tail = node
+    node = node.next
+    while node:
+        nex = node.next
+        if node.val < target:
+            node.next = head
+            head = node
+        else:
+            tail.next = node
+            tail = node
+        node = nex
+    
+    tail.next = None
+    return head
+
 def create_linked_list(nums, i):
     if i >= len(nums):
         return None
@@ -38,5 +55,5 @@ def output(node):
 if __name__ == '__main__':
     nums = [3, 5, 8, 5, 10, 2, 1]
     head = create_linked_list(nums, 0)
-    head = split_list(head, 5)
+    head = split_list2(head, 5)
     output(head)
