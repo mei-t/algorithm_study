@@ -33,7 +33,7 @@ class Solution1(object):
             return -1
         return min_count
 
-class Solution(object):
+class Solution2(object):
     def coinChange(self, coins, amount):
         if amount < 1:
             return 0
@@ -55,6 +55,18 @@ class Solution(object):
         
         count[amount - 1] = -1 if min_res == None else min_res
         return count[amount - 1]
+
+class Solution(object):
+    def coinChange(self, coins, amount):
+        dp = [float("inf")] * (amount + 1)
+        dp[0] = 0
+
+        for coin in coins:
+            for x in range(coin, amount + 1):
+                dp[x] = min(dp[x], dp[x - coin] + 1)
+        
+        return dp[amount] if dp[amount] < float("inf") else -1
+
 
 if __name__ == '__main__':
     # coins = [1, 2, 5]
