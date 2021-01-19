@@ -4,7 +4,7 @@ class TreeNode(object):
         self.left = left
         self.right = right
 
-class Solution(object):
+class Solution1(object):
     def buildTree(self, preorder, inorder):
         return self.build(preorder, inorder)
     
@@ -12,7 +12,7 @@ class Solution(object):
         if not inorder:
             return None
         pre_i, in_i = self.findIndex(preorder, inorder)
-        print(pre_i, in_i, preorder, inorder)
+        # print(pre_i, in_i, preorder, inorder)
         node = TreeNode(preorder[pre_i])
         node.left = self.build(preorder[pre_i+1:], inorder[:in_i])
         node.right = self.build(preorder[pre_i+1:], inorder[in_i+1:])
@@ -25,6 +25,17 @@ class Solution(object):
                     return i, j
         
         return None, None
+
+class Solution(object):
+    def buildTree(self, preorder, inorder):
+        if inorder:
+            index = inorder.index(preorder.pop(0))
+            node = TreeNode(inorder[index])
+            node.left = self.buildTree(preorder, inorder[:index])
+            node.right = self.buildTree(preorder, inorder[index+1:])
+            return node
+        
+        return None
 
 def outputPreorder(node):
     if not node:
