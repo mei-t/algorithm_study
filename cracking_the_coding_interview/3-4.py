@@ -1,3 +1,5 @@
+import unittest
+
 class MyQueue(object):
     def __init__(self):
         self.s1 = []
@@ -14,18 +16,22 @@ class MyQueue(object):
             return None
         while len(self.s1) > 1:
             self.s2.append(self.s1.pop())
-        return self.s1.pop() if len(self.s1) > 0 else self.s2.pop()
+        return self.s1.pop() if self.s1 else self.s2.pop()
+
+class Test(unittest.TestCase):
+    def test_simple(self):
+        q = MyQueue()
+        q.put(0)
+        q.put(1)
+        q.put(2)
+        self.assertEqual(q.get(), 0)
+        q.put(3)
+        self.assertEqual(q.get(), 1)
+        self.assertEqual(q.get(), 2)
+        self.assertEqual(q.get(), 3)
+        self.assertEqual(q.get(), None)
+        q.put(4)
+        self.assertEqual(q.get(), 4)
 
 if __name__ == "__main__":
-    q = MyQueue()
-    q.put(0)
-    q.put(1)
-    q.put(2)
-    print(q.get()) # 0
-    q.put(3)
-    print(q.get()) # 1
-    print(q.get()) # 2
-    print(q.get()) # 3
-    print(q.get()) # None
-    q.put(4)
-    print(q.get()) # 4
+    unittest.main()
