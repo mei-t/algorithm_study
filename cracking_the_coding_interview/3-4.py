@@ -2,21 +2,19 @@ import unittest
 
 class MyQueue(object):
     def __init__(self):
-        self.s1 = []
-        self.s2 = []
+        self.newest = []
+        self.oldest = []
 
     def put(self, val):
-        while len(self.s2) > 0:
-            self.s1.append(self.s2.pop())
-        self.s1.append(val)
+        while len(self.oldest) > 0:
+            self.newest.append(self.oldest.pop())
+        self.newest.append(val)
         return
     
     def get(self):
-        if not self.s1 and not self.s2:
-            return None
-        while len(self.s1) > 1:
-            self.s2.append(self.s1.pop())
-        return self.s1.pop() if self.s1 else self.s2.pop()
+        while len(self.newest) > 0:
+            self.oldest.append(self.newest.pop())
+        return self.oldest.pop() if self.oldest else None
 
 class Test(unittest.TestCase):
     def test_simple(self):
