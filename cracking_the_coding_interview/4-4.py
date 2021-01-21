@@ -6,7 +6,7 @@ class TreeNode(object):
 
 def is_balance_tree(node):
     res = check_balance_tree(node)
-    return True if res > 0 else False
+    return res > 0
 
 def check_balance_tree(node):
     if not node:
