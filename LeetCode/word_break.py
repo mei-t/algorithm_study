@@ -1,34 +1,56 @@
 from collections import defaultdict
 
-class Solution(object):
+class Solution1(object):
     def wordBreak(self, s, wordDict):
-        word_map = defaultdict(list)
+        wordMap = defaultdict(list)
         wordDict.sort(reverse=True)
         for word in wordDict:
-            if word[0] not in word_map:
-                word_map[word[0]] = []
-            word_map[word[0]].append(word)
-        return self.segmentWord(s, word_map, dict())
+            if word[0] not in wordMap:
+                wordMap[word[0]] = []
+            wordMap[word[0]].append(word)
+        return self.segmentWord(s, wordMap, dict())
     
-    def segmentWord(self, s, word_map, s_map):
+    def segmentWord(self, s, wordMap, sMap):
         if len(s) == 0:
             return True
         
-        if s in s_map:
-            return s_map[s]
+        if s in sMap:
+            return sMap[s]
 
-        for word in word_map[s[0]]:
+        for word in wordMap[s[0]]:
             if word == s[:len(word)]:
-                res = self.segmentWord(s[len(word):], word_map, s_map)
+                res = self.segmentWord(s[len(word):], wordMap, sMap)
                 if res:
-                    s_map[s] = True
+                    sMap[s] = True
                     break
         
-        if s not in s_map:
-            s_map[s] = False
+        if s not in sMap:
+            sMap[s] = False
 
-        return s_map[s]
+        return sMap[s]
 
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        return self.segmentWord(s, wordDict, dict())
+    
+    def segmentWord(self, s, wordDict, sDict):
+        if len(s) == 0:
+            return True
+        
+        if s in sDict:
+            return sDict[s]
+        
+        for word in wordDict:
+            if word == s[:len(word)]:
+                res = self.segmentWord(s[len(word):], wordDict, sDict)
+                if res:
+                    sDict[s] = True
+                    break
+        
+        if s not in sDict:
+            sDict[s] = False
+
+        return sDict[s]
 
 if __name__ == "__main__":
     # wordDict = ["leet", "code"]
