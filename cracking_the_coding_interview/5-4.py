@@ -14,10 +14,10 @@ def findNeightbors(num):
     pre = num - pre_i if pre_i < num else None
 
     nex_i = 1
-    is_one_appeared = False
-    while not is_one_appeared or (num & nex_i):
-        if num & nex_i:
-            is_one_appeared = True
+    while not (num & nex_i):
+        nex_i <<= 1
+    
+    while num & nex_i:
         nex_i <<= 1
     
     nex_i >>= 1
@@ -42,3 +42,5 @@ class Test(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+    # pre, nex = findNeightbors(0b11010)
+    # print(bin(pre), bin(nex))
