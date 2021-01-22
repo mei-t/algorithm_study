@@ -1,3 +1,5 @@
+import unittest
+
 def findNeightbors(num):
     pre_i = 1
     is_bottom_one = num & pre_i
@@ -23,6 +25,20 @@ def findNeightbors(num):
     
     return pre, nex
 
+class Test(unittest.TestCase):
+    data = [
+        (0b11010, 0b11001, 0b11100),
+        (0b111, None, 0b1011),
+        (0b100, 0b10, 0b1000),
+        (0b10110, 0b10101, 0b11010),
+        (0b1011, 0b111, 0b1101),
+        (0b1101, 0b1011, 0b1110)
+    ]
+    def test_simple(self):
+        for d in self.data:
+            pre, nex = findNeightbors(d[0])
+            self.assertEqual(pre, d[1])
+            self.assertEqual(nex, d[2])
+
 if __name__ == "__main__":
-    pre, nex = findNeightbors(0b11010)
-    print(bin(pre), bin(nex))
+    unittest.main()
