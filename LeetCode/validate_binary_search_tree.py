@@ -15,11 +15,8 @@ class Solution(object):
         if node.val <= min_val or node.val >= max_val:
             return False
         
-        is_left_valid = self.isValid(node.left, min_val, node.val)
-        if not is_left_valid:
-            return is_left_valid
-        is_right_valid = self.isValid(node.right, node.val, max_val)
-        return is_right_valid
+        return self.isValid(node.left, min_val, node.val) and\
+            self.isValid(node.right, node.val, max_val)
 
 if __name__ == "__main__":
     root = TreeNode(2)
