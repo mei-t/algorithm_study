@@ -1,4 +1,4 @@
-import copy
+import copy, unittest
 
 def partial_collection(nums):
     pcs = [[]]
@@ -11,7 +11,11 @@ def partial_collection(nums):
         
     return pcs
 
+class Test(unittest.TestCase):
+    def test_simple(self):
+        nums = [1, 2, 3]
+        expected = [[], [1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]
+        self.assertCountEqual(partial_collection(nums), expected)
+
 if __name__ == "__main__":
-    nums = [1, 2, 3]
-    res = partial_collection(nums)
-    print(res)
+    unittest.main()
