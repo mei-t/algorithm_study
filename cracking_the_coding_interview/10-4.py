@@ -1,3 +1,5 @@
+import unittest
+
 class Array:
     def __init__(self, array=[]):
         self.array = sorted(array)
@@ -6,6 +8,9 @@ class Array:
         if not self.array or len(self.array) <= i:
             return -1
         return self.array[i]
+    
+    def size(self):
+        return len(self.array)
 
 def find_index(nums, x):
     if nums.element_at(0) == -1:
@@ -52,8 +57,14 @@ def binary_search(nums, left, right, target):
     else:
         return binary_search(nums, mid + 1, right, target)
 
+class Test(unittest.TestCase):
+    def test_simple(self):
+        nums = [0, 1, 2, 3, 4, 5]
+        array = Array(nums)
+        for i in range(array.size()):
+            self.assertEqual(find_index(array, i), i)
+        
+        self.assertEqual(find_index(array, array.size()), None)
+
 if __name__ == "__main__":
-    nums = [0, 1, 2, 3, 4, 5]
-    array = Array(nums)
-    res = find_index(array, 6)
-    print(res)
+    unittest.main()
