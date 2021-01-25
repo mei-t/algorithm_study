@@ -5,6 +5,44 @@ class Result(object):
         self.is_draw = is_draw
         self.winner = winner
 
+# 解法2
+def judge2(matrix):
+    if has_won(matrix, "o"):
+        return Result(False, "o")
+    elif has_won(matrix, "x"):
+        return Result(False, "x")
+    return Result(True)
+
+def has_won(matrix, player):
+    size = len(matrix)
+    for i in range(size):
+        for j in range(size):
+            if matrix[i][j] != player:
+                break
+            if j == size - 1:
+                return True
+        
+        for j in range(size):
+            if matrix[j][i] != player:
+                break
+            if j == size - 1:
+                return True
+    
+    for i in range(size):
+        if matrix[i][i] != player:
+            break
+        if i == size - 1:
+            return True
+    
+    for i in range(size):
+        if matrix[i][size - 1 - i] != player:
+            break
+        if i == size - 1:
+            return True
+    
+    return False
+
+# 解法1
 def judge(matrix):
     row = check_row(matrix)
     if not row.is_draw:
@@ -46,24 +84,24 @@ def check_diago(matrix):
 class Test(unittest.TestCase):
     def test_draw(self):
         matrix = ["oxo", "xox", "xox"]
-        res = judge(matrix)
+        res = judge2(matrix)
         self.assertEqual(res.is_draw, True)
     
     def test_row(self):
         matrix = ["ooo", "oxx", "xox"]
-        res = judge(matrix)
+        res = judge2(matrix)
         self.assertEqual(res.is_draw, False)
         self.assertEqual(res.winner, "o")
     
     def test_col(self):
         matrix = ["oxo", "oxx", "xxo"]
-        res = judge(matrix)
+        res = judge2(matrix)
         self.assertEqual(res.is_draw, False)
         self.assertEqual(res.winner, "x")
     
     def test_diago(self):
         matrix = ["oxo", "xox", "oxx"]
-        res = judge(matrix)
+        res = judge2(matrix)
         self.assertEqual(res.is_draw, False)
         self.assertEqual(res.winner, "o")
 
