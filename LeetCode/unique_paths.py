@@ -1,4 +1,13 @@
-class Solution(object):
+class Solution3(object):
+    def uniquePaths(self, m, n):
+        dp = [[1 for _ in range(n)] for _ in range(m)]
+        for i in range(1, m):
+            for j in range(1, n):
+                dp[i][j] = dp[i][j-1] + dp[i-1][j]
+        
+        return dp[m-1][n-1]
+
+class Solution2(object):
     def uniquePaths(self, m, n):
         m -= 1
         n -= 1
@@ -22,6 +31,6 @@ class Solution1(object):
         return self.factorial(num - 1, min_num) * num
 
 if __name__ == "__main__":
-    sol = Solution()
+    sol = Solution3()
     res = sol.uniquePaths(3, 7)
     print(res)
