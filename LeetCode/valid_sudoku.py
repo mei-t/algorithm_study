@@ -1,3 +1,24 @@
+class Solution1(object):
+    def isValidSudoku(self, board):
+        row = [set() for _ in range(9)]
+        col = [set() for _ in range(9)]
+        sub_set = [set() for _ in range(9)]
+
+        for r in range(9):
+            for c in range(9):
+                num = board[r][c]
+                if num == ".":
+                    continue
+
+                i = (r // 3) * 3 + c // 3
+                if num in row[c] or num in col[r] or num in sub_set[i]:
+                    return False
+                
+                row[c].add(num)
+                col[r].add(num)
+                sub_set[i].add(num)
+        return True
+
 class Solution(object):
     def isValidSudoku(self, board):
         return self.isValidRow(board) and self.isValidCol(board)\
@@ -63,6 +84,17 @@ if __name__ == "__main__":
         [".",".",".","4","1","9",".",".","5"],
         [".",".",".",".","8",".",".","7","9"]
     ]
-    sol = Solution()
-    res = sol.isValidSudoku(board2)
+    board3 = [
+        [".",".",".","9",".",".",".",".","."],
+        [".",".",".",".",".",".",".",".","."],
+        [".",".","3",".",".",".",".",".","1"],
+        [".",".",".",".",".",".",".",".","."],
+        ["1",".",".",".",".",".","3",".","."],
+        [".",".",".",".","2",".","6",".","."],
+        [".","9",".",".",".",".",".","7","."],
+        [".",".",".",".",".",".",".",".","."],
+        ["8",".",".","8",".",".",".",".","."]
+    ]
+    sol = Solution1()
+    res = sol.isValidSudoku(board3)
     print(res)
