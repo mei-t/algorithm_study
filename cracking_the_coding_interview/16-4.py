@@ -1,3 +1,5 @@
+import unittest
+
 class Result(object):
     def __init__(self, is_draw, winner=""):
         self.is_draw = is_draw
@@ -41,10 +43,30 @@ def check_diago(matrix):
             return Result(False, matrix[i][2-i])
     return Result(True)
 
+class Test(unittest.TestCase):
+    def test_draw(self):
+        matrix = ["oxo", "xox", "xox"]
+        res = judge(matrix)
+        self.assertEqual(res.is_draw, True)
+    
+    def test_row(self):
+        matrix = ["ooo", "oxx", "xox"]
+        res = judge(matrix)
+        self.assertEqual(res.is_draw, False)
+        self.assertEqual(res.winner, "o")
+    
+    def test_col(self):
+        matrix = ["oxo", "oxx", "xxo"]
+        res = judge(matrix)
+        self.assertEqual(res.is_draw, False)
+        self.assertEqual(res.winner, "x")
+    
+    def test_diago(self):
+        matrix = ["oxo", "xox", "oxx"]
+        res = judge(matrix)
+        self.assertEqual(res.is_draw, False)
+        self.assertEqual(res.winner, "o")
+
+
 if __name__ == "__main__":
-    # matrix = ["ooo", "oxx", "xox"]
-    # matrix = ["oxo", "oxx", "xxo"]
-    # matrix = ["oxo", "xox", "oxx"]
-    matrix = ["oxo", "xox", "xox"]
-    res = judge(matrix)
-    print(res.is_draw, res.winner)
+    unittest.main()
