@@ -1,5 +1,26 @@
 import heapq
+
 class Solution(object):
+    def topKFrequent(self, nums, k):
+        num_map = dict()
+        for num in nums:
+            if num not in num_map:
+                num_map[num] = 0
+            num_map[num] += 1
+        
+        q = []
+        heapq.heapify(q)
+        for num in num_map:
+            count = num_map[num]
+            heapq.heappush(q, (-count, num))
+
+        res = []
+        for _ in range(k):
+            e = heapq.heappop(q)
+            res.append(e[1])
+        return res
+
+class Solution1(object):
     def topKFrequent(self, nums, k):
         num_map = self.createMap(nums)
         q = self.findKFrequent(num_map, k)
