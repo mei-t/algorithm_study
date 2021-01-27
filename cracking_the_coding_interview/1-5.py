@@ -1,3 +1,5 @@
+import unittest
+
 def can_convert_at_once(s1, s2):
     if len(s1) == len(s2):
         return can_convert_by_replace(s1, s2)
@@ -29,9 +31,21 @@ def can_convert_by_insert(shorter, longer):
     
     return True
 
+class Test(unittest.TestCase):
+    data_T = [
+        ["pale", "ple"],
+        ["pales", "pale"],
+        ["pale", "bale"]
+    ]
+    data_F = [["pale", "bake"]]
+
+    def test_true(self):
+        for d in self.data_T:
+            self.assertTrue(can_convert_at_once(d[0], d[1]))
+    
+    def test_false(self):
+        for d in self.data_F:
+            self.assertFalse(can_convert_at_once(d[0], d[1]))
+
 if __name__ == '__main__':
-    # res = can_convert_at_once("pale", "ple")
-    # res = can_convert_at_once("pales", "pale")
-    # res = can_convert_at_once("pale", "bale")
-    res = can_convert_at_once("pale", "bake")
-    print(res)
+    unittest.main()
