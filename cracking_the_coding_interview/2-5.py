@@ -67,7 +67,7 @@ def output(node):
     output(node.next)
 
 class Test(unittest.TestCase):
-    def test_simple(self):
+    def test_add_list(self):
         nums1 = [7, 1, 6]
         nums2 = [5, 9, 2]
         expected = [2, 1, 9]
@@ -78,13 +78,19 @@ class Test(unittest.TestCase):
             self.assertEqual(res.val, e)
             res = res.next
         self.assertEqual(res, None)
+    
+    def test_add_list_reversed(self):
+        nums1 = [6, 1, 7]
+        nums2 = [2, 9, 5]
+        expected = [9, 1, 2]
+        head1 = create_linked_list(nums1, 0)
+        head2 = create_linked_list(nums2, 0)
+        res = add_list_reversed(head1, head2)
+        for e in expected:
+            self.assertEqual(res.val, e)
+            res = res.next
+        self.assertEqual(res, None)
 
 
 if __name__ == '__main__':
-    # unittest.main()
-    nums1 = [6, 1, 7]
-    nums2 = [2, 9, 5]
-    node1 = create_linked_list(nums1, 0)
-    node2 = create_linked_list(nums2, 0)
-    res = add_list_reversed(node1, node2)
-    output(res)
+    unittest.main()
