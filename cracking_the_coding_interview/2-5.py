@@ -28,6 +28,30 @@ def compute(node1, node2, carry):
     node.next = compute(node1, node2, carry)
     return node
 
+# 発展問題
+def add_list_reversed(node1, node2):
+    return compute_sum(node1, node2)[0]
+
+def compute_sum(node1, node2):
+    if not node1 and not node2:
+        return None, 0
+    
+    v1, v2 = 0, 0
+    if node1:
+        v1 = node1.val
+        node1 = node1.next
+    if node2:
+        v2 = node2.val
+        node2 = node2.next
+
+    next_res = compute_sum(node1, node2)
+    ans = v1 + v2 + next_res[1]
+    carry = ans // 10
+    ans %= 10
+    node = ListNode(ans)
+    node.next = next_res[0]
+    return node, carry
+
 def create_linked_list(nums, i):
     if i >= len(nums):
         return None
@@ -57,4 +81,10 @@ class Test(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    # unittest.main()
+    nums1 = [6, 1, 7]
+    nums2 = [2, 9, 5]
+    node1 = create_linked_list(nums1, 0)
+    node2 = create_linked_list(nums2, 0)
+    res = add_list_reversed(node1, node2)
+    output(res)
