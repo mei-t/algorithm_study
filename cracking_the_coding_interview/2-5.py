@@ -30,7 +30,29 @@ def compute(node1, node2, carry):
 
 # 発展問題
 def add_list_reversed(node1, node2):
+    l1 = check_length(node1)
+    l2 = check_length(node2)
+    if l1 != l2:
+        for i in range(abs(l1 - l2)):
+            node = ListNode()
+            if i == 0:
+                head = node
+            else:
+                prev.next = node
+            prev = node
+
+    if l1 < l2:
+        prev.next = node1
+        node1 = head
+    if l1 > l2:
+        prev.next = node2
+        node2 = head
     return compute_sum(node1, node2)[0]
+
+def check_length(node):
+    if not node:
+        return 0
+    return check_length(node.next) + 1
 
 def compute_sum(node1, node2):
     if not node1 and not node2:
@@ -80,9 +102,9 @@ class Test(unittest.TestCase):
         self.assertEqual(res, None)
     
     def test_add_list_reversed(self):
-        nums1 = [6, 1, 7]
+        nums1 = [6, 1, 7, 2]
         nums2 = [2, 9, 5]
-        expected = [9, 1, 2]
+        expected = [6, 4, 6, 7]
         head1 = create_linked_list(nums1, 0)
         head2 = create_linked_list(nums2, 0)
         res = add_list_reversed(head1, head2)
