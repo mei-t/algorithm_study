@@ -1,3 +1,5 @@
+import unittest
+
 class ListNode(object):
     def __init__(self, val=0, next=None):
         self.val = val
@@ -40,10 +42,19 @@ def output(node):
     print(node.val)
     output(node.next)
 
+class Test(unittest.TestCase):
+    def test_simple(self):
+        nums1 = [7, 1, 6]
+        nums2 = [5, 9, 2]
+        expected = [2, 1, 9]
+        head1 = create_linked_list(nums1, 0)
+        head2 = create_linked_list(nums2, 0)
+        res = add_list(head1, head2)
+        for e in expected:
+            self.assertEqual(res.val, e)
+            res = res.next
+        self.assertEqual(res, None)
+
+
 if __name__ == '__main__':
-    nums1 = [7, 1, 6]
-    nums2 = [5, 9, 2]
-    head1 = create_linked_list(nums1, 0)
-    head2 = create_linked_list(nums2, 0)
-    res = add_list(head1, head2)
-    output(res)
+    unittest.main()
