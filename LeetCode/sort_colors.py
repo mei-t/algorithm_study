@@ -1,5 +1,3 @@
-from enum import Enum
-
 class Solution1(object):
     def sortColors(self, nums):
         count = [0 for _ in range(3)]
@@ -14,11 +12,6 @@ class Solution1(object):
                 index += 1
         
         return
-
-class Colors(Enum):
-    RED = 0
-    WHITE = 1
-    BLUE = 2
 
 class Solution(object):
     def sortColors(self, nums):
