@@ -1,5 +1,8 @@
 def multiplication(a, b):
     def compute(larger, smaller):
+        if smaller == 0:
+            return 0
+
         if smaller == 1:
             return larger
 
