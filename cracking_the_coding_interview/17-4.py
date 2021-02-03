@@ -1,41 +1,26 @@
 INT_SIZE = 32
 
-class BitList(object):
+class BitList(list):
     def __init__(self, nums):
-        self.nums = nums
+        self.extend(nums)
     
     def get_bit(self, i, j):
         mask = 1 << j
-        return self.nums[i] & mask
-    
-    def is_empty(self):
-        return len(self.nums) == 0
-    
-    def check(self):
-        return self.nums
-    
-    def append(self, num):
-        self.nums.append(num)
-    
-    def size(self):
-        return len(self.nums)
-    
-    def get(self, i):
-        return self.nums[i]
+        return self[i] & mask
 
 def find_lost_num(nums, bit):
-    if nums.is_empty() or bit >= INT_SIZE:
+    if not nums or bit >= INT_SIZE:
         return 0
 
     zero_bit = BitList([])
     one_bit = BitList([])
-    for i in range(nums.size()):
+    for i in range(len(nums)):
         if nums.get_bit(i, bit):
-            one_bit.append(nums.get(i))
+            one_bit.append(nums[i])
         else:
-            zero_bit.append(nums.get(i))
-    
-    if zero_bit.size() > one_bit.size():
+            zero_bit.append(nums[i])
+
+    if len(zero_bit) > len(one_bit):
         res =  find_lost_num(one_bit, bit + 1)
         return (res << 1) | 1
     res = find_lost_num(zero_bit, bit + 1)
