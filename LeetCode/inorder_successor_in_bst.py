@@ -6,7 +6,7 @@ class TreeNode:
         self.left = None
         self.right = None
 
-class Solution(object):
+class Solution1(object):
     def inorderSuccessor(self, root, p):
         return self.inorderSearch(root, p)
     
@@ -32,3 +32,28 @@ class Solution(object):
             return node
         return self.findNext(node.left)
 
+# よくわからなかった
+class Solution(object):
+    def inorderSuccessor(self, root, p):
+        if p.right:
+            p = p.right
+            while p.left:
+                p = p.left
+            return p
+        
+        node = root
+        s = []
+        inorder = float("-inf")
+        while s or node:
+            while node:
+                s.append(node)
+                node = node.left
+            
+            node = s.pop()
+            if inorder == p.val:
+                return node
+            inorder = node.val
+            
+            node = node.right
+        
+        return None
