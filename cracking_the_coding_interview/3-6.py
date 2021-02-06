@@ -1,5 +1,5 @@
 from enum import Enum
-import time
+import time, unittest
 
 class Animal(Enum):
     DOG = 0
@@ -53,16 +53,20 @@ class AnimalShelter(object):
         self.cat_head.next = self.cat_head.next.next
         return node
 
+class Test(unittest.TestCase):
+    def test_simple(self):
+        al = AnimalShelter()
+        al.enqueue("Pochi", Animal.DOG)
+        al.enqueue("Mike", Animal.CAT)
+        al.enqueue("Shiro", Animal.DOG)
+        al.enqueue("Kotetsu", Animal.DOG)
+        al.enqueue("Tama", Animal.CAT)
+        self.assertEqual(al.dequeue_dog().name, "Pochi")
+        self.assertEqual(al.dequeue_any().name, "Mike")
+        self.assertEqual(al.dequeue_cat().name, "Tama")
+        self.assertEqual(al.dequeue_cat(), None)
+        self.assertEqual(al.dequeue_any().name, "Shiro")
+
 if __name__ == '__main__':
-    al = AnimalShelter()
-    al.enqueue("Pochi", Animal.DOG)
-    al.enqueue("Mike", Animal.CAT)
-    al.enqueue("Shiro", Animal.DOG)
-    al.enqueue("Kotetsu", Animal.DOG)
-    al.enqueue("Tama", Animal.CAT)
-    print(al.dequeue_dog().name)
-    print(al.dequeue_any().name)
-    print(al.dequeue_cat().name)
-    print(al.dequeue_cat().name)
-    print(al.dequeue_any().name)
+    unittest.main()
 
