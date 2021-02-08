@@ -31,3 +31,15 @@ class Solution2(object):
                 pop_i += 1
             
         return True
+
+class Solution3(object):
+    def validateStackSequences(self, pushed, popped):
+        s = []
+        pop_i = 0
+        for x in pushed:
+            s.append(x)
+            while s and pop_i < len(popped) and s[-1] == popped[pop_i]:
+                s.pop()
+                pop_i += 1
+            
+        return pop_i == len(popped)
