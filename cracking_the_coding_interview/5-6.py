@@ -1,3 +1,5 @@
+import unittest
+
 def bit_convertion(a, b):
     mask = 1
     count = 0
@@ -8,6 +10,11 @@ def bit_convertion(a, b):
 
     return count
 
+class Test(unittest.TestCase):
+    def test_simple(self):
+        self.assertEqual(bit_convertion(1, 0), 1)
+        self.assertEqual(bit_convertion(1, 2), 2)
+        self.assertEqual(bit_convertion(29, 15), 2)
+
 if __name__ == '__main__':
-    res = bit_convertion(29, 15)
-    print(res)
+    unittest.main()
