@@ -1,6 +1,16 @@
 from collections import deque
+# 37:25
 
 class Solution(object):
+    def numOfMinutes(self, n, headID, manager, informTime):
+        def computeMinutes(i):
+            if manager[i] != -1:
+                informTime[i] += computeMinutes(manager[i])
+                manager[i] = -1
+            return informTime[i]
+        return max(map(computeMinutes, range(n)))
+
+class Solution2(object):
     def numOfMinutes(self, n, headID, manager, informTime):
         children = [[] for _ in range(n)]
         for i, m in enumerate(manager):
