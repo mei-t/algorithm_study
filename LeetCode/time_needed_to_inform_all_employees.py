@@ -2,6 +2,19 @@ from collections import deque
 
 class Solution(object):
     def numOfMinutes(self, n, headID, manager, informTime):
+        children = [[] for _ in range(n)]
+        for i, m in enumerate(manager):
+            if m != -1:
+                children[m].append(i)
+            
+        def computeMinutes(i):
+            return max([computeMinutes(j) for j in children[i]] or [0]) + informTime[i]
+        
+        return computeMinutes(headID)
+
+# Time limit exceeded
+class Solution1(object):
+    def numOfMinutes(self, n, headID, manager, informTime):
         if n <= 1:
             return 0
         return self.calculateMinutes(headID, manager, informTime)
