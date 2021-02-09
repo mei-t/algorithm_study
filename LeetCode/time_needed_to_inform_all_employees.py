@@ -1,0 +1,30 @@
+from collections import deque
+
+class Solution(object):
+    def numOfMinutes(self, n, headID, manager, informTime):
+        if n <= 1:
+            return 0
+        return self.calculateMinutes(headID, manager, informTime)
+        
+        
+    def calculateMinutes(self, id, manager, informTime):
+        q = deque()
+        for i, m in enumerate(manager):
+            if m == id:
+                q.append(i)
+        
+        max_time = 0
+        while q:
+            e = q.pop()
+            time = self.calculateMinutes(e, manager, informTime)
+            if time > max_time:
+                max_time = time
+        
+        return max_time + informTime[id]
+
+if __name__ == '__main__':
+    sol = Solution()
+    manager = [-1,5,0,6,7,0,0,0]
+    informTime = [89,0,0,0,0,523,241,519]
+    res = sol.numOfMinutes(8, 0, manager, informTime)
+    print(res)
