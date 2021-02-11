@@ -1,3 +1,5 @@
+import unittest
+
 def find_dupli(nums):
     is_find = 0
     for n in nums:
@@ -7,7 +9,10 @@ def find_dupli(nums):
         is_find |= mask
     return None
 
+class Test(unittest.TestCase):
+    def test_simple(self):
+        nums = [5, 2, 0, 3, 1, 5, 7, 6, 4]
+        self.assertEqual(find_dupli(nums), 5)
+
 if __name__ == '__main__':
-    nums = [5, 2, 0, 3, 1, 5, 7, 6, 4]
-    res = find_dupli(nums)
-    print(res)
+    unittest.main()
