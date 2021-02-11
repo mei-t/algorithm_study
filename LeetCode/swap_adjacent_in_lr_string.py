@@ -1,5 +1,5 @@
 # 51:57
-class Solution(object):
+class Solution1(object):
     def canTransform(self, start, end):
         if len(start) != len(end):
             return False
@@ -35,5 +35,21 @@ class Solution(object):
             else:
                 return False
         
+        return True
+
+class Solution2(object):
+    def canTransform(self, start, end):
+        if start.replace("X", "") != end.replace("X", ""):
+            return False
+        
+        l_pos = (i for i, e in enumerate(start) if e == 'L')
+        for i, e in enumerate(end):
+            if e == 'L' and i > next(l_pos):
+                return False
+            
+        r_pos = (i for i, e in enumerate(start) if e == 'R')
+        for i, e in enumerate(end):
+            if e == 'R' and i < next(r_pos):
+                return False
         return True
         
