@@ -1,3 +1,4 @@
+# 51:57
 class Solution(object):
     def canTransform(self, start, end):
         if len(start) != len(end):
