@@ -17,7 +17,6 @@ class StrNumCount:
             self.str_count += 1
     
     def decrement(self, e):
-        print(type(e))
         if type(e) is int:
             self.num_count -= 1
         else:
@@ -43,21 +42,21 @@ def opposite(t):
     return StrNumType.STRING
 
 def find_eq_subarray(a):
-    if not a:
+    if len(a) < 2:
         return []
     start, end = 0, 0
     snc = StrNumCount(a[0])
-    snc.increment()
+    # snc.increment()
     max_len = 0
     max_range = [0, 0]
     while True:
-        while end < len(a) - 1 and sn_type(a[end + 1]) is snc.type:
+        while end < len(a) and sn_type(a[end]) is snc.type:
             end += 1
             snc.increment()
         print(end)
         snc.type = opposite(snc.type)
-        while end < len(a) - 1 and snc.count() < snc.opp_count()\
-            and sn_type(a[end + 1]) == snc.type:
+        while end < len(a) and snc.count() < snc.opp_count()\
+            and sn_type(a[end]) == snc.type:
             end += 1
             snc.increment()
         print(end)
@@ -69,17 +68,18 @@ def find_eq_subarray(a):
             start += 1
         print(start)
 
-        if max_len < end - start + 1:
-            max_len = end - start + 1
-            max_range = [start, end + 1]
+        if max_len < end - start:
+            max_len = end - start
+            max_range = [start, end]
         
         if end + 1 >= len(a):
             break
-        snc.type = sn_type(a[end + 1])
+        snc.type = sn_type(a[end])
     
     return a[max_range[0]: max_range[1]]
 
 if __name__ == '__main__':
     a = [0, 0, "a", 3, 1, 5, 7, 23, "o", "w", "n", 0, "t", 9, 71, "r", 39, 0, 5, 7]
+    # a = [0, "s"]
     res = find_eq_subarray(a)
     print(res)
