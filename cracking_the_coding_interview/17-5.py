@@ -1,4 +1,5 @@
 from enum import Enum
+import unittest
 
 class StrNumType(Enum):
     STRING = 0
@@ -46,27 +47,20 @@ def find_eq_subarray(a):
         return []
     start, end = 0, 0
     snc = StrNumCount(a[0])
-    # snc.increment()
     max_len = 0
     max_range = [0, 0]
     while True:
         while end < len(a) and sn_type(a[end]) is snc.type:
             end += 1
             snc.increment()
-        print(end)
         snc.type = opposite(snc.type)
         while end < len(a) and snc.count() < snc.opp_count()\
             and sn_type(a[end]) == snc.type:
             end += 1
             snc.increment()
-        print(end)
-        print(snc.count(), snc.opp_count())
         while start < end and snc.count() < snc.opp_count():
-            # import pdb; pdb.set_trace()
-            print("a[start] = ", a[start])
             snc.decrement(a[start])
             start += 1
-        print(start)
 
         if max_len < end - start:
             max_len = end - start
@@ -78,8 +72,19 @@ def find_eq_subarray(a):
     
     return a[max_range[0]: max_range[1]]
 
+class Test(unittest.TestCase):
+    data = [
+        [
+            [0, 0, "a", 3, 1, 5, 7, 23, "o", "w", "n", 0, "t", 9, 71, "r", 39, 0, 5, 7],
+            [7, 23, 'o', 'w', 'n', 0, 't', 9, 71, 'r'] # 他にも正解あり
+        ],
+        [["s"], []],
+        [[0, "s"], [0, "s"]]
+    ]
+
+    def test_simple(self):
+        for d in self.data:
+            self.assertEqual(find_eq_subarray(d[0]), d[1])
+
 if __name__ == '__main__':
-    a = [0, 0, "a", 3, 1, 5, 7, 23, "o", "w", "n", 0, "t", 9, 71, "r", 39, 0, 5, 7]
-    # a = [0, "s"]
-    res = find_eq_subarray(a)
-    print(res)
+    unittest.main()
