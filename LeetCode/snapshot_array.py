@@ -1,10 +1,30 @@
+class SnapshotArray(object):
+
+    def __init__(self, length):
+        self.array = [{0: 0} for _ in range(length)]
+        self.snap_count = 0
+
+    def set(self, index, val):
+        self.array[index][self.snap_count] = val
+
+    def snap(self):
+        self.snap_count += 1
+        return self.snap_count - 1
+        
+    def get(self, index, snap_id):
+        while snap_id not in self.array[index]:
+            snap_id -= 1
+        return self.array[index][snap_id]
+
+
+# Time Limie Exceeded
 class SnapNode:
     def __init__(self, val, snap_id=-1, prev=None):
         self.val = val
         self.snap_id = snap_id
         self.prev = prev
     
-class SnapshotArray(object):
+class SnapshotArray1(object):
 
     def __init__(self, length):
         self.array = [SnapNode(0) for _ in range(length)]
