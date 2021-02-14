@@ -29,16 +29,14 @@ class StrNumCount:
     def opp_count(self):
         return self.str_count if self.type is StrNumType.NUMBER else self.num_count
     
-    # def opposite():
-    #     if self.type
+    def opposite(self):
+        if self.type is StrNumType.STRING:
+            self.type = StrNumType.NUMBER
+        else:
+            self.type = StrNumType.STRING
 
 def sn_type(e):
     if type(e) is int:
-        return StrNumType.NUMBER
-    return StrNumType.STRING
-
-def opposite(t):
-    if t == StrNumType.STRING:
         return StrNumType.NUMBER
     return StrNumType.STRING
 
@@ -53,7 +51,7 @@ def find_eq_subarray(a):
         while end < len(a) and sn_type(a[end]) is snc.type:
             end += 1
             snc.increment()
-        snc.type = opposite(snc.type)
+        snc.opposite()
         while end < len(a) and snc.count() < snc.opp_count()\
             and sn_type(a[end]) == snc.type:
             end += 1
