@@ -12,7 +12,8 @@ class Solution(object):
     def pickIndex(self):
         r = random.randrange(self.sum)
         for i in range(len(self.w)):
-            if r <= self.w[i]:
+            if r < self.w[i]:
                 break
         
         return i
+        
