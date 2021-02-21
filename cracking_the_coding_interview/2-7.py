@@ -1,3 +1,5 @@
+import unittest
+
 class Node:
     def __init__(self, val=0, next=None):
         self.val = val
@@ -49,11 +51,23 @@ def connect(node1, pos, node2):
     
     node2.next = node1
 
+class Test(unittest.TestCase):
+    def test_no_common(self):
+        nums1 = [3, 6, 7, 39, 2, 1, 0, 5, 24]
+        nums2 = [0, 4, 1, 5, 8, 2]
+        node1 = create_node(nums1, 0)
+        node2 = create_node(nums2, 0)
+        res = common_node(node1, node2)
+        self.assertEquals(res, None)
+    
+    def test_common(self):
+        nums1 = [3, 6, 7, 39, 2, 1, 0, 5, 24]
+        nums2 = [0, 4, 1, 5, 8, 2]
+        node1 = create_node(nums1, 0)
+        node2 = create_node(nums2, 0)
+        connect(node1, 5, node2)
+        res = common_node(node1, node2)
+        self.assertEquals(res.val, 1)
+
 if __name__ == '__main__':
-    nums1 = [3, 6, 7, 39, 2, 1, 0, 5, 24]
-    nums2 = [0, 4, 1, 5, 8, 2]
-    node1 = create_node(nums1, 0)
-    node2 = create_node(nums2, 0)
-    connect(node1, 5, node2)
-    res = common_node(node1, node2)
-    print(res.val)
+    unittest.main()
