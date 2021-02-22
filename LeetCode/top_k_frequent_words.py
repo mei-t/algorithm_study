@@ -2,6 +2,13 @@ import heapq, collections
 
 class Solution:
     def topKFrequent(self, words, k):
+        word_map = collections.Counter(words)
+        candidates = list(word_map.keys())
+        candidates.sort(key = lambda w: (-word_map[w], w))
+        return candidates[:k]
+
+class Solution1:
+    def topKFrequent(self, words, k):
         # word_map = dict()
         # for word in words:
         #     if word not in word_map:
