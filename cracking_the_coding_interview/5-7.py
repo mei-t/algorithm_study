@@ -11,6 +11,9 @@ def exchange_bit_pair(input):
         tmp >>= 2
     return ((input & even_mask) << 1) | ((input & odd_mask) >> 1)
 
+def exchange_bit_pair2(input):
+    return ((input & 0xaaaaaaaa) >> 1) | ((input & 0x55555555) << 1) 
+
 class Test(unittest.TestCase):
     def test_simple(self):
         self.assertEquals(exchange_bit_pair(1), 2)
