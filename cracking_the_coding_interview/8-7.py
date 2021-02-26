@@ -1,12 +1,13 @@
 import copy
 
 def permu_without_dupli(input):
-    ans = [""]
-    for c in input:
-        print(c)
-        tmp = copy.copy(ans)
-        for s in tmp:
-            ans.append(s + c)
+    prev = [""]
+    for i, c in enumerate(input):
+        ans = []
+        for s in prev:
+            for j in range(i + 1):
+                ans.append(s[:j] + c + s[j:])
+        prev = ans
     
     return ans
 
