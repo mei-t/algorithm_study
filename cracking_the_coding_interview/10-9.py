@@ -5,6 +5,9 @@ def search_sorted_array(nums, target):
     while True:
         if target < nums[i][0]:
             break
+        if target > nums[i][len(nums[0]) - 1]:
+            i += 1
+            continue
         left = 0
         right = len(nums[0])
         while True:
@@ -27,5 +30,5 @@ if __name__ == '__main__':
         [1, 5, 10, 11],
         [6, 8, 15, 30]
     ]
-    i, j = search_sorted_array(nums, 6)
+    i, j = search_sorted_array(nums, 10)
     print(i, j, nums[i][j])
