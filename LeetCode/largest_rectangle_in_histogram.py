@@ -35,3 +35,19 @@ class Solution:
             res = max(res, -h[0] * (pos[1] - pos[0] + 1))
         
         return res
+
+# time limit exceeded
+class Solution2:
+    def largestRectangleArea(self, heights):
+        def checkSubArea(heights, left, right):
+            if left > right:
+                return 0
+            min_index = left
+            for i in range(left, right + 1):
+                if heights[min_index] > heights[i]:
+                    min_index = i
+            return max(heights[min_index] * (right - left + 1),
+                      checkSubArea(heights, left, min_index - 1),
+                      checkSubArea(heights, min_index + 1, right))
+        
+        return checkSubArea(heights, 0, len(heights) - 1)
