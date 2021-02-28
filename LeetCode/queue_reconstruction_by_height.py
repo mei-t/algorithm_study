@@ -5,5 +5,5 @@ class Solution:
         people.sort(reverse=True, key=lambda x:x[0])
         res = []
         for person in people:
-            res.insert(min(len(res), person[1]), person)
+            res.insert(person[1], person)
         return res
