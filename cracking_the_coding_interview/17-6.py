@@ -13,8 +13,9 @@ def count_two(n):
 
 class Test(unittest.TestCase):
     def test_simple(self):
-        self.assertEquals(count_two(25), 9)
-        self.assertEquals(count_two(223), 71)
+        self.assertEqual(count_two(1), 0)
+        self.assertEqual(count_two(25), 9)
+        self.assertEqual(count_two(223), 71)
 
 if __name__ == '__main__':
     unittest.main()
