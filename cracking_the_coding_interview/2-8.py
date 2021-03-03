@@ -1,3 +1,5 @@
+import unittest
+
 class Node:
     def __init__(self, val, next=None):
         self.val = val
@@ -26,8 +28,12 @@ def create_loop_list(nums, loop_ind, i=0, loop_node=None):
     node.next = create_loop_list(nums, loop_ind, i + 1, loop_node)
     return node
 
+class Test(unittest.TestCase):
+    def test_simple(self):
+        nums = [0, 1, 2, 3, 4, 5, 6]
+        head = create_loop_list(nums, 2)
+        res = find_loop(head)
+        self.assertEqual(res.val, 2)
+
 if __name__ == '__main__':
-    nums = [0, 1, 2, 3, 4, 5, 6]
-    head = create_loop_list(nums, 2)
-    res = find_loop(head)
-    print(res.val)
+    unittest.main()
