@@ -54,3 +54,20 @@ class Solution2:
                       checkSubArea(heights, min_index + 1, right))
         
         return checkSubArea(heights, 0, len(heights) - 1)
+
+class Solution3:
+    def largestRectangleArea(self, heights):
+        s = [-1]
+        res = 0
+        for i in range(len(heights)):
+            while s[-1] != -1 and heights[i] <= heights[s[-1]]:
+                j = s.pop()
+                res = max(res, heights[j] * (i - s[-1] - 1))
+            
+            s.append(i)
+            
+        while s[-1] != -1:
+            i = s.pop()
+            res = max(res, heights[i] * (len(heights) - s[-1] - 1))
+        
+        return res
