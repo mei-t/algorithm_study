@@ -1,3 +1,4 @@
+# 48:15
 class Solution:
     def nextPermutation(self, nums):
         most_left = len(nums) - 1
