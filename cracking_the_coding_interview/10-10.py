@@ -1,3 +1,5 @@
+import unittest
+
 class TreeNode:
     def __init__(self, val, count=0, left=None, right=None):
         self.val = val
@@ -39,17 +41,21 @@ class RankOfNumber:
         if node.val < x:
             return self.__get_rank_of_number(x, node.right) + node.count
 
+class Test(unittest.TestCase):
+    def test_simple(self):
+        ron = RankOfNumber()
+        ron.trace(5)
+        ron.trace(1)
+        ron.trace(4)
+        ron.trace(4)
+        ron.trace(5)
+        ron.trace(9)
+        ron.trace(7)
+        ron.trace(13)
+        ron.trace(3)
+        self.assertEqual(ron.get_rank_of_number(1), 0)
+        self.assertEqual(ron.get_rank_of_number(3), 1)
+        self.assertEqual(ron.get_rank_of_number(4), 3)
+
 if __name__ == '__main__':
-    ron = RankOfNumber()
-    ron.trace(5)
-    ron.trace(1)
-    ron.trace(4)
-    ron.trace(4)
-    ron.trace(5)
-    ron.trace(9)
-    ron.trace(7)
-    ron.trace(13)
-    ron.trace(3)
-    print(ron.get_rank_of_number(1))
-    print(ron.get_rank_of_number(3))
-    print(ron.get_rank_of_number(4))
+    unittest.main()
