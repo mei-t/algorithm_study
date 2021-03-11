@@ -1,3 +1,5 @@
+import unittest
+
 ones_place_map = {
     1: 'One',
     2: 'Two',
@@ -71,5 +73,11 @@ def english_number(num):
         return 'Minus ' + res
     return res
 
+class Test(unittest.TestCase):
+    def test_simple(self):
+        self.assertEqual(english_number(12345678), 'Twelve Million Three Hundred Fourty Five Thousand Six Hundred Seventy Eight')
+        self.assertEqual(english_number(0), 'Zero')
+        self.assertEqual(english_number(100003945473), 'One Hundred Billion Three Million Nine Hundred Fourty Five Thousand Four Hundred Seventy Three')
+
 if __name__ == '__main__':
-    print(english_number(12345678))
+    unittest.main()
