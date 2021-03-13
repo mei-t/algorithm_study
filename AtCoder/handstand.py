@@ -1,8 +1,8 @@
 if __name__ == '__main__':
   n, k = map(int, input().split())
   s = input()
-  nums = [0]
-  prev = s[0]
+  nums = []
+  prev = '1'
   count = 0
   for i in range(len(s)):
     if s[i] == prev:
@@ -12,20 +12,26 @@ if __name__ == '__main__':
       count = 1
       prev = s[i]
   nums.append(count)
-  nums.append(0)
+  if len(nums) % 2 == 0:
+    nums.append(0)
 
-  a = 1 if s[0] == '1' else 0
-  if len(nums) - 2 < 2 * k - (a^1):
-    print(len(s))
-  else:
-    max_sum = 0
-    for i in range(a, 2 * k + a + 1):
-      max_sum += nums[i]
-    prev_sum = max_sum
-    for i in range(a, len(nums) - a - 2 * k - 2, 2):
-      cur_sum = prev_sum - nums[i] - nums[i + 1] + nums[2 * k + i + 1] + nums[2 * k + i + 2]
-      max_sum = max(cur_sum, max_sum)
-      prev_sum = cur_sum
-  
-    print(max_sum)
+  add = 2 * k + 1
+  left = 0
+  right = 0
+  max_sum = 0
+  cur_sum = 0
+  for i in range(0, len(nums), 2):
+    next_left = i
+    next_right = min(len(nums), i + add)
+    
+    while left < next_left:
+      cur_sum -= nums[left]
+      left += 1
+
+    while right < next_right:
+      cur_sum += nums[right]
+      right += 1
+    max_sum = max(max_sum, cur_sum)
+    
+  print(max_sum)
       
