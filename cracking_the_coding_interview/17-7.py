@@ -35,8 +35,57 @@ def create_name_list(names, synonyms):
     
     return res
 
+class Graph:
+    def __init__(self, name, count=0, is_visited=False, next=None):
+        self.name = name
+        self.count = count
+        self.is_visited = is_visited
+        self.next = next
+        self.neighbors = []
+
+def create_new_graph(names, i, name_map):
+    if i >= len(names):
+        return None
+    
+    graph = Graph(names[i][0], names[i][1])
+    graph.next = create_new_graph(names, i + 1, name_map)
+    name_map[names[i][0]] = graph
+    return graph
+
+def create_name_list2(names, synonyms):
+    names = list(names.items())
+    name_map = dict()
+    root = create_new_graph(names, 0, name_map)
+
+    for synonym in synonyms:
+        if synonym[0] not in name_map:
+            name_map[synonym[0]] = Graph(synonym[0])
+        if synonym[1] not in name_map:
+            name_map[synonym[1]] = Graph(synonym[1])
+        
+        name_map[synonym[0]].neighbors.append(name_map[synonym[1]])
+        name_map[synonym[1]].neighbors.append(name_map[synonym[0]])
+    
+    res = dict()
+    current = root
+    while current:
+        if current.is_visited:
+            current = current.next
+            continue
+
+        current.is_visited = True
+        res[current.name] = current.count
+        for neighbor in current.neighbors:
+            if neighbor.is_visited:
+                continue
+            neighbor.is_visited = True
+            res[current.name] += neighbor.count
+
+        current = current.next
+    return res
+    
 if __name__ == '__main__':
     names = {"John": 15, "Jon": 12, "Chris": 13, "Kris": 4, "Christopher": 19}
     synonyms = [["Jon", "John"], ["John", "Johnny"], ["Chris", "Kris"], ["Chris", "Christopher"]]
-    res = create_name_list(names, synonyms)
+    res = create_name_list2(names, synonyms)
     print(res)
