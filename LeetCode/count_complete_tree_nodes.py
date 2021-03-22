@@ -9,8 +9,6 @@ class Solution(object):
     def countNodes(self, root):
         if not root:
             return 0
-        if not root.left:
-            return 1
         
         depth = 1
         node = root
