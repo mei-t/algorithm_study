@@ -33,3 +33,41 @@ class Solution(object):
             diff = depth - cur_depth
             return self.binary_search(node.right, depth, cur_depth + 1, left_count + 2 ** (diff - 1))
         return self.binary_search(node.left, depth, cur_depth + 1, left_count)
+
+
+class Solution2(object):
+    def countNodes(self, root):
+        if not root:
+            return 0
+        
+        depth = 0
+        node = root
+        while node.left:
+            node = node.left
+            depth += 1
+            
+        if depth == 0:
+            return 1
+        
+        left = 1
+        right = 2 ** depth - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if self.binary_search(mid, depth, root):
+                left = mid + 1
+            else:
+                right = mid - 1
+        return 2 ** depth - 1 + left
+    
+    def binary_search(self, idx, d, node):
+        left = 0
+        right = 2 ** d - 1
+        for _ in range(d):
+            mid = (left + right) // 2
+            if idx <= mid:
+                node = node.left
+                right = mid
+            else:
+                node = node.right
+                left = mid + 1
+        return node != None
