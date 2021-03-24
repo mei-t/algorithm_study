@@ -33,16 +33,16 @@ def bst_list(root):
 def bst_list2(root):
     res = []
     if not root:
-        res.append([])
+        res.append(deque([]))
         return res
     
-    prefix = [root.val]
+    prefix = deque([root.val])
     left_seq = bst_list2(root.left)
     right_seq = bst_list2(root.right)
 
     for left in left_seq:
         for right in right_seq:
-            weaved = []
+            weaved = deque([])
             weave_list(left, right, weaved, prefix)
             res.extend(weaved)
     
@@ -56,17 +56,17 @@ def weave_list(left, right, weaved, prefix):
         weaved.append(res)
         return
     
-    head_left = left.pop(0)
+    head_left = left.popleft()
     prefix.append(head_left)
     weave_list(left, right, weaved, prefix)
     prefix.pop()
-    left.insert(0, head_left)
+    left.appendleft(head_left)
 
-    head_right = right.pop(0)
+    head_right = right.popleft()
     prefix.append(head_right)
     weave_list(left, right, weaved, prefix)
     prefix.pop()
-    left.insert(0, head_left)
+    left.appendleft(head_left)
 
 if __name__ == '__main__':
     node1 = TreeNode(2)
