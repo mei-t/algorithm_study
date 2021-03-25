@@ -33,7 +33,7 @@ class Solution:
                 while s[idx] != ']' and s[idx] != '[' and not ord('0') <= ord(s[idx]) <= ord('0') + 9:
                     idx += 1
                 stack.append(s[tmp:idx])
-            elif not stack:
+            else:
                 res += s[idx]
                 idx += 1
         return res
