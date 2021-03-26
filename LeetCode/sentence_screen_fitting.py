@@ -17,3 +17,19 @@ class Solution:
                     cur_col += length + 1
                 
         return count
+
+# Accepted
+class Solution2:
+    def wordsTyping(self, sentence, rows, cols):
+        s = ' '.join(sentence) + ' '
+        sent_ptr = 0
+        for _ in range(rows):
+            sent_ptr += cols - 1
+            if s[sent_ptr % len(s)] == ' ':
+                sent_ptr += 1
+            elif s[(sent_ptr + 1) % len(s)] == ' ':
+                sent_ptr += 2
+            else:
+                while sent_ptr > 0 and s[(sent_ptr - 1) % len(s)] != ' ':
+                    sent_ptr -= 1
+        return sent_ptr // len(s)
