@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -6,8 +6,24 @@ class TreeNode:
         self.left = left
         self.right = right
 
-# Wrong answer
 class Solution:
+    def findDuplicateSubtrees(self, root):
+        count = Counter()
+        ans = []
+        
+        def collect(node):
+            if not node:
+                return "#"
+            serial = "{}, {}, {}".format(node.val, collect(node.left), collect(node.right))
+            count[serial] += 1
+            if count[serial] == 2:
+                ans.append(node)
+            return serial
+        collect(root)
+        return ans
+
+# Wrong answer
+class Solution1:
     def findDuplicateSubtrees(self, root):
         depth_map = defaultdict(list)
         self.create_depth_map(root, depth_map)
