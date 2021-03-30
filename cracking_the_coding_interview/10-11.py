@@ -1,3 +1,16 @@
+def mountain_vally2(nums):
+    nums.append(float('inf'))
+    for i in range(1, len(nums) - 1, 2):
+        if nums[i - 1] < nums[i] or nums[i] > nums[i + 1]:
+            min_num = min(nums[i - 1], nums[i + 1])
+            if min_num == nums[i - 1]:
+                nums[i - 1], nums[i] = nums[i], nums[i - 1]
+            else:
+                nums[i], nums[i + 1] = nums[i + 1], nums[i]
+    nums.pop()
+    return nums
+
+
 def mountain_vally(nums):
     nums.sort()
     mid = len(nums) // 2
@@ -13,6 +26,7 @@ def mountain_vally(nums):
     return res
 
 if __name__ == '__main__':
-    nums = [5, 3, 1, 2, 3]
-    res = mountain_vally(nums)
+    nums = [9, 1, 0, 4, 8, 7]
+    # nums = [5, 3, 1, 2, 3]
+    res = mountain_vally2(nums)
     print(res)
