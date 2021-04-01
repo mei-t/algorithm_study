@@ -8,19 +8,19 @@ class TreeNode:
 
 class Solution:
     def findDuplicateSubtrees(self, root):
-        count = Counter()
-        ans = []
-        
-        def collect(node):
+        res = []
+        node_map = Counter()
+        def search(node):
             if not node:
-                return "#"
-            serial = "{}, {}, {}".format(node.val, collect(node.left), collect(node.right))
-            count[serial] += 1
-            if count[serial] == 2:
-                ans.append(node)
-            return serial
-        collect(root)
-        return ans
+                return '#'
+            tmp = '{}, {}, {}'.format(node.val, search(node.left), search(node.right))
+            node_map[tmp] += 1
+            if node_map[tmp] == 2:
+                res.append(node)
+            return tmp
+        
+        search(root)
+        return res
 
 # Wrong answer
 class Solution1:
