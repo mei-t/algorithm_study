@@ -6,7 +6,26 @@ class TreeNode:
         self.left = left
         self.right = right
 
+# Best
 class Solution:
+    def findDuplicateSubtrees(self, root):
+        node_map = defaultdict()
+        node_map.default_factory = node_map.__len__
+        count = Counter()
+        res = []
+        def search(node):
+            if not node:
+                return None
+            uid = node_map[node.val, search(node.left), search(node.right)]
+            count[uid] += 1
+            if count[uid] == 2:
+                res.append(node)
+            return uid
+        
+        search(root)
+        return res
+
+class Solution2:
     def findDuplicateSubtrees(self, root):
         res = []
         node_map = Counter()
