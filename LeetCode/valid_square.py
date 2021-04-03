@@ -1,7 +1,7 @@
 import math
 
 # 37:23
-class Solution:
+class Solution1:
     def validSquare(self, p1, p2, p3, p4):
         points = [p1, p2, p3, p4]
         points.sort()
@@ -38,3 +38,17 @@ class Solution:
         if not math.isclose(inc0 * inc1, -1) or not math.isclose(inc0 * inc2, -1) or not math.isclose(inc1 * inc3, -1) or not math.isclose(inc2 * inc3, -1):
             return False
         return True
+
+# Better
+class Solution:
+    def validSquare(self, p1, p2, p3, p4):
+        points = [p1, p2, p3, p4]
+        points.sort()
+        if dist(points[0], points[1]) == 0:
+            return False
+        if not dist(points[0], points[1]) == dist(points[0], points[2]) == dist(points[1], points[3]) == dist(points[2], points[3]):
+            return False
+        return dist(points[0], points[3]) == dist(points[1], points[2])
+    
+    def dist(self, p1, p2):
+        return (p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2
