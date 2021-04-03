@@ -27,6 +27,19 @@ def multiplication(a, b):
         ans += larger
     return negate(ans) if is_minus else ans
 
+def division(a, b):
+    if b == 0:
+        return
+    is_minus = (a < 0) ^ (b < 0)
+    a = a if a >= 0 else negate(a)
+    b = b if b >= 0 else negate(b)
+    ans = 0
+    tmp = 0
+    while tmp + b <= a:
+        tmp += b
+        ans += 1
+    return negate(ans) if is_minus else ans
+
 class Test(unittest.TestCase):
     def test_negate(self):
         self.assertEqual(negate(10), -10)
@@ -51,4 +64,5 @@ class Test(unittest.TestCase):
         self.assertEqual(multiplication(23, -8372), -192556)
 
 if __name__ == '__main__':
-    unittest.main()
+    # unittest.main()
+    print(division(50, 4))
