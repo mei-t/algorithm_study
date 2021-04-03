@@ -26,9 +26,6 @@ def multiplication(a, b):
     for _ in range(smaller):
         ans += larger
     return negate(ans) if is_minus else ans
-	
-
-
 
 class Test(unittest.TestCase):
     def test_negate(self):
@@ -37,7 +34,21 @@ class Test(unittest.TestCase):
         self.assertEqual(negate(0), 0)
         self.assertEqual(negate(274738), -274738)
         self.assertEqual(negate(-274738), 274738)
+    
+    def test_minus(self):
+        self.assertEqual(minus(50, 2), 48)
+        self.assertEqual(minus(50, -2), 52)
+        self.assertEqual(minus(50, 0), 50)
+        self.assertEqual(minus(-50, -2), -48)
+        self.assertEqual(minus(2, 50), -48)
+    
+    def test_multiplication(self):
+        self.assertEqual(multiplication(2, 3), 6)
+        self.assertEqual(multiplication(-2, 3), -6)
+        self.assertEqual(multiplication(2, -3), -6)
+        self.assertEqual(multiplication(-2, -3), 6)
+        self.assertEqual(multiplication(-2, 0), 0)
+        self.assertEqual(multiplication(23, -8372), -192556)
 
 if __name__ == '__main__':
-    # unittest.main()
-    print(multiplication(23, -8372))
+    unittest.main()
