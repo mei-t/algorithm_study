@@ -44,11 +44,11 @@ class Solution:
     def validSquare(self, p1, p2, p3, p4):
         points = [p1, p2, p3, p4]
         points.sort()
-        if dist(points[0], points[1]) == 0:
+        if self.dist(points[0], points[1]) == 0:
             return False
-        if not dist(points[0], points[1]) == dist(points[0], points[2]) == dist(points[1], points[3]) == dist(points[2], points[3]):
+        if not self.dist(points[0], points[1]) == self.dist(points[0], points[2]) == self.dist(points[1], points[3]) == self.dist(points[2], points[3]):
             return False
-        return dist(points[0], points[3]) == dist(points[1], points[2])
+        return self.dist(points[0], points[3]) == self.dist(points[1], points[2])
     
     def dist(self, p1, p2):
         return (p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2
