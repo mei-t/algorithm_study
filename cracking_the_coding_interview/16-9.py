@@ -16,10 +16,13 @@ def negate(a):
 def minus(a, b):
     return a + negate(b)
 
+def my_abs(a):
+    return a if a >= 0 else negate(a)
+
 def multiplication(a, b):
     is_minus = (a > 0) ^ (b > 0)
-    a = a if a >= 0 else negate(a)
-    b = b if b >= 0 else negate(b)
+    a = my_abs(a)
+    b = my_abs(b)
     smaller = min(a, b)
     larger = max(a, b)
     ans = 0
@@ -31,8 +34,8 @@ def division(a, b):
     if b == 0:
         return
     is_minus = (a < 0) ^ (b < 0)
-    a = a if a >= 0 else negate(a)
-    b = b if b >= 0 else negate(b)
+    a = my_abs(a)
+    b = my_abs(b)
     ans = 0
     tmp = 0
     while tmp + b <= a:
@@ -54,6 +57,11 @@ class Test(unittest.TestCase):
         self.assertEqual(minus(50, 0), 50)
         self.assertEqual(minus(-50, -2), -48)
         self.assertEqual(minus(2, 50), -48)
+    
+    def test_abs(self):
+        self.assertEqual(my_abs(10), 10)
+        self.assertEqual(my_abs(-10), 10)
+        self.assertEqual(my_abs(0), 0)
     
     def test_multiplication(self):
         self.assertEqual(multiplication(2, 3), 6)
