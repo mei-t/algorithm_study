@@ -62,7 +62,16 @@ class Test(unittest.TestCase):
         self.assertEqual(multiplication(-2, -3), 6)
         self.assertEqual(multiplication(-2, 0), 0)
         self.assertEqual(multiplication(23, -8372), -192556)
+    
+    def test_division(self):
+        self.assertEqual(division(50, 5), 10)
+        self.assertEqual(division(50, -5), -10)
+        self.assertEqual(division(-50, 5), -10)
+        self.assertEqual(division(-50, -5), 10)
+        self.assertEqual(division(50, 1), 50)
+        self.assertEqual(division(234, 6), 39)
+        self.assertEqual(division(50, 4), 12)
+
 
 if __name__ == '__main__':
-    # unittest.main()
-    print(division(50, 4))
+    unittest.main()
