@@ -1,5 +1,6 @@
 import math
 
+# 37:23
 class Solution:
     def validSquare(self, p1, p2, p3, p4):
         points = [p1, p2, p3, p4]
