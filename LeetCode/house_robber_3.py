@@ -1,3 +1,5 @@
+from collections import defaultdict, deque
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -5,6 +7,30 @@ class TreeNode:
         self.right = right
 
 class Solution:
+    def rob(self, root):
+        graph = defaultdict(list)
+        tree = defaultdict()
+        q = deque([(root, -1)])
+        index = -1
+        while q:
+            node, parent_index = q.popleft()
+            if node:
+                index += 1
+                graph[parent_index].append(index)
+                tree[index] = node
+                q.append((node.left, index))
+                q.append((node.right, index))
+        
+        dp_rob = [0] * (index + 1)
+        dp_not_rob = [0] * (index + 1)
+        
+        for i in reversed(range(index + 1)):
+            dp_rob[i] = tree[i].val + sum(dp_not_rob[j] for j in graph[i])
+            dp_not_rob[i] = sum(max(dp_rob[j], dp_not_rob[j]) for j in graph[i])
+        
+        return max(dp_rob[0], dp_not_rob[0])
+
+class Solution2:
     def rob(self, root):
         def check(node):
             if not node:
