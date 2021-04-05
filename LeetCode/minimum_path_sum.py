@@ -15,7 +15,7 @@ class Solution1:
         return dp[-1][-1]
 
 # 若干消化不良
-class Solution:
+class Solution2:
     def minPathSum(self, grid):
         dp = [0] * len(grid[0])
         for i in reversed(range(len(grid))):
@@ -29,3 +29,15 @@ class Solution:
                 else:
                     dp[j] = grid[i][j]
         return dp[0]
+
+class Solution3:
+    def minPathSum(self, grid):
+        for i in reversed(range(len(grid))):
+            for j in reversed(range(len(grid[0]))):
+                if i == len(grid) - 1 and j != len(grid[0]) - 1:
+                    grid[i][j] += grid[i][j + 1]
+                elif j == len(grid[0]) - 1 and i != len(grid) - 1:
+                    grid[i][j] += grid[i + 1][j]
+                elif j != len(grid[0]) - 1 and i != len(grid) - 1:
+                    grid[i][j] += min(grid[i + 1][j], grid[i][j + 1])
+        return grid[0][0]
