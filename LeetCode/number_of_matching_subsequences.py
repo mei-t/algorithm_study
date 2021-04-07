@@ -1,5 +1,26 @@
-# TLE
 class Solution:
+    def numMatchingSubseq(self, s, words):
+        heads = [[] for _ in range(26)]
+        for word in words:
+            it = iter(word)
+            heads[ord(next(it)) - ord('a')].append(it)
+        
+        ans = 0
+        for c in s:
+            idx = ord(c) - ord('a')
+            tmp = heads[idx]
+            heads[idx] = []
+            while tmp:
+                it = tmp.pop()
+                nxt = next(it, None)
+                if not nxt:
+                    ans += 1
+                    continue
+                heads[ord(nxt) - ord('a')].append(it)
+        return ans
+
+# TLE
+class Solution3:
     def numMatchingSubseq(self, s, words):
         def subseq(word):
             it = iter(s)
