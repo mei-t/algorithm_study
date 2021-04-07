@@ -1,6 +1,15 @@
 # TLE
 class Solution:
     def numMatchingSubseq(self, s, words):
+        def subseq(word):
+            it = iter(s)
+            return all(x in it for x in word)
+        
+        return sum(subseq(word) for word in words)
+
+# TLE
+class Solution2:
+    def numMatchingSubseq(self, s, words):
         count = 0
         for word in words:
             word_i = 0
