@@ -1,4 +1,21 @@
 # TLE
+class Solution:
+    def numMatchingSubseq(self, s, words):
+        count = 0
+        for word in words:
+            word_i = 0
+            s_i = 0
+            while s_i < len(s):
+                if word[word_i] == s[s_i]:
+                    word_i += 1
+                    if word_i == len(word):
+                        count += 1
+                        break
+                s_i += 1
+        
+        return count
+
+# TLE
 def char_to_num(c):
     return ord(c) - ord('a')
 
@@ -6,7 +23,7 @@ class TrieNode:
     def __init__(self,):
         self.next = [None] * 26
 
-class Solution:
+class Solution1:
     def numMatchingSubseq(self, s, words):
         root = TrieNode()
         prevs = [root]
