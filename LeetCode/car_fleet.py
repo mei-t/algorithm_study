@@ -1,3 +1,4 @@
+# 30:55
 class Solution:
     def carFleet(self, target, position, speed):
         if not position:
