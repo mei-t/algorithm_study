@@ -3,8 +3,7 @@ class Solution:
         if not position:
             return 0
         position = [target - position[i] for i in range(len(position))]
-        cars = list(zip(position, speed))
-        cars.sort()
+        cars = sorted(zip(position, speed))
         
         count = 1
         head_time = cars[0][0] / cars[0][1]
