@@ -9,6 +9,23 @@ class Solution:
     def delNodes(self, root, to_delete):
         to_delete = set(to_delete)
         res = []
+        def traverse(node, is_root):
+            if not node:
+                return None
+            next_root = node.val in to_delete
+            if is_root and not next_root:
+                res.append(node)
+            node.left = traverse(node.left, next_root)
+            node.right = traverse(node.right, next_root)
+            return None if next_root else node
+                
+        traverse(root, True)
+        return res
+
+class Solution1:
+    def delNodes(self, root, to_delete):
+        to_delete = set(to_delete)
+        res = []
         self.traverse(root, to_delete, True, res)
         return res
     
