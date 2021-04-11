@@ -18,7 +18,7 @@ class Solution1:
         return res
 
 # TLE
-class Solution:
+class Solution2:
     def maxScore(self, cardPoints, k):
         res = 0
         for i in range(k + 1):
@@ -29,4 +29,15 @@ class Solution:
                 cur += cardPoints[len(cardPoints) - j - 1]
             res = max(res, cur)
         return res
+
+# TLE
+class Solution:
+    def maxScore(self, cardPoints, k):
+        min_point = float('inf')
+        for i in range(k + 1):
+            cur = 0
+            for j in range(len(cardPoints) - k):
+                cur += cardPoints[i + j]
+            min_point = min(cur, min_point)
         
+        return sum(cardPoints) - min_point
