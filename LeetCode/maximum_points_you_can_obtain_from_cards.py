@@ -1,5 +1,5 @@
 # 47:24, TLE
-class Solution:
+class Solution1:
     def maxScore(self, cardPoints, k):
         size = len(cardPoints) 
         points = [[0] * (size + 1) for _ in range(size + 1)]
@@ -15,5 +15,18 @@ class Solution:
         res = 0
         for i in range(k + 1):
             res = max(res, points[i][k - i])
+        return res
+
+# TLE
+class Solution:
+    def maxScore(self, cardPoints, k):
+        res = 0
+        for i in range(k + 1):
+            cur = 0
+            for j in range(i):
+                cur += cardPoints[j]
+            for j in range(k - i):
+                cur += cardPoints[len(cardPoints) - j - 1]
+            res = max(res, cur)
         return res
         
