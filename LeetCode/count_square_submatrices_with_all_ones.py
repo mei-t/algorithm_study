@@ -1,5 +1,5 @@
 # 28:15
-class Solution:
+class Solution1:
     def countSquares(self, matrix):
         def helper(r, c, l):
             res = 0
@@ -18,4 +18,22 @@ class Solution:
                 if matrix[i][j] == 0:
                     continue
                 res += helper(i, j, 1)
+        return res
+
+class Solution:
+    def countSquares(self, matrix):
+        res = 0
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if matrix[i][j] == 0:
+                    continue
+                
+                if i == 0 or j == 0:
+                    res += 1
+                    continue
+                
+                tmp = min(matrix[i - 1][j], matrix[i][j - 1], matrix[i - 1][j - 1])
+                matrix[i][j] = tmp + 1
+                res += tmp + 1
+        
         return res
