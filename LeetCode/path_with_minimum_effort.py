@@ -60,8 +60,8 @@ class Solution2:
         
         return diffs[-1][-1]
 
-# Accepted (Union Find)
-class Solution:
+# Accepted (Union Find rankなし)
+class Solution3:
     def minimumEffortPath(self, heights):
         class UnionFind:
             def __init__(self, size):
@@ -77,6 +77,51 @@ class Solution:
                 parent_y = self.find(y)
                 if parent_x != parent_y:
                     self.parent[parent_x] = parent_y
+        
+        row, col = len(heights), len(heights[0])
+        if row == 1 and col == 1:
+            return 0
+        edge_list = []
+        for i in range(row):
+            for j in range(col):
+                if i > 0:
+                    diff = abs(heights[i][j] - heights[i - 1][j])
+                    edge_list.append((diff, i * col + j, (i - 1) * col + j))
+                if j > 0:
+                    diff = abs(heights[i][j] - heights[i][j - 1])
+                    edge_list.append((diff, i * col + j, i * col + j - 1))
+        edge_list.sort()
+        uf = UnionFind(row * col)
+        for diff, x, y in edge_list:
+            uf.union(x, y)
+            if uf.find(0) == uf.find(row * col - 1):
+                return diff
+        return -1
+
+# Accepted (Union Find rankあり)
+class Solution:
+    def minimumEffortPath(self, heights):
+        class UnionFind:
+            def __init__(self, size):
+                self.parent = list(range(size))
+                self.rank = [0] * size
+            
+            def find(self, x):
+                if self.parent[x] != x:
+                    self.parent[x] = self.find(self.parent[x])
+                return self.parent[x]
+            
+            def union(self, x, y):
+                parent_x = self.find(x)
+                parent_y = self.find(y)
+                if parent_x != parent_y:
+                    if self.rank[parent_x] > self.rank[parent_y]:
+                        self.parent[parent_y] = parent_x
+                    elif self.rank[parent_x] < self.rank[parent_y]:
+                        self.parent[parent_x] = parent_y
+                    else:
+                        self.parent[parent_y] = parent_x
+                        self.rank[parent_x] += 1
         
         row, col = len(heights), len(heights[0])
         if row == 1 and col == 1:
