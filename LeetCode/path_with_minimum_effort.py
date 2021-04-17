@@ -26,7 +26,7 @@ class Solution1:
         return helper(0, 0, heights[0][0])
 
 # Accepted
-class Solution:
+class Solution2:
     def minimumEffortPath(self, heights):
         if not heights:
             return 0
@@ -59,4 +59,42 @@ class Solution:
                 heapq.heappush(q, new_node)
         
         return diffs[-1][-1]
+
+# Accepted (Union Find)
+class Solution:
+    def minimumEffortPath(self, heights):
+        class UnionFind:
+            def __init__(self, size):
+                self.parent = list(range(size))
+            
+            def find(self, x):
+                if self.parent[x] != x:
+                    self.parent[x] = self.find(self.parent[x])
+                return self.parent[x]
+            
+            def union(self, x, y):
+                parent_x = self.find(x)
+                parent_y = self.find(y)
+                if parent_x != parent_y:
+                    self.parent[parent_x] = parent_y
+        
+        row, col = len(heights), len(heights[0])
+        if row == 1 and col == 1:
+            return 0
+        edge_list = []
+        for i in range(row):
+            for j in range(col):
+                if i > 0:
+                    diff = abs(heights[i][j] - heights[i - 1][j])
+                    edge_list.append((diff, i * col + j, (i - 1) * col + j))
+                if j > 0:
+                    diff = abs(heights[i][j] - heights[i][j - 1])
+                    edge_list.append((diff, i * col + j, i * col + j - 1))
+        edge_list.sort()
+        uf = UnionFind(row * col)
+        for diff, x, y in edge_list:
+            uf.union(x, y)
+            if uf.find(0) == uf.find(row * col - 1):
+                return diff
+        return -1
         
