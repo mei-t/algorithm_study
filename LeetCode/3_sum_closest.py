@@ -26,6 +26,8 @@ class Solution2:
         diff = float('inf')
         for i in range(0, len(nums) - 2):
             for j in range(i + 1, len(nums) - 1):
+                if diff == 0:
+                    break
                 l = j + 1
                 r = len(nums)
                 while l < r:
