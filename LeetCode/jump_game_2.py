@@ -1,3 +1,4 @@
+# 22:19
 class Solution:
     def jump(self, nums):
         dp = [0] * len(nums)
