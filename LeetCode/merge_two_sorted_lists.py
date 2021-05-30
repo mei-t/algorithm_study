@@ -34,4 +34,24 @@ class Solution:
         if l2:
             merged.next = l2
         return head
+
+class Solution2:
+    def mergeTwoLists(self, l1, l2):
+        prehead = ListNode()
+        prev = prehead
+        while l1 or l2:
+            if not l1:
+                prev.next = l2
+                l2 = None
+            elif not l2:
+                prev.next = l1
+                l1 = None
+            elif l1.val <= l2.val:
+                prev.next = l1
+                l1 = l1.next
+            else:
+                prev.next = l2
+                l2 = l2.next
+            prev = prev.next
+        return prehead.next
         
