@@ -16,4 +16,30 @@ class Solution:
             cells = res
         
         return res
+
+class Solution2:
+    def prisonAfterNDays(self, cells, n):
+        bitmap = 0x0
+        for cell in cells:
+            bitmap <<= 1
+            bitmap |= cell
+        print(bitmap)
+        all_cells = [bitmap]
+        cells_dict = {bitmap: 0}
+        for i in range(1, n + 1):
+            res = ~ ((bitmap << 1) ^ (bitmap >> 1))
+            res &= 0x7e
+            if res in cells_dict:
+                idx = cells_dict[res]
+                res = all_cells[idx + (n - idx) % (i - idx)]
+                break
+            all_cells.append(res)
+            cells_dict[res] = i
+            bitmap = res
+        
+        ans = []
+        for _ in range(8):
+            ans.append(res & 1)
+            res >>= 1
+        return reversed(ans)
         
