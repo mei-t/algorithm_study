@@ -2,15 +2,13 @@ import heapq
 
 class Solution:
     def connectSticks(self, sticks):
-        h = []
-        for stick in sticks:
-            heapq.heappush(h, stick)
+        heapq.heapify(sticks)
         
         cost = 0
-        while len(h) > 1:
-            x = heapq.heappop(h)
-            y = heapq.heappop(h)
+        while len(sticks) > 1:
+            x = heapq.heappop(sticks)
+            y = heapq.heappop(sticks)
             cost += x + y
-            heapq.heappush(h, x + y)
+            heapq.heappush(sticks, x + y)
         
         return cost
