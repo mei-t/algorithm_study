@@ -44,17 +44,13 @@ class FirstUnique2:
         
 
     def showFirstUnique(self):
-        if not self.nums:
-            return -1
-        
-        num = self.nums.popleft()
-        while self.num_map[num] > 1:
-            if not self.nums:
-                return -1
+        while self.nums:
             num = self.nums.popleft()
-            
-        self.nums.appendleft(num)
-        return num
+            if self.num_map[num] == 1:
+                self.nums.appendleft(num)
+                return num
+        
+        return -1
         
 
     def add(self, value):
