@@ -1,7 +1,4 @@
-from typing import Collection
-
-
-from collections import defaultdict
+from collections import defaultdict, deque
 
 class FirstUnique:
 
@@ -34,3 +31,33 @@ class FirstUnique:
 # obj = FirstUnique(nums)
 # param_1 = obj.showFirstUnique()
 # obj.add(value)
+
+
+class FirstUnique2:
+
+
+    def __init__(self, nums):
+        self.nums = deque(nums)
+        self.num_map = defaultdict(int)
+        for num in nums:
+            self.num_map[num] += 1
+        
+
+    def showFirstUnique(self):
+        if not self.nums:
+            return -1
+        
+        num = self.nums.popleft()
+        while self.num_map[num] > 1:
+            if not self.nums:
+                return -1
+            num = self.nums.popleft()
+            
+        self.nums.appendleft(num)
+        return num
+        
+
+    def add(self, value):
+        self.nums.append(value)
+        self.num_map[value] += 1
+        
